@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <script src="bower_components/easeljs/lib/easeljs-0.7.1.combined.js"></script>
+    <script src="bower_components/TweenJS/lib/tweenjs-0.5.1.combined.js"></script>
+    <script src="bower_components/PreloadJS/lib/preloadjs-0.4.1.combined.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/vue/dist/vue.min.js"></script>
+    <script src="bower_components/observe-js/src/observe.js"></script>
+    <script src="js/libs/smoothie.js"></script>
+    <script src="js/pidcontroller.js"></script>
+    <script src="js/keyboard.js"></script>
+    <script src="js/sylvester.js"></script>
+    <script src="js/vectormods.js"></script>
+    <script src="js/mymath.js"></script>
+    <script src="js/parallax.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/temptests.js"></script>
+    <script data-main="js/main.js" src="bower_components/requirejs/require.js"></script>
+    <script>
+      $(window).resize(function() {
+        resizeGame();
+      });
+      $(function(){
+        resizeGame();
+      })
+      
+      var resizeGame = function() {
+          $("#myCanvas").attr('width', $(window).width());
+          $("#myCanvas").attr('height', $(window).height() - 80);
+      }
+    </script>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/starmapradar.css"/>
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Nav header</li>
+                <li><a href="#">Separated link</a></li>
+                <li><a href="#">One more separated link</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div style="padding-top:50px;">
+      <!-- Canvas -->
+      <canvas id="myCanvas" width="1600" height="600" style="background-color: #000">Alternative content. You do not have canvas?</canvas>
+
+      <!-- Radar -->
+      <div id="radar">
+          <svg id="radarsvg" class="radarlike"></svg>     
+          <div style="color:#eee; text-shadow: 0px 0px 4px #000;">Coordinates: <div id="coords"></div></div>
+      </div>
+
+      <div id="starmapradar" class="starmapradar">
+          <svg id="starmapradarsvg" class="radarlike"></svg>     
+      </div>
+
+      <!-- Update bubble -->
+      <div id="updateBubble" class="hide game-ui-widget">Notifications will be displayed here..</div>
+
+      <!-- Star details -->
+      <div id="starDetails" class="game-ui-widget game-ui-widget-dark">
+        {{ name }}
+      </div>
+
+      <!-- Planet details -->
+      <!--<div id="planetDetails" class="game-ui-widget">
+        foo
+      </div>-->
+
+      <div id="testing" class="game-ui-widget" style="position:fixed; top:150px; left:50px; width:300px; height:100px;">
+      </div>
+    </div>
+
+    <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse" role="navigation" style="height: 42px; min-height: 42px;">
+      <div id="navbar-inner-shadower">
+          <div class="container" style="width:auto; padding-left:20px;">
+              <span class="navbar-brand" style="line-height: 11px;">Notifications</span>
+              <div style="padding-top:8px">
+                  <div style="border-radius:9px 0px 0px 9px; height:24px; background:#222; border-top:1px solid #000; border-left:1px solid #000; border-bottom:1px solid #000; position:absolute; display:inline-block; left:170px; width:150px; padding-left:10px;">
+                      <span style="font-weight:bolder; color:#ff9; text-shadow: 0px 0px 3px #990; padding-top:2px; display:inline-block">December 25, 2652</span>
+                  </div>
+                  <div id="updateBar">
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,51 @@
+.starmapradar svg .star {
+	stroke: black;
+}
+
+.starmapradar svg .starClass-O {
+	fill: #9BB0FF;
+}
+
+.starmapradar svg .starClass-B {
+	fill: #BBCCFF;
+}
+
+.starmapradar svg .starClass-A {
+	fill: #FBF8FF;
+}
+
+.starmapradar svg .starClass-F {
+	fill: #FFFFED;
+}
+
+.starmapradar svg .starClass-G {
+	fill: #FFFF00;
+}
+
+.starmapradar svg .starClass-K {
+	fill: #FF9833;
+}
+
+.starmapradar svg .starClass-M {
+	fill: #D20033;
+}
+
+.starline {
+	stroke: rgba(255,255,255,0.3);
+	stroke-width: 2;	
+}
+
+.starline.starlineHighlight {
+	stroke-width: 7;
+}
+
+.starmapradar svg .starPlayerHighlight {
+	stroke: rgba(255,255,255,0.5);
+	stroke-width: 25;
+	fill: rgba(0,0,0,0);
+}
+
+.starmapradar svg .starHighlight {
+	stroke-width: 25;
+	stroke: rgba(255,255,255,0.5);
+}

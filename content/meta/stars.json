@@ -1,0 +1,43 @@
+{
+  "__docstring__": "Starclasses are in Morgan-keenan spectral classification: http://en.wikipedia.org/wiki/Stellar_classification#Spectral_types",
+  "starClasses": ["O", "B", "A", "F", "G", "K", "M"],
+  "starClassGFXMappings": {
+    "O": ["star_blue_1", "star_blue_2"],
+    "B": ["star_blue_3"],
+    "A": ["star_white_1", "star_white_2"],
+    "F": ["star_yellow_1"],
+    "G": ["star_yellow_2"],
+    "K": ["star_orange_1", "star_orange_2", "star_orange_3"],
+    "M": ["star_red_1"]
+  },
+  "starClassProperties": {
+    "O": {
+      "minPlanets": 2,
+      "maxPlanets": 10
+    },
+    "B": {
+      "minPlanets": 2,
+      "maxPlanets": 10
+    },
+    "A": {
+      "minPlanets": 2,
+      "maxPlanets": 10
+    },
+    "F": {
+      "minPlanets": 2,
+      "maxPlanets": 10
+    },
+    "G": {
+      "minPlanets": 2,
+      "maxPlanets": 10
+    },
+    "K": {
+      "minPlanets": 2,
+      "maxPlanets": 10
+    },
+    "M": {
+      "minPlanets": 2,
+      "maxPlanets": 10
+    }
+  }
+}
