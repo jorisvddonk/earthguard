@@ -229,6 +229,13 @@ require(
         alert(planet);
       });
     });
+
+    _.each(gameState.player.currentstar.jumpgates, function(jumpgate, index){
+      gameState.containers.solarSystem.addChild(jumpgate);
+      jumpgate.addEventListener('click', function() {
+        alert(jumpgate);
+      });
+    });
   }
   miscDebug.recS = recreateSolarSystem;
   // Recreate whenever the player changes star

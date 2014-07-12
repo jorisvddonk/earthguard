@@ -50,6 +50,11 @@ define('starmap', ["simproperties", "star", "namegen"], function(SIMPROPS, Star,
       }
     });
 
+    // Generate jumpgates, now that we know the links
+    _.each(this.stars, function(star){
+      star._genJumpgates(this.getLinkedStars(star));
+    }, this);
+
     var checkStarmap = function(star, allstars, numi, callback) {
       var new_numi = numi + 1;
       allstars.push(star);

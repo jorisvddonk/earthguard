@@ -6,7 +6,7 @@ define('radar', [], function(){
     // Setup stuff
     $("#radar").draggable();
     this.SVG = d3.select("#radar svg");
-    this.planetsGroup = this.SVG.append("g").attr("class", "RADAR-PLANETS");
+    this.bodiesGroup = this.SVG.append("g").attr("class", "RADAR-BODIES");
     this.shipsGroup = this.SVG.append("g").attr("class", "RADAR-SHIPS");
     this.miscGroup = this.SVG.append("g").attr("class", "RADAR-MISC");
     //Setup scales
@@ -29,9 +29,9 @@ define('radar', [], function(){
     }
 
     /*
-      PLANETS
+      PLANETS and JUMPGATES (BODIES)
     */
-    var planets = this.planetsGroup.selectAll("circle.planet")
+    var planets = this.bodiesGroup.selectAll("circle.planet")
       .data(gameState.player.currentstar.planets, function(d){return d["id"]})
 
     planets.enter()
@@ -44,6 +44,21 @@ define('radar', [], function(){
       .attr("r", function(d,i){return 3})
 
     planets.exit()
+      .remove();
+
+    var jumpgates = this.bodiesGroup.selectAll("circle.jumpgate")
+      .data(gameState.player.currentstar.jumpgates, function(d){return d["id"]})
+
+    jumpgates.enter()
+      .append("circle")
+      .attr("class", "jumpgate")
+      .style("stroke", "white")
+      .style("fill", "rgba(0,0,0,0)")
+      .attr("cx", function(d,i){return self.radarScale(d["x"])})
+      .attr("cy", function(d,i){return self.radarScale(d["y"])})
+      .attr("r", function(d,i){return 3})
+
+    jumpgates.exit()
       .remove();
 
     /*

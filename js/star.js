@@ -1,4 +1,4 @@
-define('star', ["namegen", "planet", "json!/content/meta/stars.json"], function(Phonetics, Planet, StarMetadata){
+define('star', ["namegen", "planet", "jumpgate", "json!/content/meta/stars.json"], function(Phonetics, Planet, Jumpgate, StarMetadata){
   var _last_id = 0;
   var _gennedNames = [];
   var genID = function() { //Used during constructor
@@ -40,7 +40,8 @@ define('star', ["namegen", "planet", "json!/content/meta/stars.json"], function(
       "objid": genID(),
       "starclass": genStarClass(),
       "faction": -1,
-      "planets": []
+      "planets": [],
+      "jumpgates": []
     };
     options = _.extend({}, default_options, options);
     
@@ -52,6 +53,7 @@ define('star', ["namegen", "planet", "json!/content/meta/stars.json"], function(
     this.starclass = options.starclass;
     this.faction = options.faction;
     this.planets = options.planets;
+    this.jumpgates = options.jumpgates;
     this._constructor_options = options;
     if (this.planets.length === 0) {
       this.planets = _genPlanets.bind(this)();
@@ -64,6 +66,24 @@ define('star', ["namegen", "planet", "json!/content/meta/stars.json"], function(
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height*0.5;
   };
   Star.prototype = Object.create(createjs.Container.prototype);
+
+  Star.prototype._genJumpgates = function _genJumpgates(otherstars) {
+    function distfunc(x) {
+      return (Math.sqrt(x) + 10)*300;
+    }
+    this.jumpgates = _.map(otherstars, function(ostar) {
+      var dist = distfunc(Math.sqrt(((ostar.mapx - this.mapx)*(ostar.mapx - this.mapx))+((ostar.mapy - this.mapy)*(ostar.mapy - this.mapy))));
+      console.log(dist);
+      var jg = new Jumpgate({
+        "linkedstar": ostar,
+        "static_orbit": {
+          "distance": dist,
+          "angle": $V([1,0]).angleTo($V([ostar.mapx-this.mapx,ostar.mapy-this.mapy]))
+        }
+      });
+      return jg;
+    }, this);
+  };
 
   //Return the constructor function
   return Star;

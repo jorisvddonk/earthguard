@@ -25,6 +25,14 @@
       }
     },
     {
+      "id": "jumppoint",
+      "src": "content/jumppoint.png",
+      "contentType": ["image", "png"],
+      "attribution": {
+        "_id": "jorisvddonk_pd"
+      }
+    },
+    {
       "id": "parallax0",
       "src": "content/parallax_0.png",
       "contentType": ["image", "png"],
