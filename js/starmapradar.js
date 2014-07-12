@@ -7,9 +7,11 @@ define('starmapradar', [], function(){
     // Setup stuff
     $("#starmapradar").draggable();
     this.SVG = d3.select("#starmapradar svg");
+    this.startip = d3.tip().attr('class', 'd3-tip d3-tip-star').html(function(d) { return d.tooltipString(); });
     this.miscGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-MISC");
     this.linesGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-LINES");
     this.starsGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-STARS");
+    this.starsGroup.call(this.startip);
     //Setup scales
     this.radarScale = d3.scale.linear()
       .domain([-10,110])
@@ -17,6 +19,7 @@ define('starmapradar', [], function(){
     this.sizeScale = d3.scale.linear()
       .domain([0,7])
       .range([1,8]);
+
 
     var starobserver = new PathObserver(gameState, 'player.currentstar');
     starobserver.open(function(newValue, oldValue) {
@@ -47,6 +50,7 @@ define('starmapradar', [], function(){
       .attr("cy", function(d,i){return self.radarScale(d["mapy"])})
       .attr("r", function(d,i){return self.sizeScale(d["radius"])})
       .on("mouseover", function(hoveredstar,i){
+        self.startip.show(hoveredstar);
         // highlight path between currentstar and hovered star
         _.each(starmap.getShortestpath(gameState.player.currentstar, hoveredstar), function(a, b, c){
           if (c[b-1] !== undefined) {
@@ -55,10 +59,12 @@ define('starmapradar', [], function(){
           }
         });
       })
-      .on("mouseout", function(d,i){
+      .on("mouseout", function(hoveredstar,i){
+        self.startip.hide(hoveredstar);
         // Remove all highlights
         $(".starline.starlineHighlight").attr("class", "starline");
       })
+
 
     stars.exit()
       .remove();

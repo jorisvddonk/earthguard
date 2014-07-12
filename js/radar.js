@@ -6,9 +6,11 @@ define('radar', [], function(){
     // Setup stuff
     $("#radar").draggable();
     this.SVG = d3.select("#radar svg");
+    this.bodiestip = d3.tip().attr('class', 'd3-tip d3-tip-bodies').html(function(d) { return d.tooltipString(); });
     this.bodiesGroup = this.SVG.append("g").attr("class", "RADAR-BODIES");
     this.shipsGroup = this.SVG.append("g").attr("class", "RADAR-SHIPS");
     this.miscGroup = this.SVG.append("g").attr("class", "RADAR-MISC");
+    this.bodiesGroup.call(this.bodiestip);
     //Setup scales
     this.radarScale = d3.scale.linear()
       .domain([-7000,7000])
@@ -42,6 +44,12 @@ define('radar', [], function(){
       .attr("cx", function(d,i){return self.radarScale(d["x"])})
       .attr("cy", function(d,i){return self.radarScale(d["y"])})
       .attr("r", function(d,i){return 3})
+      .on("mouseover", function(hoveredobj,i){
+        self.bodiestip.show(hoveredobj);
+      })
+      .on("mouseout", function(hoveredobj,i){
+        self.bodiestip.hide(hoveredobj);
+      })
 
     planets.exit()
       .remove();
@@ -57,6 +65,12 @@ define('radar', [], function(){
       .attr("cx", function(d,i){return self.radarScale(d["x"])})
       .attr("cy", function(d,i){return self.radarScale(d["y"])})
       .attr("r", function(d,i){return 3})
+      .on("mouseover", function(hoveredobj,i){
+        self.bodiestip.show(hoveredobj);
+      })
+      .on("mouseout", function(hoveredobj,i){
+        self.bodiestip.hide(hoveredobj);
+      })
 
     jumpgates.exit()
       .remove();

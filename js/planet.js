@@ -31,6 +31,9 @@ define('planet', [], function(){
   Planet.prototype.toString = function(){
     return "Planet[" + this.index + "]";
   };
+  Planet.prototype.tooltipString = function(){
+    return "Planet[" + this.index + "]";
+  };
 
   Planet.prototype.calcPosition = function() {
     this.x = Math.cos(this.orbit.angle) * this.orbit.distance;

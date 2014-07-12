@@ -67,13 +67,19 @@ define('star', ["namegen", "planet", "jumpgate", "json!/content/meta/stars.json"
   };
   Star.prototype = Object.create(createjs.Container.prototype);
 
+  Star.prototype.toString = function(){
+    return this.name;
+  };
+  Star.prototype.tooltipString = function(){
+    return this.name;
+  };
+
   Star.prototype._genJumpgates = function _genJumpgates(otherstars) {
     function distfunc(x) {
       return (Math.sqrt(x) + 10)*300;
     }
     this.jumpgates = _.map(otherstars, function(ostar) {
       var dist = distfunc(Math.sqrt(((ostar.mapx - this.mapx)*(ostar.mapx - this.mapx))+((ostar.mapy - this.mapy)*(ostar.mapy - this.mapy))));
-      console.log(dist);
       var jg = new Jumpgate({
         "linkedstar": ostar,
         "static_orbit": {

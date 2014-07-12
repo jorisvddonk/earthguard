@@ -39,6 +39,9 @@ define('jumpgate', [], function(){
   Jumpgate.prototype.toString = function(){
     return "Jumpgate[to " + this.linkedstar.name + "]";
   };
+  Jumpgate.prototype.tooltipString = function(){
+    return "Jumpgate to " + this.linkedstar.name;
+  };
 
   Jumpgate.prototype.calcPosition = function() {
     this.x = Math.cos(this.static_orbit.angle) * this.static_orbit.distance;
