@@ -80,3 +80,9 @@
 	padding:4px;
 	border-radius:3px;
 }
+
+#widgets .game-ui-widget {
+	position:relative;
+	width: 100%;
+	height: 100px;
+}

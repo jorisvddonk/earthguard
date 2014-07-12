@@ -250,7 +250,12 @@ require(
     starwidget = new StarWidget("#starDetails");
     radar = new Radar();
     starmapradar = new StarmapRadar();
-    graphwidget = new GraphWidget("#testing", gameState.player.ship, "movementVec");
+
+    window.GraphWidget = GraphWidget;
+
+    var graphWidgetContainer = $("<div class='game-ui-widget'></div>");
+    $("#widgets").append(graphWidgetContainer);
+    graphwidget = new GraphWidget(graphWidgetContainer, gameState.player.ship, "movementVec", {}, function(invalue){return invalue.modulus()});
 
     updatables.push(graphwidget);
   }

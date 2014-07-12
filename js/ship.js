@@ -1,4 +1,4 @@
-define('ship', ["shipSubsystem"], function(ShipSubsystem){
+define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem, FueltanksSubsystem){
   var Ship = function Ship(options){
     //super():
     createjs.Container.call(this);
@@ -35,7 +35,7 @@ define('ship', ["shipSubsystem"], function(ShipSubsystem){
     this.subsystems = {
       weapons: [],
       engines: [],
-      fueltanks: [],
+      fueltanks: new FueltanksSubsystem(),
       radars: [],
       scanners: [],
       modifications: [],

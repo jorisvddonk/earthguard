@@ -1,6 +1,16 @@
 define('graphwidget', function(){
-  var GraphWidget = function GraphWidget(element_selector, watchobj, watchselector, chartoptions) {
+  var GraphWidget = function GraphWidget(element_selector, watchobj, watchselector, chartoptions, newvaluetransformer) {
+    if (chartoptions === undefined) {
+      chartoptions = {};
+    }
+
+    if (newvaluetransformer === undefined) {
+      newvaluetransformer = function(invalue) {
+        return invalue;
+      };
+    }
     var NUM_TICKS_HORIZONTAL = 5;
+
 
     //super():
     Object.call(this);
@@ -15,7 +25,7 @@ define('graphwidget', function(){
     var ctx = this.canvas.get(0).getContext("2d");
     this.observer = new PathObserver(watchobj, watchselector);
     this.observer.open(function(newValue, oldValue) {
-      self.lastData = newValue.modulus();
+      self.lastData = newvaluetransformer(newValue);
     });
 
     var smoothie_options = {

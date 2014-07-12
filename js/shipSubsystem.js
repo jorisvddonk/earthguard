@@ -1,11 +1,11 @@
 define('shipSubsystem', [], function(){
-  var ShipSubsystem = function ShipSubsystem(element_selector) {
+  var ShipSubsystem = function ShipSubsystem() {
     //super():
     Object.call(this);
     var self = this;
     //
 
-    this.SubsystemType = "genericSubsystem";
+    this.subsystemType = "genericSubsystem";
   };
   ShipSubsystem.prototype = Object.create(Object.prototype);
 
