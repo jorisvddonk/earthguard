@@ -30,6 +30,18 @@ var eventHub = {};
 var bullets = [];
 var graphwidget;
 var updatables = [];
+var $S = function(inquery) {
+  if (typeof inquery == "string") {
+    inquery = {name: inquery};
+  }
+  var collection = _.union(
+    gameState.universe.starmap.stars,
+    _.flatten(_.map(gameState.universe.starmap.stars, function(a){return a.planets;})),
+    _.flatten(_.map(gameState.universe.starmap.stars, function(a){return a.jumpgates;})),
+    gameState.universe.ships
+  );
+  return _.where(collection, inquery);
+};
 
 
 
@@ -82,7 +94,7 @@ require(
     queue.addEventListener("complete", initGame);
     queue.addEventListener("complete", generateStarmap);
     queue.addEventListener("complete", populateUniverse);
-    queue.addEventListener("complete", setupWidgets); // TODO: figure out why this causes an infinite loop if placed below generateStarmap and populateUniverse..
+    queue.addEventListener("complete", setupWidgets);
     queue.loadManifest(contentJSON.files);
 
     createjs.Ticker.setFPS(60);
@@ -144,7 +156,7 @@ require(
 
     // Setup parallax
     gameState.containers.parallax.addChild(new Parallax("parallax0", 0));
-    gameState.containers.parallax.addChild(new Parallax("parallax1", 1/50));
+    gameState.containers.parallax.addChild(new Parallax("parallax1_0", 1/50));
     gameState.containers.parallax.addChild(new Parallax("parallax2", 1/30));
     gameState.containers.parallax.addChild(new Parallax("parallax3", 1/10));
     gameState.containers.parallax.addChild(new Parallax("parallax4", 1/1));
@@ -152,14 +164,17 @@ require(
 
   function populateUniverse(event) {
     gameState.player.ship = new Ship({"is_ai": false});
-    gameState.player.ship.positionVec = $V([200,300]);
+    gameState.player.ship.positionVec = $V([2000,3000]);
 
-    for (var i = 0; i < 50; i++) {
+    /*for (var i = 0; i < 50; i++) {
       spawnRandomShip(true);
     }
     for (var i = 0; i < 50; i++) {
       spawnRandomShip(false);
-    }
+    }*/
+
+    spawnRandomShip(false);
+    gameState.universe.ships[0].ai.target = gameState.player.ship;
 
     // Add ship
     stage.addChild(gameState.player.ship);
@@ -185,6 +200,9 @@ require(
       }
       if (Keyboard.isPressed(83)) { //S
         gameState.player.ship.thrust(-1);
+      }
+      if (Keyboard.isPressed(32)) { // space
+        gameState.universe.ships[0].fire();
       }
 
       stage.regX = gameState.player.ship.positionVec.e(1) - myCanvas.width*0.5*(1/stage.scaleX);
@@ -233,7 +251,31 @@ require(
     _.each(gameState.player.currentstar.jumpgates, function(jumpgate, index){
       gameState.containers.solarSystem.addChild(jumpgate);
       jumpgate.addEventListener('click', function() {
-        alert(jumpgate);
+if (((jumpgate.x - gameState.player.ship.x)*(jumpgate.x - gameState.player.ship.x) + (jumpgate.y - gameState.player.ship.y)*(jumpgate.y - gameState.player.ship.y)) < 10000) {
+noty({
+  text: 'Do you want to jump to ' + jumpgate.linkedstar.name + '?',
+  layout: 'bottomRight',
+  buttons: [
+    {addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
+        $noty.close();
+        // Jump to star
+        var prevStar = gameState.player.currentstar;
+        gameState.player.currentstar = jumpgate.linkedstar;
+        // Set player position at jumpgate to previous star
+        console.log(prevStar);
+        console.log(gameState.player.currentstar);
+        var prevjg = _.find(gameState.player.currentstar.jumpgates, function(jg){return jg.linkedstar == prevStar});
+        console.log(prevjg);
+        gameState.player.ship.positionVec = $V([prevjg.x, prevjg.y]);
+      }
+    },
+    {addClass: 'btn btn-danger', text: 'Cancel', onClick: function($noty) {
+        $noty.close();
+      }
+    }
+  ]
+});
+}
       });
     });
   }
@@ -259,11 +301,9 @@ require(
     starmapradar = new StarmapRadar();
 
     window.GraphWidget = GraphWidget;
-
     var graphWidgetContainer = $("<div class='game-ui-widget'></div>");
     $("#widgets").append(graphWidgetContainer);
     graphwidget = new GraphWidget(graphWidgetContainer, gameState.player.ship, "movementVec", {}, function(invalue){return invalue.modulus()});
-
     updatables.push(graphwidget);
   }
 

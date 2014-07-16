@@ -41,8 +41,8 @@
       }
     },
     {
-      "id": "parallax1",
-      "src": "content/parallax_1.png",
+      "id": "parallax1_0",
+      "src": "content/parallax_1_0.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd",

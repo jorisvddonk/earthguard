@@ -29,7 +29,7 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
 
     this.stats = {
       maxspeed: $V([5,0]),
-      bulletspeed: 30
+      bulletspeed: 10
     };
 
     this.subsystems = {
@@ -209,21 +209,41 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
       this.gfx.graph.graphics.beginStroke(stroke).moveTo(0, 0).lineTo(this.ai.state.x_thrust, this.ai.state.y_thrust).endStroke();
 
       if (this.ai.target !== null && this.ai.target.hasOwnProperty("positionVec")) {
-        var interception = Mymath.intercept(this.positionVec, this.stats.bulletspeed, this.ai.target.positionVec, this.ai.target.movementVec);
+        var interception = this.getFire();
         if (interception !== null) {
-          this.gfx.graph.graphics.beginStroke("rgba(255,0,0,1)").moveTo(0, 0).lineTo(interception.e(1), interception.e(2)).endStroke();
+          this.gfx.graph.graphics.beginStroke("rgba(0,255,0,1)").moveTo(0, 0).lineTo(interception.e(1), interception.e(2)).endStroke();
         }
       }
     }
   };
 
   Ship.prototype.fire = function() {
-    var interception = Mymath.intercept(this.positionVec, this.stats.bulletspeed, this.ai.target.positionVec, this.ai.target.movementVec);
+    var interception = this.getFire();
     if (interception !== null) {
-      var bullet = new Bullet(this.positionVec, this.movementVec.add(interception.toUnitVector().multiply(this.stats.bulletspeed)).rotate(Math.random()*0.0523598776, $V([0,0])));
+      var bullet = new Bullet(this.positionVec, this.movementVec.add(interception.toUnitVector().multiply(this.stats.bulletspeed)).rotate(Math.random()*0.0000000523598776, $V([0,0])));
       bullets.push(bullet);
       stage.addChild(bullet);
     }
+  };
+
+  Ship.prototype.getFire = function() {
+    var interception = Mymath.intercept(this.positionVec, this.stats.bulletspeed, this.ai.target.positionVec, this.ai.target.movementVec);
+    var relPos = this.ai.target.positionVec.subtract(this.positionVec);
+    var relVel = this.ai.target.movementVec.subtract(this.movementVec);
+    var interception2 = Mymath.intercept2(
+      {
+        x: 0,
+        y: 0
+      },
+      {
+        x: relPos.e(1),
+        y: relPos.e(2),
+        vx: relVel.e(1),
+        vy: relVel.e(2)
+      },
+      this.stats.bulletspeed
+    );
+    return interception2;
   };
 
   return Ship;
