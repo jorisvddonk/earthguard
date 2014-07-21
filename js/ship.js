@@ -8,7 +8,12 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
       "is_ai": true,
       "x": Math.random()*3000 - 1500,
       "y": Math.random()*3000 - 1500,
-      "gfxID": 'ship'
+      "gfxID": 'ship',
+      "thrustVec": $V([0.04,0]),
+      "stats": {
+        "maxspeed": $V([5,0]),
+        "bulletspeed": 10
+      }
     };
     options = _.extend({}, default_options, options);
 
@@ -22,14 +27,14 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
     this.gfx.bitmap.regX = this.gfx.bitmap.image.width*0.5;
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height*0.5;
 
-    this.thrustVec = $V([0.04,0]); // Vector describing the thrust capabilities. Second coordinate is ignored.
+    this.thrustVec = options.thrustVec; // Vector describing the thrust capabilities. Second coordinate is ignored.
     this.movementVec = $V([0,0]); // Vector decribing current movement
     this.rotationVec = $V([1,0]); // Vector describing current angle (rotation). Should be a unit vector.
     this.positionVec = $V([options.x,options.y]);
 
     this.stats = {
-      maxspeed: $V([5,0]),
-      bulletspeed: 10
+      maxspeed: options.stats.maxspeed,
+      bulletspeed: options.stats.bulletspeed
     };
 
     this.subsystems = {

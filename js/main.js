@@ -312,7 +312,12 @@ noty({
       isPlanetTargetter = true;
     }
     var ship = new Ship({
-      "gfxID": (isPlanetTargetter ? "ship2" : "ship5")
+      "gfxID": (isPlanetTargetter ? "ship2" : "ship5"),
+      "thrustVec": $V([0.03,0]),
+      "stats": {
+        "maxspeed": $V([10,0]),
+        "bulletspeed": 10
+      }
     });
     ship.positionVec = $V([Math.random() * 1500 - 750, Math.random() * 1500 - 750]);
 
