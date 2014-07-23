@@ -1,8 +1,10 @@
-var Bullet = function Bullet(position, velocity){
+var Bullet = function Bullet(position, velocity, lifetime){
   //super():
   createjs.Container.call(this);
 
   //
+  this._type = "Bullet";
+  
   this.gfx = {
     bitmap: new createjs.Bitmap(queue.getResult('bullet')),
     graph: new createjs.Shape()
@@ -15,7 +17,7 @@ var Bullet = function Bullet(position, velocity){
   this.positionVec = position;
 
   this.stats = {
-    aliveUntil: new Date().getTime() + 1000
+    aliveUntil: new Date().getTime() + lifetime
   };
 
   eventHub.addEventListener("movementTick", this.movementTick.bind(this));

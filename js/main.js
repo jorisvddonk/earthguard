@@ -164,20 +164,18 @@ require(
 
   function populateUniverse(event) {
     gameState.player.ship = new Ship({"is_ai": false});
-    gameState.player.ship.positionVec = $V([2000,3000]);
+    gameState.player.ship.positionVec = $V([200,300]);
+    stage.addChild(gameState.player.ship);
 
-    /*for (var i = 0; i < 50; i++) {
+    /*for (var i = 0; i < 10; i++) {
       spawnRandomShip(true);
     }
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 10; i++) {
       spawnRandomShip(false);
     }*/
 
     spawnRandomShip(false);
     gameState.universe.ships[0].ai.target = gameState.player.ship;
-
-    // Add ship
-    stage.addChild(gameState.player.ship);
   }
 
   function tick(event) {
@@ -200,9 +198,6 @@ require(
       }
       if (Keyboard.isPressed(83)) { //S
         gameState.player.ship.thrust(-1);
-      }
-      if (Keyboard.isPressed(32)) { // space
-        gameState.universe.ships[0].fire();
       }
 
       stage.regX = gameState.player.ship.positionVec.e(1) - myCanvas.width*0.5*(1/stage.scaleX);
@@ -313,10 +308,11 @@ noty({
     }
     var ship = new Ship({
       "gfxID": (isPlanetTargetter ? "ship2" : "ship5"),
-      "thrustVec": $V([0.03,0]),
+      "thrustVec": $V([0.05,0]),
       "stats": {
-        "maxspeed": $V([10,0]),
-        "bulletspeed": 10
+        "maxspeed": $V([3,0]),
+        "bulletspeed": 10,
+        "bulletlifetime": 1000
       }
     });
     ship.positionVec = $V([Math.random() * 1500 - 750, Math.random() * 1500 - 750]);

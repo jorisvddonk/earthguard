@@ -3,6 +3,7 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
     //super():
     createjs.Container.call(this);
     //
+    this._type = "Ship";
 
     var default_options = {
       "is_ai": true,
@@ -12,7 +13,8 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
       "thrustVec": $V([0.04,0]),
       "stats": {
         "maxspeed": $V([5,0]),
-        "bulletspeed": 10
+        "bulletspeed": 10,
+        "bulletlifetime": 1000
       }
     };
     options = _.extend({}, default_options, options);
@@ -34,7 +36,8 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
 
     this.stats = {
       maxspeed: options.stats.maxspeed,
-      bulletspeed: options.stats.bulletspeed
+      bulletspeed: options.stats.bulletspeed,
+      bulletlifetime: options.stats.bulletlifetime
     };
 
     this.subsystems = {
@@ -185,6 +188,11 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
     this.ai.state.x_thrust = x_thrust;
     this.ai.state.y_thrust = y_thrust;
 
+    // Check if we can fire
+    if (this.ai.target._type == "Ship") {
+      this.maybeFire();
+    }
+
     // Check if we need to call callback
     if (this.ai.targetcallback !== null) {
       if (pos_vec_error.modulus() < 50 && this.movementVec.modulus() < 0.75) {
@@ -222,10 +230,27 @@ define('ship', ["shipSubsystem", "subsystem/fueltanks"], function(ShipSubsystem,
     }
   };
 
-  Ship.prototype.fire = function() {
+  Ship.prototype.maybeFire = function() {
     var interception = this.getFire();
+    if (interception != null) {
+      // determine if our bullets would live long enough to actually make it to the interception point
+      if (interception.modulus() / this.stats.bulletspeed*(1000/60) < this.stats.bulletlifetime) { // TODO: remove constant (1000/60 = ms per frame assuming 60fps)
+        // Fire! (and use the precomputed interception point to prevent having to recompute again)
+        this.fire(interception);
+      }
+    }
+  }
+
+  Ship.prototype.fire = function(interception) {
+    if (interception === null || interception === undefined) {
+      var interception = this.getFire();
+    }
     if (interception !== null) {
-      var bullet = new Bullet(this.positionVec, this.movementVec.add(interception.toUnitVector().multiply(this.stats.bulletspeed)).rotate(Math.random()*0.0000000523598776, $V([0,0])));
+      var bullet = new Bullet(
+        this.positionVec, 
+        this.movementVec.add(interception.toUnitVector().multiply(this.stats.bulletspeed)).rotate(Math.random()*0.0523598776, $V([0,0])),
+        this.stats.bulletlifetime
+      );
       bullets.push(bullet);
       stage.addChild(bullet);
     }
