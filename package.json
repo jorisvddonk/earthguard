@@ -1,0 +1,30 @@
+{
+  "name": "Earthguard",
+  "version": "0.0.0",
+  "description": "A space exploration and adventure game",
+  "main": "index.html",
+  "dependencies": {
+    "gulp": "^3.8.10",
+    "gulp-bower": "^0.0.10",
+    "run-sequence": "^1.0.2",
+    "wiredep": "^2.2.2"
+  },
+  "devDependencies": {
+    "gulp-bower": "0.0.10",
+    "run-sequence": "^1.0.2",
+    "wiredep": "^2.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jorisvddonk/earthguard.git"
+  },
+  "author": "Joris van de Donk <jorisvddonk@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jorisvddonk/earthguard/issues"
+  },
+  "homepage": "https://github.com/jorisvddonk/earthguard"
+}

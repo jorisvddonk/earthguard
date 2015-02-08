@@ -8,4 +8,4 @@ See LICENSE.md for more info
 
 ## Dependencies
 
-Dependencies for Earthguard are managed via [bower](http://bower.io/). Ensure you have bower installed, then run the following command to fetch all dependencies: `bower install`.
+Dependencies for Earthguard are intalled via [gulp](http://gulpjs.com/), which in turn calls out to things like [bower](http://bower.io/). To get started with Earthguard, ensure you have NodeJS, gulp and bower installed, then run `npm install` followed by `gulp setup`.
