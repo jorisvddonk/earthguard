@@ -1,4 +1,10 @@
-function Parallax(manifestID, parallax_factor) {
+module.exports = function Parallax(
+  manifestID,
+  parallax_factor,
+  queue,
+  stage,
+  eventHub
+) {
   var plx = new createjs.Container();
   plx.gfx = {
     bitmaps: [],
@@ -19,20 +25,30 @@ function Parallax(manifestID, parallax_factor) {
     bmap.y = y;
     plx.gfx.bitmaps.push(bmap);
     plx.addChild(bmap);
-
   }
-  for (y = 0; y < (myCanvas.height*(1/stage.scaleY)) + 1*plx.gfx.height; y = y + plx.gfx.height) {
+  for (
+    y = 0;
+    y < myCanvas.height * (1 / stage.scaleY) + 1 * plx.gfx.height;
+    y = y + plx.gfx.height
+  ) {
     ix = 0;
-    for (x = 0; x < (myCanvas.width*(1/stage.scaleX)) + 1*plx.gfx.width; x = x + plx.gfx.width) {
+    for (
+      x = 0;
+      x < myCanvas.width * (1 / stage.scaleX) + 1 * plx.gfx.width;
+      x = x + plx.gfx.width
+    ) {
       addParallaxBitmap(x, y, ix, iy);
       ix += 1;
     }
     iy += 1;
   }
 
-
   plx.GFXTick = function() {
-    plx.x = stage.regX - plx.gfx.width - ((stage.regX*plx.parallax_factor) % plx.gfx.width) + myCanvas.width*0.5;
+    plx.x =
+      stage.regX -
+      plx.gfx.width -
+      ((stage.regX * plx.parallax_factor) % plx.gfx.width) +
+      myCanvas.width * 0.5;
     while (plx.x - stage.regX > 0) {
       plx.x = plx.x - plx.gfx.width;
     }
@@ -40,7 +56,11 @@ function Parallax(manifestID, parallax_factor) {
       plx.x = plx.x + plx.gfx.width;
     }
 
-    plx.y = stage.regY - plx.gfx.height - ((stage.regY*plx.parallax_factor) % plx.gfx.height) + myCanvas.height*0.5;
+    plx.y =
+      stage.regY -
+      plx.gfx.height -
+      ((stage.regY * plx.parallax_factor) % plx.gfx.height) +
+      myCanvas.height * 0.5;
     while (plx.y - stage.regY > 0) {
       plx.y = plx.y - plx.gfx.height;
     }
@@ -52,4 +72,4 @@ function Parallax(manifestID, parallax_factor) {
   eventHub.addEventListener("GFXTick", plx.GFXTick);
 
   return plx;
-}
+};

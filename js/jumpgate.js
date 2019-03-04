@@ -1,6 +1,7 @@
-define('jumpgate', [], function(){
-  var Jumpgate = function Jumpgate(options){
-    /*
+const _ = require("lodash");
+const queue = require("./loadQueue");
+var Jumpgate = function Jumpgate(options) {
+  /*
       options: {
         static_orbit: {
           distance: 123,
@@ -9,44 +10,44 @@ define('jumpgate', [], function(){
         linkedstar: <star>
       }
     */
-    //super():
-    createjs.Container.call(this);
+  //super():
+  createjs.Container.call(this);
 
-
-    //
-    var default_options = {
-      "gfxID": "jumppoint",
-      "static_orbit": {
-        "distance": 3000,
-        "angle": Math.random() * 2 * Math.PI
-      },
-      "linkedstar": null
-    };
-    options = _.extend({}, default_options, options);
-
-    this.gfx = {
-      bitmap: new createjs.Bitmap(queue.getResult(options.gfxID))
-    };
-    this.addChild(this.gfx.bitmap);
-    this.gfx.bitmap.regX = this.gfx.bitmap.image.width*0.5;
-    this.gfx.bitmap.regY = this.gfx.bitmap.image.height*0.5;
-
-    _.extend(this, options);
-    this.calcPosition();
+  //
+  var default_options = {
+    gfxID: "jumppoint",
+    static_orbit: {
+      distance: 500,
+      angle: Math.random() * 2 * Math.PI
+    },
+    linkedstar: null
   };
-  Jumpgate.prototype = Object.create(createjs.Container.prototype);
+  options = _.extend({}, default_options, options);
 
-  Jumpgate.prototype.toString = function(){
-    return "Jumpgate[to " + this.linkedstar.name + "]";
+  this.gfx = {
+    bitmap: new createjs.Bitmap(queue.getResult(options.gfxID))
   };
-  Jumpgate.prototype.tooltipString = function(){
-    return "Jumpgate to " + this.linkedstar.name;
-  };
+  this.addChild(this.gfx.bitmap);
+  this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
+  this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
 
-  Jumpgate.prototype.calcPosition = function() {
-    this.x = Math.cos(this.static_orbit.angle) * this.static_orbit.distance;
-    this.y = Math.sin(this.static_orbit.angle) * this.static_orbit.distance;
-  };
+  this.static_orbit = options.static_orbit;
+  this.linkedstar = options.linkedstar;
+  this.gfxID = options.gfxID;
+  this.calcPosition();
+};
+Jumpgate.prototype = Object.create(createjs.Container.prototype);
 
-  return Jumpgate;
-});
+Jumpgate.prototype.toString = function() {
+  return "Jumpgate[to " + this.linkedstar.name + "]";
+};
+Jumpgate.prototype.tooltipString = function() {
+  return "Jumpgate to " + this.linkedstar.name;
+};
+
+Jumpgate.prototype.calcPosition = function() {
+  this.x = Math.cos(this.static_orbit.angle) * this.static_orbit.distance;
+  this.y = Math.sin(this.static_orbit.angle) * this.static_orbit.distance;
+};
+
+module.exports = Jumpgate;

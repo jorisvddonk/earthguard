@@ -4,18 +4,28 @@
   "description": "A space exploration and adventure game",
   "main": "index.html",
   "dependencies": {
-    "gulp": "^3.8.10",
-    "gulp-bower": "^0.0.10",
-    "run-sequence": "^1.0.2",
-    "wiredep": "^2.2.2"
+    "EventEmitter": "^1.0.0",
+    "bootstrap": "^3.4.1",
+    "createjs": "^1.0.1",
+    "d3": "^3.5.17",
+    "d3-scale": "^2.2.2",
+    "d3-tip": "^0.6.8",
+    "easeljs": "^1.0.2",
+    "lodash": "^4.17.11",
+    "noty": "^3.2.0-beta",
+    "smoothie": "^1.35.0",
+    "sylvester-es6": "0.0.2",
+    "vue": "^2.6.7"
   },
   "devDependencies": {
     "gulp-bower": "0.0.10",
+    "parcel-plugin-asset-copier": "^1.0.0",
     "run-sequence": "^1.0.2",
     "wiredep": "^2.2.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html"
   },
   "repository": {
     "type": "git",
@@ -26,5 +36,9 @@
   "bugs": {
     "url": "https://github.com/jorisvddonk/earthguard/issues"
   },
-  "homepage": "https://github.com/jorisvddonk/earthguard"
+  "homepage": "https://github.com/jorisvddonk/earthguard",
+  "assetsPath": "content/",
+  "alias": {
+    "vue": "./node_modules/vue/dist/vue.common.dev.js"
+  }
 }

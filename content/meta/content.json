@@ -2,7 +2,7 @@
   "files": [
     {
       "id": "ship",
-      "src": "content/ship.png",
+      "src": "ship.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "tyrian_dcook"
@@ -10,7 +10,7 @@
     },
     {
       "id": "ship2",
-      "src": "content/ship2.png",
+      "src": "ship2.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "tyrian_dcook"
@@ -18,7 +18,7 @@
     },
     {
       "id": "ship5",
-      "src": "content/ship5.png",
+      "src": "ship5.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "tyrian_dcook"
@@ -26,7 +26,7 @@
     },
     {
       "id": "jumppoint",
-      "src": "content/jumppoint.png",
+      "src": "jumppoint.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "jorisvddonk_pd"
@@ -34,7 +34,7 @@
     },
     {
       "id": "parallax0",
-      "src": "content/parallax_0.png",
+      "src": "parallax_0.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "jorisvddonk_pd"
@@ -42,7 +42,7 @@
     },
     {
       "id": "parallax1_0",
-      "src": "content/parallax_1_0.png",
+      "src": "parallax_1_0.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd",
@@ -51,7 +51,7 @@
     },
     {
       "id": "parallax2",
-      "src": "content/parallax_2.png",
+      "src": "parallax_2.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "jorisvddonk_pd",
@@ -60,7 +60,7 @@
     },
     {
       "id": "parallax3",
-      "src": "content/parallax_3.png",
+      "src": "parallax_3.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "jorisvddonk_pd",
@@ -69,7 +69,7 @@
     },
     {
       "id": "parallax4",
-      "src": "content/parallax_4.png",
+      "src": "parallax_4.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "jorisvddonk_pd",
@@ -78,7 +78,7 @@
     },
     {
       "id": "bullet",
-      "src": "content/bullet.png",
+      "src": "bullet.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "jorisvddonk_pd"
@@ -87,7 +87,7 @@
 
     {
       "id": "star_blue_1",
-      "src": "content/stars/blue01.png",
+      "src": "stars/blue01.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -95,7 +95,7 @@
     },
     {
       "id": "star_blue_2",
-      "src": "content/stars/blue02.png",
+      "src": "stars/blue02.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -103,7 +103,7 @@
     },
     {
       "id": "star_blue_3",
-      "src": "content/stars/blue04.png",
+      "src": "stars/blue04.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -111,7 +111,7 @@
     },
     {
       "id": "star_green_1",
-      "src": "content/stars/green01.png",
+      "src": "stars/green01.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -119,7 +119,7 @@
     },
     {
       "id": "star_green_2",
-      "src": "content/stars/green02.png",
+      "src": "stars/green02.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -127,7 +127,7 @@
     },
     {
       "id": "star_orange_1",
-      "src": "content/stars/orange01.png",
+      "src": "stars/orange01.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -135,7 +135,7 @@
     },
     {
       "id": "star_orange_2",
-      "src": "content/stars/orange02.png",
+      "src": "stars/orange02.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -143,7 +143,7 @@
     },
     {
       "id": "star_orange_3",
-      "src": "content/stars/orange05.png",
+      "src": "stars/orange05.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -151,7 +151,7 @@
     },
     {
       "id": "star_white_1",
-      "src": "content/stars/white01.png",
+      "src": "stars/white01.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -159,7 +159,7 @@
     },
     {
       "id": "star_white_2",
-      "src": "content/stars/white02.png",
+      "src": "stars/white02.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -167,7 +167,7 @@
     },
     {
       "id": "star_yellow_1",
-      "src": "content/stars/yellow01.png",
+      "src": "stars/yellow01.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -175,7 +175,7 @@
     },
     {
       "id": "star_yellow_2",
-      "src": "content/stars/yellow02.png",
+      "src": "stars/yellow02.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -183,7 +183,7 @@
     },
     {
       "id": "star_red_1",
-      "src": "content/stars/redgiant01.png",
+      "src": "stars/redgiant01.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"
@@ -192,7 +192,7 @@
 
     {
       "id": "planet_test",
-      "src": "content/planets/P02.png",
+      "src": "planets/P02.png",
       "contentType": ["image", "png"],
       "attribution": {
         "_id": "naev_btaxis_pd"

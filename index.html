@@ -1,52 +1,43 @@
 <html>
   <head>
-    <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/d3-tip/index.js"></script>
-    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
-    <script src="bower_components/PreloadJS/lib/preloadjs-0.6.0.combined.js"></script>
-    <script src="bower_components/easeljs/lib/easeljs-0.8.0.combined.js"></script>
-    <script src="bower_components/noty/js/noty/packaged/jquery.noty.packaged.js"></script>
-    <script src="bower_components/underscore/underscore.js"></script>
-    <script src="bower_components/observe-js/src/observe.js"></script>
-    <script src="bower_components/watch/src/watch.js"></script>
-    <script src="bower_components/vue/dist/vue.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/TweenJS/lib/tweenjs-0.6.0.combined.js"></script>
-    <!-- endbower -->
-    <script src="js/libs/smoothie.js"></script>
-    <script src="js/libs/sylvester.js"></script>
-    <script src="js/pidcontroller.js"></script>
-    <script src="js/keyboard.js"></script>
-    <script src="js/vectormods.js"></script>
-    <script src="js/mymath.js"></script>
-    <script src="js/parallax.js"></script>
-    <script src="js/bullet.js"></script>
-    <script src="js/temptests.js"></script>
-    <script data-main="js/main.js" src="bower_components/requirejs/require.js"></script>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script src="js/main.js"></script>
+    <link rel="stylesheet" href="node_modules/noty/lib/noty.css" />
     <script>
-      $(window).resize(function() {
+      const resizeGame = function() {
+        document
+          .querySelector("#myCanvas")
+          .setAttribute("width", window.innerWidth);
+        document
+          .querySelector("#myCanvas")
+          .setAttribute("height", window.innerHeight - 80);
+      };
+      window.addEventListener("resize", () => {
         resizeGame();
       });
-      $(function(){
-        resizeGame();
-      })
-      
-      var resizeGame = function() {
-          $("#myCanvas").attr('width', $(window).width());
-          $("#myCanvas").attr('height', $(window).height() - 80);
-      }
+      document.addEventListener("DOMContentLoaded", resizeGame);
     </script>
-    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <link rel="stylesheet" type="text/css" href="css/starmapradar.css"/>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="node_modules/bootstrap/dist/css/bootstrap.css"
+    />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/starmapradar.css" />
   </head>
   <body>
-    <div class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+    <div
+      class="navbar navbar-default navbar-fixed-top navbar-inverse"
+      role="navigation"
+    >
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target=".navbar-collapse"
+          >
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -58,25 +49,35 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Main</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
+        <!--/.nav-collapse -->
       </div>
     </div>
 
     <div style="padding-top:50px;">
       <!-- Canvas -->
-      <canvas id="myCanvas" width="1600" height="600" style="background-color: #000">If you can see this, HTML5 Canvas is not supported by your browser. Please use a browser which supports HTML5 canvas.</canvas>
+      <canvas
+        id="myCanvas"
+        width="1600"
+        height="600"
+        style="background-color: #000"
+        >If you can see this, HTML5 Canvas is not supported by your browser.
+        Please use a browser which supports HTML5 canvas.</canvas
+      >
 
       <!-- Radar -->
       <div id="radar">
-          <svg id="radarsvg" class="radarlike"></svg>     
+        <svg id="radarsvg" class="radarlike"></svg>
       </div>
 
       <div id="starmapradar" class="starmapradar">
-          <svg id="starmapradarsvg" class="radarlike"></svg>     
+        <svg id="starmapradarsvg" class="radarlike"></svg>
       </div>
 
       <!-- Update bubble -->
-      <div id="updateBubble" class="hide game-ui-widget">Notifications will be displayed here..</div>
+      <div id="updateBubble" class="hide game-ui-widget">
+        Notifications will be displayed here..
+      </div>
 
       <!-- Star details -->
       <div id="starDetails" class="game-ui-widget game-ui-widget-dark">
@@ -88,26 +89,35 @@
         foo
       </div>-->
 
-      
-
-      <div id="widgets" style="position:fixed; top:100px; left: 10px; width: 300px; height: 800px">
-      </div>
+      <div
+        id="widgets"
+        style="position:fixed; top:100px; left: 10px; width: 300px; height: 800px"
+      ></div>
     </div>
 
-    <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse" role="navigation" style="height: 42px; min-height: 42px;">
+    <div
+      class="navbar navbar-default navbar-fixed-bottom navbar-inverse"
+      role="navigation"
+      style="height: 42px; min-height: 42px;"
+    >
       <div id="navbar-inner-shadower">
-          <div class="container" style="width:auto; padding-left:20px;">
-              <span class="navbar-brand" style="line-height: 11px;">Notifications</span>
-              <div style="padding-top:8px">
-                  <div style="border-radius:9px 0px 0px 9px; height:24px; background:#222; border-top:1px solid #000; border-left:1px solid #000; border-bottom:1px solid #000; position:absolute; display:inline-block; left:170px; width:150px; padding-left:10px;">
-                      <span style="font-weight:bolder; color:#ff9; text-shadow: 0px 0px 3px #990; padding-top:2px; display:inline-block">December 25, 2652</span>
-                  </div>
-                  <div id="updateBar">
-                  </div>
-              </div>
+        <div class="container" style="width:auto; padding-left:20px;">
+          <span class="navbar-brand" style="line-height: 11px;"
+            >Notifications</span
+          >
+          <div style="padding-top:8px">
+            <div
+              style="border-radius:9px 0px 0px 9px; height:24px; background:#222; border-top:1px solid #000; border-left:1px solid #000; border-bottom:1px solid #000; position:absolute; display:inline-block; left:170px; width:150px; padding-left:10px;"
+            >
+              <span
+                style="font-weight:bolder; color:#ff9; text-shadow: 0px 0px 3px #990; padding-top:2px; display:inline-block"
+                >December 25, 2652</span
+              >
+            </div>
+            <div id="updateBar"></div>
           </div>
+        </div>
       </div>
     </div>
-
   </body>
 </html>
