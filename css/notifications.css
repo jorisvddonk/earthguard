@@ -1,0 +1,9 @@
+.notification {
+    stroke-width: 2px;
+    stroke: #000;
+    fill: #666;
+}
+
+.notification:hover {
+    stroke: #fff;
+}

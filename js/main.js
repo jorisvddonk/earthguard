@@ -15,6 +15,7 @@ const StarWidget = require("./starwidget");
 const GraphWidget = require("./graphwidget");
 const Keyboard = require("./keyboard");
 const queue = require("./loadQueue");
+const NotificationSystem = require('./notificationSystem');
 
 const miscDebug = {};
 const textlines = [];
@@ -25,6 +26,7 @@ let stage;
 let radar;
 let starmapradar;
 let graphwidget;
+let notificationSystem;
 
 function init() {
   Stage.init();
@@ -35,6 +37,8 @@ function init() {
   queue.addEventListener("complete", populateUniverse);
   queue.addEventListener("complete", setupWidgets);
   queue.loadManifest(contentJSON.files);
+
+  notificationSystem = new NotificationSystem('#updateBar', '#updateBubble')
 
   createjs.Ticker.setFPS(60);
 }
@@ -328,6 +332,9 @@ function spawnRandomShip(isPlanetTargetter) {
 
   ship.ai.target = getNextTarget();
   ship.ai.targetcallback = function () {
+    if (isPlanetTargetter) {
+      notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.ai.target.name)
+    }
     ship.ai.target = getNextTarget();
     ship.ai.controllers.posXPID.reset();
     ship.ai.controllers.posYPID.reset();
