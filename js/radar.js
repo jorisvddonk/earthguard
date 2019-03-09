@@ -2,200 +2,150 @@ const gameState = require("./gameState");
 const d3 = require("d3");
 const d3tip = require("d3-tip")(d3);
 const d3Scale = require("d3-scale");
-var Radar = function Radar() {
-  // super():
-  Object.call(this);
 
-  // Setup stuff
-  //$("#radar").draggable(); // todo: re-enable draggable support... jquery-ui?
-  this.SVG = d3.select("#radar svg");
-  this.bodiestip = d3
-    .tip()
-    .attr("class", "d3-tip d3-tip-bodies")
-    .html(function(d) {
-      return d.tooltipString();
-    });
-  this.bodiesGroup = this.SVG.append("g").attr("class", "RADAR-BODIES");
-  this.shipsGroup = this.SVG.append("g").attr("class", "RADAR-SHIPS");
-  this.miscGroup = this.SVG.append("g").attr("class", "RADAR-MISC");
-  this.bodiesGroup.call(this.bodiestip);
-  //Setup scales
-  this.radarScale = d3Scale
-    .scaleLinear()
-    .domain([-7000, 7000])
-    .range([0, 400]);
+class Radar extends Object {
+  constructor() {
+    super()
 
-  this.redrawRadar();
-};
-Radar.prototype = Object.create(Object.prototype);
+    //$("#radar").draggable(); // todo: re-enable draggable support... jquery-ui?
+    this.SVG = d3.select("#radar svg");
+    this.bodiestip = d3
+      .tip()
+      .attr("class", "d3-tip d3-tip-bodies")
+      .html(function (d) {
+        return d.tooltipString();
+      });
+    this.bodiesGroup = this.SVG.append("g").attr("class", "RADAR-BODIES");
+    this.shipsGroup = this.SVG.append("g").attr("class", "RADAR-SHIPS");
+    this.miscGroup = this.SVG.append("g").attr("class", "RADAR-MISC");
+    this.bodiesGroup.call(this.bodiestip);
+    //Setup scales
+    this.radarScale = d3Scale
+      .scaleLinear()
+      .domain([-7000, 7000])
+      .range([0, 400]);
 
-Radar.prototype.update = function() {
-  this.redrawRadar();
-};
+    this.redrawRadar();
+  };
 
-Radar.prototype.redrawRadar = function() {
-  var self = this;
-  if (gameState.player.currentstar == null || gameState.player.ship == null) {
-    return;
-  }
+  update() {
+    this.redrawRadar();
+  };
 
-  /*
-      PLANETS and JUMPGATES (BODIES)
-    */
-  var planets = this.bodiesGroup
-    .selectAll("circle.planet")
-    .data(gameState.player.currentstar.planets, function(d) {
-      return d["id"];
-    });
+  redrawRadar() {
+    if (gameState.player.currentstar == null || gameState.player.ship == null) {
+      return;
+    }
 
-  planets
-    .enter()
-    .append("circle")
-    .attr("class", "planet")
-    .style("stroke", "white")
-    .style("fill", "blue")
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["x"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["y"]);
-    })
-    .attr("r", function(d, i) {
-      return 3;
-    })
-    .on("mouseover", function(hoveredobj, i) {
-      self.bodiestip.show(hoveredobj);
-    })
-    .on("mouseout", function(hoveredobj, i) {
-      self.bodiestip.hide(hoveredobj);
-    });
+    /*
+        PLANETS and JUMPGATES (BODIES)
+      */
+    var planets = this.bodiesGroup
+      .selectAll("circle.planet")
+      .data(gameState.player.currentstar.planets, d => d["id"]);
 
-  planets.exit().remove();
+    planets
+      .enter()
+      .append("circle")
+      .attr("class", "planet")
+      .style("stroke", "white")
+      .style("fill", "blue")
+      .attr("cx", (d, i) => this.radarScale(d["x"]))
+      .attr("cy", (d, i) => this.radarScale(d["y"]))
+      .attr("r", (d, i) => 3)
+      .on("mouseover", (hoveredobj, i) => this.bodiestip.show(hoveredobj))
+      .on("mouseout", (hoveredobj, i) => this.bodiestip.hide(hoveredobj));
 
-  var jumpgates = this.bodiesGroup
-    .selectAll("circle.jumpgate")
-    .data(gameState.player.currentstar.jumpgates, function(d) {
-      return d["id"];
-    });
+    planets.exit().remove();
 
-  jumpgates
-    .enter()
-    .append("circle")
-    .attr("class", "jumpgate")
-    .style("stroke", "white")
-    .style("fill", "rgba(0,0,0,0)")
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["x"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["y"]);
-    })
-    .attr("r", function(d, i) {
-      return 3;
-    })
-    .on("mouseover", function(hoveredobj, i) {
-      self.bodiestip.show(hoveredobj);
-    })
-    .on("mouseout", function(hoveredobj, i) {
-      self.bodiestip.hide(hoveredobj);
-    });
+    var jumpgates = this.bodiesGroup
+      .selectAll("circle.jumpgate")
+      .data(gameState.player.currentstar.jumpgates, function (d) {
+        return d["id"];
+      });
 
-  jumpgates.exit().remove();
+    jumpgates
+      .enter()
+      .append("circle")
+      .attr("class", "jumpgate")
+      .style("stroke", "white")
+      .style("fill", "rgba(0,0,0,0)")
+      .attr("cx", (d, i) => this.radarScale(d["x"]))
+      .attr("cy", (d, i) => this.radarScale(d["y"]))
+      .attr("r", (d, i) => 3)
+      .on("mouseover", (hoveredobj, i) => this.bodiestip.show(hoveredobj))
+      .on("mouseout", (hoveredobj, i) => this.bodiestip.hide(hoveredobj));
 
-  /*
-      SHIPS
-    */
-  var ships = this.shipsGroup
-    .selectAll("circle.ship")
-    .data(gameState.universe.ships, function(d) {
-      return d["id"];
-    });
+    jumpgates.exit().remove();
 
-  ships
-    .enter()
-    .append("circle")
-    .attr("class", "ship")
-    .style("stroke", "red")
-    .style("fill", "red")
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["x"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["y"]);
-    })
-    .attr("r", function(d, i) {
-      return 2;
-    });
+    /*
+        SHIPS
+      */
+    var ships = this.shipsGroup
+      .selectAll("circle.ship")
+      .data(gameState.universe.ships, function (d) {
+        return d["id"];
+      });
 
-  ships
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["x"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["y"]);
-    });
+    ships
+      .enter()
+      .append("circle")
+      .attr("class", "ship")
+      .style("stroke", "red")
+      .style("fill", "red")
+      .attr("cx", (d, i) => this.radarScale(d["x"]))
+      .attr("cy", (d, i) => this.radarScale(d["y"]))
+      .attr("r", (d, i) => 2);
 
-  ships.exit().remove();
+    ships
+      .attr("cx", (d, i) => this.radarScale(d["x"]))
+      .attr("cy", (d, i) => this.radarScale(d["y"]));
 
-  /* 
-      MISC
-    */
-  // star
-  var misc_star = this.miscGroup
-    .selectAll("circle.star")
-    .data([gameState.player.currentstar], function(d) {
-      return d["id"];
-    });
+    ships.exit().remove();
 
-  misc_star
-    .enter()
-    .append("circle")
-    .attr("class", "star")
-    .style("stroke", "white")
-    .style("fill", "white")
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["x"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["y"]);
-    })
-    .attr("r", function(d, i) {
-      return 4;
-    });
+    /* 
+        MISC
+      */
+    // star
+    var misc_star = this.miscGroup
+      .selectAll("circle.star")
+      .data([gameState.player.currentstar], function (d) {
+        return d["id"];
+      });
 
-  misc_star.exit().remove();
+    misc_star
+      .enter()
+      .append("circle")
+      .attr("class", "star")
+      .style("stroke", "white")
+      .style("fill", "white")
+      .attr("cx", (d, i) => this.radarScale(d["x"]))
+      .attr("cy", (d, i) => this.radarScale(d["y"]))
+      .attr("r", (d, i) => 4);
 
-  // my ship
-  misc_myship = this.miscGroup
-    .selectAll("circle.myship")
-    .data([gameState.player.ship], function(d) {
-      return d["id"];
-    });
+    misc_star.exit().remove();
 
-  misc_myship
-    .enter()
-    .append("circle")
-    .attr("class", "star")
-    .style("stroke", "white")
-    .style("fill", "white")
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["x"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["y"]);
-    })
-    .attr("r", function(d, i) {
-      return 2;
-    });
+    // my ship
+    misc_myship = this.miscGroup
+      .selectAll("circle.myship")
+      .data([gameState.player.ship], d => d["id"]);
 
-  misc_myship
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["x"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["y"]);
-    });
+    misc_myship
+      .enter()
+      .append("circle")
+      .attr("class", "star")
+      .style("stroke", "white")
+      .style("fill", "white")
+      .attr("cx", (d, i) => this.radarScale(d["x"]))
+      .attr("cy", (d, i) => this.radarScale(d["y"]))
+      .attr("r", (d, i) => 2);
 
-  misc_myship.exit().remove();
-};
+    misc_myship
+      .attr("cx", (d, i) => this.radarScale(d["x"]))
+      .attr("cy", (d, i) => this.radarScale(d["y"]));
+
+    misc_myship.exit().remove();
+  };
+}
+
 module.exports = Radar;

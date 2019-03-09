@@ -1,15 +1,12 @@
-var ShipSubsystem = function ShipSubsystem() {
-  //super():
-  Object.call(this);
-  var self = this;
-  //
+class ShipSubsystem extends Object {
+  constructor() {
+    super()
+    this.subsystemType = "genericSubsystem";
+  }
 
-  this.subsystemType = "genericSubsystem";
-};
-ShipSubsystem.prototype = Object.create(Object.prototype);
-
-ShipSubsystem.prototype.tick = function() {
-  // todo subclasses implement
+  tick() {
+    // todo subclasses implement
+  };
 };
 
 module.exports = ShipSubsystem;
