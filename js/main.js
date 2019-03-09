@@ -118,12 +118,9 @@ function populateUniverse(event) {
   gameState.player.ship.positionVec = new Sylvester.Vector([200, 300]);
   stage.addChild(gameState.player.ship);
 
-  /*for (var i = 0; i < 10; i++) {
-      spawnRandomShip(true);
-    }
-    for (var i = 0; i < 10; i++) {
-      spawnRandomShip(false);
-    }*/
+  for (var i = 0; i < 10; i++) {
+    spawnRandomShip(true);
+  }
 
   spawnRandomShip(false);
   gameState.universe.ships[0].ai.target = gameState.player.ship;
