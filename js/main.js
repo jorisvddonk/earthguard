@@ -220,7 +220,6 @@ function recreateSolarSystem() {
   _.each(gameState.player.currentstar.jumpgates, function (jumpgate, index) {
     gameState.containers.solarSystem.addChild(jumpgate);
     jumpgate.addEventListener("click", function () {
-      console.log("Clicked jumpgate");
       if (
         (jumpgate.x - gameState.player.ship.x) *
         (jumpgate.x - gameState.player.ship.x) +
@@ -350,4 +349,5 @@ document.addEventListener("DOMContentLoaded", function (event) {
   // Do misc stuff
   window.miscDebug = miscDebug;
   miscDebug.gameState = gameState;
+  miscDebug.stage = stage;
 });

@@ -5,7 +5,6 @@ class BrainV2 extends Object {
     constructor(ship) {
         super()
         this.ship = ship;
-        this.brain = "v2"
         this.target = null
         this.targetpos = null
         this.targetcallback = null

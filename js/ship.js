@@ -65,7 +65,11 @@ class Ship extends createjs.Container {
       cargobays: []
     };
 
-    this.ai = new BrainV2(this);
+    if (Math.random() < 0.5) {
+      this.ai = new BrainV1(this);
+    } else {
+      this.ai = new BrainV2(this);
+    }
 
     eventHub.addEventListener("movementTick", this.movementTick.bind(this));
     eventHub.addEventListener("GFXTick", this.GFXTick.bind(this));
@@ -119,7 +123,7 @@ class Ship extends createjs.Container {
 
     if (gameState.debugging.shiplines) {
       var stroke = "rgba(0,0,255,1)";
-      if (this.ai.brain == "v1") {
+      if (this.ai instanceof BrainV1) {
         stroke = "rgba(255,0,0,1)";
       }
       this.gfx.graph.graphics
