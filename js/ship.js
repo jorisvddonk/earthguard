@@ -14,7 +14,6 @@ class Ship extends createjs.Container {
   constructor(options, eventHub) {
     super()
 
-
     this._type = "Ship";
 
     var default_options = {
@@ -27,7 +26,8 @@ class Ship extends createjs.Container {
         maxspeed: new Sylvester.Vector([5, 0]),
         bulletspeed: 10,
         bulletlifetime: 1000
-      }
+      },
+      name: "SomeShip"
     };
     options = _.extend({}, default_options, options);
 
@@ -44,6 +44,8 @@ class Ship extends createjs.Container {
     this.movementVec = new Sylvester.Vector([0, 0]); // Vector decribing current movement
     this.rotationVec = new Sylvester.Vector([1, 0]); // Vector describing current angle (rotation). Should be a unit vector.
     this.positionVec = new Sylvester.Vector([options.x, options.y]);
+
+    this.name = options.name;
 
     this.stats = {
       maxspeed: options.stats.maxspeed,
