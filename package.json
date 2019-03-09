@@ -18,10 +18,7 @@
     "vue": "^2.6.7"
   },
   "devDependencies": {
-    "gulp-bower": "0.0.10",
-    "parcel-plugin-asset-copier": "^1.0.0",
-    "run-sequence": "^1.0.2",
-    "wiredep": "^2.2.2"
+    "parcel-plugin-asset-copier": "^1.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
