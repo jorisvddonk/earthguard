@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const FueltanksSubsystem = require("./subsystem/fueltanks");
+const HullSubsystem = require("./subsystem/hull");
 const Sylvester = require("./sylvester-withmods.js");
 const queue = require("./loadQueue");
 const Mymath = require("./mymath.js");
@@ -61,7 +62,7 @@ class Ship extends createjs.Container {
       grippers: [],
       droids: [],
       shields: [],
-      armors: [],
+      hull: new HullSubsystem(),
       cargobays: []
     };
 
@@ -120,6 +121,11 @@ class Ship extends createjs.Container {
   GFXTick() {
     this.gfx.graph.graphics.clear();
     this.gfx.graph.rotation = -this.rotation;
+    const HULL_HEALTH_BAR_WIDTH = 80;
+    const HULL_HEALTH_BAR_HEIGHT = 8;
+    const HULL_HEALTH_BAR_STROKEWIDTH = 1;
+    this.gfx.graph.graphics.beginFill("rgba(100,100,255)").drawRect(-40, -40, HULL_HEALTH_BAR_WIDTH, HULL_HEALTH_BAR_HEIGHT).endFill();
+    this.gfx.graph.graphics.beginFill("rgba(100,255,100)").drawRect(-40 + HULL_HEALTH_BAR_STROKEWIDTH, -40 + HULL_HEALTH_BAR_STROKEWIDTH, Math.max(0, (this.subsystems.hull.integrity / this.subsystems.hull.maxIntegrity * HULL_HEALTH_BAR_WIDTH - (2 * HULL_HEALTH_BAR_STROKEWIDTH))), HULL_HEALTH_BAR_HEIGHT - (2 * HULL_HEALTH_BAR_STROKEWIDTH)).endFill();
 
     if (gameState.debugging.shiplines) {
       var stroke = "rgba(0,0,255,1)";
