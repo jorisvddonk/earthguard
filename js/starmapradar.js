@@ -3,172 +3,137 @@ const gameState = require("./gameState");
 const d3 = require("d3");
 const d3tip = require("d3-tip")(d3);
 const d3Scale = require("d3-scale");
-var StarmapRadar = function StarmapRadar() {
-  // super():
-  Object.call(this);
-  var self = this;
 
-  // Setup stuff
-  //$("#starmapradar").draggable(); // todo: make draggable. jquery-ui?
-  this.SVG = d3.select("#starmapradar svg");
-  this.startip = d3
-    .tip()
-    .attr("class", "d3-tip d3-tip-star")
-    .html(function(d) {
-      return d.tooltipString();
+class StarmapRadar extends Object {
+  constructor() {
+    super()
+
+    // Setup stuff
+    //$("#starmapradar").draggable(); // todo: make draggable. jquery-ui?
+    this.SVG = d3.select("#starmapradar svg");
+    this.startip = d3
+      .tip()
+      .attr("class", "d3-tip d3-tip-star")
+      .html(d => d.tooltipString());
+    this.miscGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-MISC");
+    this.linesGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-LINES");
+    this.starsGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-STARS");
+    this.starsGroup.call(this.startip);
+    //Setup scales
+    this.radarScale = d3Scale
+      .scaleLinear()
+      .domain([-10, 110])
+      .range([0, 400]);
+    this.sizeScale = d3Scale
+      .scaleLinear()
+      .domain([0, 7])
+      .range([1, 8]);
+
+    gameState.on("starChanged", (newValue, oldValue) => {
+      this.redrawStarmapRadar();
     });
-  this.miscGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-MISC");
-  this.linesGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-LINES");
-  this.starsGroup = this.SVG.append("g").attr("class", "STARMAPRADAR-STARS");
-  this.starsGroup.call(this.startip);
-  //Setup scales
-  this.radarScale = d3Scale
-    .scaleLinear()
-    .domain([-10, 110])
-    .range([0, 400]);
-  this.sizeScale = d3Scale
-    .scaleLinear()
-    .domain([0, 7])
-    .range([1, 8]);
 
-  gameState.on("starChanged", function(newValue, oldValue) {
-    self.redrawStarmapRadar();
-  });
-
-  this.redrawStarmapRadar();
-};
-StarmapRadar.prototype = Object.create(Object.prototype);
-
-StarmapRadar.prototype.redrawStarmapRadar = function() {
-  var self = this;
-  if (gameState.universe.starmap == null) {
-    return;
+    this.redrawStarmapRadar();
   }
 
-  /*
-      STARS
-    */
-  var stars = this.starsGroup
-    .selectAll("circle.star")
-    .data(gameState.universe.starmap.stars, function(d) {
-      return d["objid"];
-    });
 
-  stars
-    .enter()
-    .append("circle")
-    .attr("data-objid", function(d, i) {
-      return d["objid"];
-    })
-    .attr("class", function(d, i) {
-      return "star starClass-" + d["starclass"];
-    })
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["mapx"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["mapy"]);
-    })
-    .attr("r", function(d, i) {
-      return self.sizeScale(d["radius"]);
-    })
-    .on("mouseover", function(hoveredstar, i) {
-      self.startip.show(hoveredstar);
-      // highlight path between currentstar and hovered star
-      _.each(
-        gameState.universe.starmap.getShortestpath(
-          gameState.player.currentstar,
-          hoveredstar
-        ),
-        function(a, b, c) {
-          if (c[b - 1] !== undefined) {
-            let link1 = document.querySelector(
-              `.starline[data-star1-objid="${c[b].objid}"][data-star2-objid="${
+  redrawStarmapRadar() {
+    if (gameState.universe.starmap == null) {
+      return;
+    }
+
+    /*
+        STARS
+      */
+    var stars = this.starsGroup
+      .selectAll("circle.star")
+      .data(gameState.universe.starmap.stars, d => d["objid"]);
+
+    stars
+      .enter()
+      .append("circle")
+      .attr("data-objid", (d, i) => d["objid"])
+      .attr("class", (d, i) => "star starClass-" + d["starclass"])
+      .attr("cx", (d, i) => this.radarScale(d["mapx"]))
+      .attr("cy", (d, i) => this.radarScale(d["mapy"]))
+      .attr("r", (d, i) => this.sizeScale(d["radius"]))
+      .on("mouseover", (hoveredstar, i) => {
+        this.startip.show(hoveredstar);
+        // highlight path between currentstar and hovered star
+        _.each(
+          gameState.universe.starmap.getShortestpath(
+            gameState.player.currentstar,
+            hoveredstar
+          ),
+          function (a, b, c) {
+            if (c[b - 1] !== undefined) {
+              let link1 = document.querySelector(
+                `.starline[data-star1-objid="${c[b].objid}"][data-star2-objid="${
                 c[b - 1].objid
-              }"]`
-            );
-            let link2 = document.querySelector(
-              `.starline[data-star2-objid="${c[b].objid}"][data-star1-objid="${
+                }"]`
+              );
+              let link2 = document.querySelector(
+                `.starline[data-star2-objid="${c[b].objid}"][data-star1-objid="${
                 c[b - 1].objid
-              }"]`
-            );
-            if (link1) {
-              link1.classList.add("starlineHighlight");
-            }
-            if (link2) {
-              link2.classList.add("starlineHighlight");
+                }"]`
+              );
+              if (link1) {
+                link1.classList.add("starlineHighlight");
+              }
+              if (link2) {
+                link2.classList.add("starlineHighlight");
+              }
             }
           }
-        }
-      );
-    })
-    .on("mouseout", function(hoveredstar, i) {
-      self.startip.hide(hoveredstar);
-      // Remove all highlights
-      let links = document.querySelectorAll(".starline.starlineHighlight");
-      links.forEach(link => link.classList.remove("starlineHighlight"));
-    });
+        );
+      })
+      .on("mouseout", (hoveredstar, i) => {
+        this.startip.hide(hoveredstar);
+        // Remove all highlights
+        let links = document.querySelectorAll(".starline.starlineHighlight");
+        links.forEach(link => link.classList.remove("starlineHighlight"));
+      });
 
-  stars.exit().remove();
+    stars.exit().remove();
 
-  /*
-      LINES
-    */
-  /* todo */
-  lines = this.linesGroup
-    .selectAll("line")
-    .data(gameState.universe.starmap.links, function(d) {
-      return d["star1"]["objid"] + "," + d["star2"]["objid"];
-    });
+    /*
+        LINES
+      */
+    /* todo */
+    lines = this.linesGroup
+      .selectAll("line")
+      .data(gameState.universe.starmap.links, d => d["star1"]["objid"] + "," + d["star2"]["objid"]);
 
-  lines
-    .enter()
-    .append("line")
-    .attr("class", "starline")
-    .attr("data-star1-objid", function(d, i) {
-      return d["star1"]["objid"];
-    })
-    .attr("data-star2-objid", function(d, i) {
-      return d["star2"]["objid"];
-    })
-    .attr("x1", function(d, i) {
-      return self.radarScale(d["star1"]["mapx"]);
-    })
-    .attr("y1", function(d, i) {
-      return self.radarScale(d["star1"]["mapy"]);
-    })
-    .attr("x2", function(d, i) {
-      return self.radarScale(d["star2"]["mapx"]);
-    })
-    .attr("y2", function(d, i) {
-      return self.radarScale(d["star2"]["mapy"]);
-    });
+    lines
+      .enter()
+      .append("line")
+      .attr("class", "starline")
+      .attr("data-star1-objid", (d, i) => d["star1"]["objid"])
+      .attr("data-star2-objid", (d, i) => d["star2"]["objid"])
+      .attr("x1", (d, i) => this.radarScale(d["star1"]["mapx"]))
+      .attr("y1", (d, i) => this.radarScale(d["star1"]["mapy"]))
+      .attr("x2", (d, i) => this.radarScale(d["star2"]["mapx"]))
+      .attr("y2", (d, i) => this.radarScale(d["star2"]["mapy"]));
 
-  lines.exit().remove();
+    lines.exit().remove();
 
-  /* 
-      MISC
-    */
-  playerStarHighlight = this.miscGroup
-    .selectAll("circle.starPlayerHighlight")
-    .data([gameState.player.currentstar], function(d) {
-      return d["objid"];
-    });
+    /* 
+        MISC
+      */
+    playerStarHighlight = this.miscGroup
+      .selectAll("circle.starPlayerHighlight")
+      .data([gameState.player.currentstar], d => d["objid"]);
 
-  playerStarHighlight
-    .enter()
-    .append("circle")
-    .attr("class", "starPlayerHighlight")
-    .attr("cx", function(d, i) {
-      return self.radarScale(d["mapx"]);
-    })
-    .attr("cy", function(d, i) {
-      return self.radarScale(d["mapy"]);
-    })
-    .attr("r", function(d, i) {
-      return "2";
-    });
+    playerStarHighlight
+      .enter()
+      .append("circle")
+      .attr("class", "starPlayerHighlight")
+      .attr("cx", (d, i) => this.radarScale(d["mapx"]))
+      .attr("cy", (d, i) => this.radarScale(d["mapy"]))
+      .attr("r", (d, i) => "2");
 
-  playerStarHighlight.exit().remove();
+    playerStarHighlight.exit().remove();
+  };
 };
+
 module.exports = StarmapRadar;
