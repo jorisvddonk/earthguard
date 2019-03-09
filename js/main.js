@@ -302,7 +302,6 @@ function spawnRandomShip(isPlanetTargetter) {
   var ship = new Ship(
     {
       gfxID: isPlanetTargetter ? "ship2" : "ship5",
-      thrustVec: new Sylvester.Vector([0.05, 0]),
       stats: {
         maxspeed: new Sylvester.Vector([3, 0]),
         bulletspeed: 10,

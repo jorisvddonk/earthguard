@@ -1,6 +1,7 @@
 const _ = require("lodash");
 const FueltanksSubsystem = require("./subsystem/fueltanks");
 const HullSubsystem = require("./subsystem/hull");
+const EngineSubsystem = require("./subsystem/engine");
 const Sylvester = require("./sylvester-withmods.js");
 const queue = require("./loadQueue");
 const Mymath = require("./mymath.js");
@@ -20,7 +21,6 @@ class Ship extends createjs.Container {
       x: Math.random() * 3000 - 1500,
       y: Math.random() * 3000 - 1500,
       gfxID: "ship",
-      thrustVec: new Sylvester.Vector([0.04, 0]),
       stats: {
         maxspeed: new Sylvester.Vector([5, 0]),
         bulletspeed: 10,
@@ -39,7 +39,6 @@ class Ship extends createjs.Container {
     this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
 
-    this.thrustVec = options.thrustVec; // Vector describing the thrust capabilities. Second coordinate is ignored.
     this.movementVec = new Sylvester.Vector([0, 0]); // Vector decribing current movement
     this.rotationVec = new Sylvester.Vector([1, 0]); // Vector describing current angle (rotation). Should be a unit vector.
     this.positionVec = new Sylvester.Vector([options.x, options.y]);
@@ -54,7 +53,7 @@ class Ship extends createjs.Container {
 
     this.subsystems = {
       weapons: [],
-      engines: [],
+      engine: new EngineSubsystem(),
       fueltanks: new FueltanksSubsystem(),
       radars: [],
       scanners: [],
@@ -107,11 +106,11 @@ class Ship extends createjs.Container {
   };
 
   thrust(multiply) {
-    multiply = Mymath.clamp(multiply, -1, 1);
+    multiply = Mymath.clamp(multiply, this.subsystems.engine.canReverse ? -1 : 0, 1);
     this.movementVec = this.movementVec.add(
-      this.thrustVec
+      this.subsystems.engine.thrustVector
         .rotate(
-          this.thrustVec.angleTo(this.rotationVec),
+          this.subsystems.engine.thrustVector.angleTo(this.rotationVec),
           new Sylvester.Vector([0, 0])
         )
         .multiply(multiply)
