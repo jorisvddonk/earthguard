@@ -19,12 +19,17 @@ class NotificationSystem extends Object {
 
         this.notificationSVGElement = this.chart[0][0];
         this.update();
-        setInterval(() => this.update(), 1000);
     }
 
     push(type, message) {
         let index = ++this.ind;
-        this.data.push({ type, message, index })
+        this.data.push({ type, message, index });
+        this.update();
+    }
+
+    pop(index) {
+        this.data.splice(index, 1);
+        this.update();
     }
 
     getSVGX(d, i) {
@@ -60,8 +65,8 @@ class NotificationSystem extends Object {
         });
 
         rect.on("click", (d, i) => {
-            this.data.splice(i, 1);
-            this.update();
+            this.bubbleElement.classList.add("hide");
+            this.pop(i);
         })
     }
 }
