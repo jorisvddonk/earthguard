@@ -6,42 +6,7 @@ const gameState = require("./gameState");
 const eventHub = require("./eventHub");
 const Stage = require("./stage");
 const Noty = require("noty");
-var starmap = {};
-var phonetics;
-var miscDebug = {};
-window.miscDebug = miscDebug;
-let stage;
-var queue;
-var radar;
-var starmapradar;
-var ticking = true;
-var textlines = [];
-var graphwidget;
-var updatables = [];
-var $S = function(inquery) {
-  if (typeof inquery == "string") {
-    inquery = { name: inquery };
-  }
-  var collection = _.union(
-    gameState.universe.starmap.stars,
-    _.flatten(
-      _.map(gameState.universe.starmap.stars, function(a) {
-        return a.planets;
-      })
-    ),
-    _.flatten(
-      _.map(gameState.universe.starmap.stars, function(a) {
-        return a.jumpgates;
-      })
-    ),
-    gameState.universe.ships
-  );
-  return _.where(collection, inquery);
-};
-
 const Ship = require("./ship");
-const Phonetics = require("./namegen");
-const Star = require("./star");
 const Starmap = require("./starmap");
 const contentJSON = require("../content/meta/content.json");
 const Radar = require("./radar");
@@ -50,6 +15,16 @@ const StarWidget = require("./starwidget");
 const GraphWidget = require("./graphwidget");
 const Keyboard = require("./keyboard");
 const queue = require("./loadQueue");
+
+const miscDebug = {};
+const textlines = [];
+const updatables = [];
+
+let ticking = true;
+let stage;
+let radar;
+let starmapradar;
+let graphwidget;
 
 function init() {
   Stage.init();
@@ -193,7 +168,7 @@ function tick(event) {
       radar.update();
     }
 
-    _.forEach(updatables, function(updatable) {
+    _.forEach(updatables, function (updatable) {
       updatable.update();
     });
 
@@ -234,22 +209,22 @@ function recreateSolarSystem() {
   gameState.containers.solarSystem.removeAllEventListeners();
 
   gameState.containers.solarSystem.addChild(gameState.player.currentstar);
-  _.each(gameState.player.currentstar.planets, function(planet, index) {
+  _.each(gameState.player.currentstar.planets, function (planet, index) {
     gameState.containers.solarSystem.addChild(planet);
-    planet.addEventListener("click", function() {
+    planet.addEventListener("click", function () {
       alert(planet);
     });
   });
 
-  _.each(gameState.player.currentstar.jumpgates, function(jumpgate, index) {
+  _.each(gameState.player.currentstar.jumpgates, function (jumpgate, index) {
     gameState.containers.solarSystem.addChild(jumpgate);
-    jumpgate.addEventListener("click", function() {
+    jumpgate.addEventListener("click", function () {
       console.log("Clicked jumpgate");
       if (
         (jumpgate.x - gameState.player.ship.x) *
-          (jumpgate.x - gameState.player.ship.x) +
-          (jumpgate.y - gameState.player.ship.y) *
-            (jumpgate.y - gameState.player.ship.y) <
+        (jumpgate.x - gameState.player.ship.x) +
+        (jumpgate.y - gameState.player.ship.y) *
+        (jumpgate.y - gameState.player.ship.y) <
         10000
       ) {
         let n = new Noty({
@@ -257,7 +232,7 @@ function recreateSolarSystem() {
           layout: "bottomRight",
           type: "alert",
           buttons: [
-            Noty.button("Ok", "btn btn-primary", function($noty) {
+            Noty.button("Ok", "btn btn-primary", function ($noty) {
               $noty.close();
               // Jump to star
               var prevStar = gameState.player.currentstar;
@@ -267,7 +242,7 @@ function recreateSolarSystem() {
               console.log(gameState.player.currentstar);
               var prevjg = _.find(
                 gameState.player.currentstar.jumpgates,
-                function(jg) {
+                function (jg) {
                   return jg.linkedstar == prevStar;
                 }
               );
@@ -297,10 +272,9 @@ gameState.on("starChanged", () => {
 
 function generateStarmap() {
   // Generate starmap
-  starmap = new Starmap();
-  gameState.universe.starmap = starmap;
+  gameState.universe.starmap = new Starmap();
   // Set player position to first star
-  gameState.player.currentstar = starmap.stars[0];
+  gameState.player.currentstar = gameState.universe.starmap.stars[0];
 
   // generate gfx for initial star
   recreateSolarSystem();
@@ -315,7 +289,7 @@ function setupWidgets() {
   var graphWidgetContainer = document.createElement("div");
   graphWidgetContainer.classList.add("game-ui-widget");
   document.querySelector("#widgets").append(graphWidgetContainer);
-  graphwidget = new GraphWidget(graphWidgetContainer, {}, function(invalue) {
+  graphwidget = new GraphWidget(graphWidgetContainer, {}, function (invalue) {
     return gameState.player.ship.movementVec.modulus();
   });
   updatables.push(graphwidget);
@@ -342,21 +316,21 @@ function spawnRandomShip(isPlanetTargetter) {
     Math.random() * 1500 - 750
   ]);
 
-  var getNextTarget = function() {
+  var getNextTarget = function () {
     return null;
   };
   if (isPlanetTargetter) {
-    getNextTarget = function() {
+    getNextTarget = function () {
       return _.sample(gameState.player.currentstar.planets);
     };
   } else {
-    getNextTarget = function() {
+    getNextTarget = function () {
       return _.sample(gameState.universe.ships);
     };
   }
 
   ship.ai.target = getNextTarget();
-  ship.ai.targetcallback = function() {
+  ship.ai.targetcallback = function () {
     ship.ai.target = getNextTarget();
     ship.ai.controllers.posXPID.reset();
     ship.ai.controllers.posYPID.reset();
@@ -365,11 +339,11 @@ function spawnRandomShip(isPlanetTargetter) {
   stage.addChild(ship);
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function (event) {
   // Init createJS
   init();
 
   // Do misc stuff
-  miscDebug.phonetics = new Phonetics();
+  window.miscDebug = miscDebug;
   miscDebug.gameState = gameState;
 });
