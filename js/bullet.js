@@ -5,7 +5,6 @@ const Stage = require("./stage");
 class Bullet extends createjs.Container {
   constructor(position, velocity, lifetime) {
     super();
-    this._type = "Bullet";
 
     this.gfx = {
       bitmap: new createjs.Bitmap(queue.getResult("bullet")),
@@ -14,14 +13,14 @@ class Bullet extends createjs.Container {
     this.addChild(this.gfx.bitmap, this.gfx.graph);
     this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
-  
+
     this.movementVec = velocity;
     this.positionVec = position;
-  
+
     this.stats = {
       aliveUntil: new Date().getTime() + lifetime
     };
-  
+
     eventHub.addEventListener("movementTick", this.movementTick.bind(this));
     eventHub.addEventListener("GFXTick", this.GFXTick.bind(this));
   }
@@ -37,8 +36,8 @@ class Bullet extends createjs.Container {
     this.x = this.positionVec.e(1);
     this.y = this.positionVec.e(2);
   };
-  
-  GFXTick() {};  
+
+  GFXTick() { };
 }
 
 module.exports = Bullet;

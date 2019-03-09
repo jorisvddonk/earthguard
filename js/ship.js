@@ -14,8 +14,6 @@ class Ship extends createjs.Container {
   constructor(options, eventHub) {
     super()
 
-    this._type = "Ship";
-
     var default_options = {
       is_ai: true,
       x: Math.random() * 3000 - 1500,

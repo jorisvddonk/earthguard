@@ -126,7 +126,8 @@ class BrainV2 extends Object {
         this.state.y_thrust = y_thrust;
 
         // Check if we can fire
-        if (this.target._type == "Ship") {
+        const Ship = require("../ship"); // for some reason, if this is put at the top of the file, it won't work. Weird.
+        if (this.target instanceof Ship) {
             this.ship.maybeFire();
         }
 
