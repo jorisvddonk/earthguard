@@ -10,19 +10,15 @@ class StarWidget extends Object {
       data: { name: "" }
     });
 
-    var updateData = (newData) => {
-      this.vue.$data.name = newData;
-    };
-
     gameState.on("starChanged", () => {
-      updateData(gameState.player.currentstar.name);
+      this.vue.name = gameState.player.currentstar.name
     });
 
     if (
       gameState.player.currentstar != undefined &&
       gameState.player.currentstar.name != null
     ) {
-      updateData(gameState.player.currentstar.name);
+      this.vue.name = gameState.player.currentstar.name
     }
   }
 };
