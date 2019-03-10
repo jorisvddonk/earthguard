@@ -3,7 +3,7 @@ const Stage = require("./stage");
 const GameObject = require("./gameObject");
 
 class Bullet extends GameObject {
-  constructor(position, velocity, lifetime) {
+  constructor(position, velocity, lifetime, owner) {
     super();
 
     this.gfx = {
@@ -20,6 +20,7 @@ class Bullet extends GameObject {
     this.stats = {
       aliveUntil: new Date().getTime() + lifetime
     };
+    this.owner = owner;
   }
 
   movementTick(event) {

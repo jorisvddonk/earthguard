@@ -182,7 +182,8 @@ class Ship extends GameObject {
         this.movementVec
           .add(interception.toUnitVector().multiply(this.stats.bulletspeed))
           .rotate(Math.random() * 0.0523598776, new Sylvester.Vector([0, 0])),
-        this.stats.bulletlifetime
+        this.stats.bulletlifetime,
+        this
       );
       let stage = Stage.get();
       stage.addChild(bullet);
