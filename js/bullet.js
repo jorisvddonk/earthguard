@@ -1,7 +1,8 @@
 const queue = require("./loadQueue");
 const Stage = require("./stage");
+const GameObject = require("./gameObject");
 
-class Bullet extends createjs.Container {
+class Bullet extends GameObject {
   constructor(position, velocity, lifetime) {
     super();
 
@@ -24,8 +25,7 @@ class Bullet extends createjs.Container {
   movementTick(event) {
     let stage = Stage.get();
     if (event.timeStamp > this.stats.aliveUntil) {
-      stage.removeChild(this);
-      this.removeAllEventListeners();
+      this.destroy();
       return;
     }
     this.positionVec = this.positionVec.add(this.movementVec);

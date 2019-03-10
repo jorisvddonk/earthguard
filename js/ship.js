@@ -11,8 +11,9 @@ const gameState = require("./gameState");
 const Stage = require("./stage");
 const BrainV1 = require('./brains/v1')
 const BrainV2 = require('./brains/v2')
+const GameObject = require("./gameObject");
 
-class Ship extends createjs.Container {
+class Ship extends GameObject {
   constructor(options) {
     super()
 
@@ -72,6 +73,10 @@ class Ship extends createjs.Container {
     }
 
     this.is_ai = options.is_ai;
+
+    this.addEventListener('destroyed', () => {
+      gameState.universe.ships.splice(gameState.universe.ships.indexOf(this), 1);
+    });
   }
 
   capMovement() {
@@ -83,11 +88,8 @@ class Ship extends createjs.Container {
   };
 
   movementTick() {
-    let stage = Stage.get();
     if (this.subsystems.hull.integrity <= 0) {
-      stage.removeChild(this);
-      this.removeAllEventListeners();
-      gameState.universe.ships.splice(gameState.universe.ships.indexOf(this), 1);
+      this.destroy();
       return;
     }
 
