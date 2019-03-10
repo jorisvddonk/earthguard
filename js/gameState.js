@@ -29,7 +29,6 @@ const gameState = {
   debugging: {
     shiplines: false
   },
-  bullets: [],
   on: ee.on.bind(ee)
 };
 module.exports = gameState;

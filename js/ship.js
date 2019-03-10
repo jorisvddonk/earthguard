@@ -178,7 +178,6 @@ class Ship extends createjs.Container {
           .rotate(Math.random() * 0.0523598776, new Sylvester.Vector([0, 0])),
         this.stats.bulletlifetime
       );
-      gameState.bullets.push(bullet);
       let stage = Stage.get();
       stage.addChild(bullet);
     }
