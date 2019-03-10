@@ -191,28 +191,28 @@ class Ship extends GameObject {
   };
 
   getFire() {
-    var interception = Mymath.intercept(
-      this.positionVec,
-      this.stats.bulletspeed,
-      this.ai.target.positionVec,
-      this.ai.target.movementVec
-    );
-    var relPos = this.ai.target.positionVec.subtract(this.positionVec);
-    var relVel = this.ai.target.movementVec.subtract(this.movementVec);
-    var interception2 = Mymath.intercept2(
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        x: relPos.e(1),
-        y: relPos.e(2),
-        vx: relVel.e(1),
-        vy: relVel.e(2)
-      },
-      this.stats.bulletspeed
-    );
-    return interception2;
+    if (this.ai.target) {
+      // fire at target
+      var relPos = this.ai.target.positionVec.subtract(this.positionVec);
+      var relVel = this.ai.target.movementVec.subtract(this.movementVec);
+      var interception2 = Mymath.intercept2(
+        {
+          x: 0,
+          y: 0
+        },
+        {
+          x: relPos.e(1),
+          y: relPos.e(2),
+          vx: relVel.e(1),
+          vy: relVel.e(2)
+        },
+        this.stats.bulletspeed
+      );
+      return interception2;
+    } else {
+      // fire straight ahead
+      return this.rotationVec;
+    }
   };
 };
 

@@ -177,6 +177,10 @@ function tick(event) {
       //S
       gameState.player.ship.thrust(-1);
     }
+    if (Keyboard.isPressed(32)) {
+      // space
+      gameState.player.ship.fire();
+    }
 
     stage.regX =
       gameState.player.ship.positionVec.e(1) -
