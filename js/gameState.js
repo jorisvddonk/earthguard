@@ -23,7 +23,6 @@ const gameState = {
     parallax: null
   },
   universe: {
-    ships: [],
     starmap: null
   },
   debugging: {
