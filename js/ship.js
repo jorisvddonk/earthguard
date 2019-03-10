@@ -72,7 +72,7 @@ class Ship extends createjs.Container {
     }
 
     this.is_ai = options.is_ai;
-    }
+  }
 
   capMovement() {
     if (this.movementVec.modulus() > this.stats.maxspeed.modulus()) {
@@ -83,6 +83,14 @@ class Ship extends createjs.Container {
   };
 
   movementTick() {
+    let stage = Stage.get();
+    if (this.subsystems.hull.integrity <= 0) {
+      stage.removeChild(this);
+      this.removeAllEventListeners();
+      gameState.universe.ships.splice(gameState.universe.ships.indexOf(this), 1);
+      return;
+    }
+
     this.capMovement();
     this.rotation =
       new Sylvester.Vector([1, 0]).angleTo(this.rotationVec) * 57.2957795 + 90;
@@ -93,7 +101,7 @@ class Ship extends createjs.Container {
 
   AITick() {
     if (this.is_ai) {
-    this.ai.AITick();
+      this.ai.AITick();
     }
   };
 
