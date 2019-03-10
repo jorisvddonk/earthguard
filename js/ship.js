@@ -73,10 +73,6 @@ class Ship extends GameObject {
     }
 
     this.is_ai = options.is_ai;
-
-    this.addEventListener('destroyed', () => {
-      gameState.universe.ships.splice(gameState.universe.ships.indexOf(this), 1);
-    });
   }
 
   capMovement() {

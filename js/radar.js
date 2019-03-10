@@ -2,6 +2,8 @@ const gameState = require("./gameState");
 const d3 = require("d3");
 const d3tip = require("d3-tip")(d3);
 const d3Scale = require("d3-scale");
+const Stage = require("./stage");
+const Ship = require("./ship");
 
 class Radar extends Object {
   constructor() {
@@ -83,7 +85,7 @@ class Radar extends Object {
       */
     var ships = this.shipsGroup
       .selectAll("circle.ship")
-      .data(gameState.universe.ships, function (d) {
+      .data(Stage.get().children.filter(x => x instanceof Ship), function (d) {
         return d["id"];
       });
 
