@@ -3,7 +3,6 @@ const Parallax = require("./parallax");
 const Sylvester = require("./sylvester-withmods.js");
 const Mymath = require("./mymath.js");
 const gameState = require("./gameState");
-const eventHub = require("./eventHub");
 const Stage = require("./stage");
 const Noty = require("noty");
 const Ship = require("./ship");
@@ -101,24 +100,24 @@ function generateParallax() {
 
   // Setup parallax
   gameState.containers.parallax.addChild(
-    new Parallax("parallax0", 0, queue, stage, eventHub)
+    new Parallax("parallax0", 0, queue, stage)
   );
   gameState.containers.parallax.addChild(
-    new Parallax("parallax1_0", 1 / 50, queue, stage, eventHub)
+    new Parallax("parallax1_0", 1 / 50, queue, stage)
   );
   gameState.containers.parallax.addChild(
-    new Parallax("parallax2", 1 / 30, queue, stage, eventHub)
+    new Parallax("parallax2", 1 / 30, queue, stage)
   );
   gameState.containers.parallax.addChild(
-    new Parallax("parallax3", 1 / 10, queue, stage, eventHub)
+    new Parallax("parallax3", 1 / 10, queue, stage)
   );
   gameState.containers.parallax.addChild(
-    new Parallax("parallax4", 1 / 1, queue, stage, eventHub)
+    new Parallax("parallax4", 1 / 1, queue, stage)
   );
 }
 
 function populateUniverse(event) {
-  gameState.player.ship = new Ship({ is_ai: false }, eventHub);
+  gameState.player.ship = new Ship({ is_ai: false });
   gameState.player.ship.positionVec = new Sylvester.Vector([200, 300]);
   stage.addChild(gameState.player.ship);
 
@@ -132,9 +131,22 @@ function populateUniverse(event) {
 
 function tick(event) {
   if (ticking) {
-    eventHub.dispatchEvent("movementTick");
-    eventHub.dispatchEvent("AITick");
-    eventHub.dispatchEvent("GFXTick");
+    for (let c of stage.children) {
+      if (c.movementTick) {
+        c.movementTick(event);
+      }
+      if (c.AITick) {
+        c.AITick(event);
+      }
+      if (c.GFXTick) {
+        c.GFXTick(event);
+      }
+    }
+    for (let c of gameState.containers.parallax.children) {
+      if (c.GFXTick) {
+        c.GFXTick(event);
+      }
+    }
 
     debugtick();
 
@@ -307,8 +319,7 @@ function spawnRandomShip(isPlanetTargetter) {
         bulletspeed: 10,
         bulletlifetime: 1000
       }
-    },
-    eventHub
+    }
   );
   ship.positionVec = new Sylvester.Vector([
     Math.random() * 1500 - 750,

@@ -2,8 +2,7 @@ module.exports = function Parallax(
   manifestID,
   parallax_factor,
   queue,
-  stage,
-  eventHub
+  stage
 ) {
   var plx = new createjs.Container();
   plx.gfx = {
@@ -43,7 +42,7 @@ module.exports = function Parallax(
     iy += 1;
   }
 
-  plx.GFXTick = function() {
+  plx.GFXTick = function () {
     plx.x =
       stage.regX -
       plx.gfx.width -
@@ -68,8 +67,6 @@ module.exports = function Parallax(
       plx.y = plx.y + plx.gfx.height;
     }
   };
-
-  eventHub.addEventListener("GFXTick", plx.GFXTick);
 
   return plx;
 };

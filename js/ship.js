@@ -13,7 +13,7 @@ const BrainV1 = require('./brains/v1')
 const BrainV2 = require('./brains/v2')
 
 class Ship extends createjs.Container {
-  constructor(options, eventHub) {
+  constructor(options) {
     super()
 
     var default_options = {
@@ -71,12 +71,8 @@ class Ship extends createjs.Container {
       this.ai = new BrainV2(this);
     }
 
-    eventHub.addEventListener("movementTick", this.movementTick.bind(this));
-    eventHub.addEventListener("GFXTick", this.GFXTick.bind(this));
-    if (options.is_ai) {
-      eventHub.addEventListener("AITick", this.AITick.bind(this));
+    this.is_ai = options.is_ai;
     }
-  }
 
   capMovement() {
     if (this.movementVec.modulus() > this.stats.maxspeed.modulus()) {
@@ -96,7 +92,9 @@ class Ship extends createjs.Container {
   };
 
   AITick() {
+    if (this.is_ai) {
     this.ai.AITick();
+    }
   };
 
   rotate(radians) {

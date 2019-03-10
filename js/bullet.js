@@ -1,5 +1,4 @@
 const queue = require("./loadQueue");
-const eventHub = require("./eventHub");
 const Stage = require("./stage");
 
 class Bullet extends createjs.Container {
@@ -20,9 +19,6 @@ class Bullet extends createjs.Container {
     this.stats = {
       aliveUntil: new Date().getTime() + lifetime
     };
-
-    eventHub.addEventListener("movementTick", this.movementTick.bind(this));
-    eventHub.addEventListener("GFXTick", this.GFXTick.bind(this));
   }
 
   movementTick(event) {
