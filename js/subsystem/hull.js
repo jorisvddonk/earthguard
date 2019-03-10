@@ -5,7 +5,7 @@ class HullSubsystem extends ShipSubsystem {
     constructor(options) {
         super()
         options = Object.assign({
-            maxIntegrity: 100,
+            maxIntegrity: 1000,
         }, options);
         this.subsystemType = "hull";
         this.integrity = options.maxIntegrity;
