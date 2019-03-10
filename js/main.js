@@ -125,8 +125,8 @@ function populateUniverse(event) {
     spawnRandomShip(true);
   }
 
-  spawnRandomShip(false);
-  gameState.universe.ships[0].ai.target = gameState.player.ship;
+  let s = spawnRandomShip(false);
+  s.ai.target = gameState.player.ship;
 }
 
 function tick(event) {
@@ -335,7 +335,7 @@ function spawnRandomShip(isPlanetTargetter) {
     };
   } else {
     getNextTarget = function () {
-      return _.sample(gameState.universe.ships);
+      return _.sample(stage.children.filter(x => x instanceof Ship));
     };
   }
 
@@ -348,8 +348,8 @@ function spawnRandomShip(isPlanetTargetter) {
     ship.ai.controllers.posXPID.reset();
     ship.ai.controllers.posYPID.reset();
   };
-  gameState.universe.ships.push(ship);
   stage.addChild(ship);
+  return ship;
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
