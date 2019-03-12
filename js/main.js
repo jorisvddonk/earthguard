@@ -147,7 +147,10 @@ function tick(event) {
         // test if it's close to a ship
         for (let s of stage.children.filter(x => x instanceof Ship && x !== c.owner)) {
           if (Math.pow(s.x - c.x, 2) + Math.pow(s.y - c.y, 2) < 300) {
-            s.subsystems.hull.takeDamage(1); // TODO: base damage on bullet's damage stats.
+            const evt = new createjs.Event("hit", false, true);
+            // when shields are implemented: use evt.stopImmediatePropagation() inside shields.
+            evt.data = { damage: 1 }; // TODO: base damage on bullet's damage stats.
+            s.dispatchEvent(evt)
             c.destroy();
           }
         }

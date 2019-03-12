@@ -2,6 +2,7 @@ const _ = require("lodash");
 const FueltanksSubsystem = require("./subsystem/fueltanks");
 const HullSubsystem = require("./subsystem/hull");
 const EngineSubsystem = require("./subsystem/engine");
+const SensorSubsystem = require("./subsystem/sensor");
 const Sylvester = require("./sylvester-withmods.js");
 const queue = require("./loadQueue");
 const Mymath = require("./mymath.js");
@@ -54,7 +55,7 @@ class Ship extends GameObject {
 
     this.subsystems = {
       weapons: [],
-      engine: new EngineSubsystem(),
+      engine: new EngineSubsystem(this, {}),
       fueltanks: new FueltanksSubsystem(),
       radars: [],
       scanners: [],
@@ -62,8 +63,9 @@ class Ship extends GameObject {
       grippers: [],
       droids: [],
       shields: [],
-      hull: new HullSubsystem(),
-      cargobays: []
+      hull: new HullSubsystem(this, {}),
+      cargobays: [],
+      sensor: new SensorSubsystem(this, {})
     };
 
     if (Math.random() < 0.5) {
