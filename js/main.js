@@ -61,6 +61,12 @@ function initGame() {
     textlines.push(text);
   }
 
+  // Toggle debugging when pressing F1
+  Keyboard.onKeyDown(112, (evt) => {
+    gameState.debugging.shiplines = !gameState.debugging.shiplines;
+    evt.preventDefault();
+  });
+
   setupParallax();
 
   // Setup solar system container

@@ -11,6 +11,13 @@ const Keyboard = {
   },
   isPressed: function (keycode) {
     return this.keys.hasOwnProperty(keycode) && this.keys[keycode] > 0;
+  },
+  onKeyDown: function (keycode, callback) {
+    window.addEventListener("keydown", (evt) => {
+      if (evt.keyCode == keycode) {
+        callback(evt);
+      }
+    })
   }
 };
 window.addEventListener("keydown", Keyboard.keyPress.bind(Keyboard));
