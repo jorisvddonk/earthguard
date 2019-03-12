@@ -16,6 +16,8 @@ const GraphWidget = require("./graphwidget");
 const Keyboard = require("./keyboard");
 const queue = require("./loadQueue");
 const NotificationSystem = require('./notificationSystem');
+const BrainV1 = require('./brains/v1')
+const BrainV2 = require('./brains/v2')
 
 const miscDebug = {};
 const textlines = [];
@@ -53,7 +55,7 @@ function initGame() {
   for (var i = 0; i < 100; i++) {
     var text = new createjs.Text("", "12px monospace", "#aaaaaa");
     text.x = 10;
-    text.y = 10 + 10 * i;
+    text.y = 200 + 10 * i;
     text.textBaseline = "alphabetic";
     gameState.containers.osd.addChild(text);
     textlines.push(text);
@@ -211,27 +213,49 @@ function tick(event) {
 function debugtick(event) {
   if (miscDebug.debugship != null) {
     textlines[0].text = "Debugship stats-------";
-    textlines[7].text =
-      " rot.mP : " +
-      Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mP);
-    textlines[8].text =
-      " rot.mI : " +
-      Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mI);
-    textlines[9].text =
-      " rot.mD : " +
-      Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mD);
-    textlines[10].text = "-";
-    textlines[11].text =
-      " mov.mP : " +
-      Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mP);
-    textlines[12].text =
-      " mov.mI : " +
-      Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mI);
-    textlines[13].text =
-      " mov.mD : " +
-      Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mD);
-    textlines[15].text =
-      " thrust : " + Mymath.prettyfloat(miscDebug.debugship.ai.state.lthrust);
+    if (miscDebug.debugship.ai instanceof BrainV1) {
+      textlines[2].text =
+        " rot.mP : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mP);
+      textlines[3].text =
+        " rot.mI : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mI);
+      textlines[4].text =
+        " rot.mD : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mD);
+      textlines[5].text = "-";
+      textlines[6].text =
+        " mov.mP : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mP);
+      textlines[7].text =
+        " mov.mI : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mI);
+      textlines[8].text =
+        " mov.mD : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mD);
+    } else if (miscDebug.debugship.ai instanceof BrainV2) {
+      textlines[2].text =
+        " posXPID.mP : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posXPID.last.mP);
+      textlines[3].text =
+        " posXPID.mI : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posXPID.last.mI);
+      textlines[4].text =
+        " posXPID.mD : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posXPID.last.mD);
+      textlines[5].text = "-";
+      textlines[6].text =
+        " posYPID.mP : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posYPID.last.mP);
+      textlines[7].text =
+        " posYPID.mI : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posYPID.last.mI);
+      textlines[8].text =
+        " posYPID.mD : " +
+        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posYPID.last.mD);
+      textlines[9].text =
+        " thrust : " + Mymath.prettyfloat(miscDebug.debugship.ai.state.lthrust);
+    }
   }
 }
 

@@ -77,6 +77,19 @@ class Ship extends GameObject {
     }
 
     this.is_ai = options.is_ai;
+
+    // debugging stuff when you control-click a ship:
+    this.addEventListener('click', event => {
+      if (event.nativeEvent.ctrlKey) {
+        if (window.$S) {
+          window.$S.alpha = 1;
+        }
+        window.$S = event.currentTarget;
+        window.$St = event.target;
+        window.$S.alpha = 0.5;
+        miscDebug.debugship = this;
+      }
+    })
   }
 
   capMovement() {
