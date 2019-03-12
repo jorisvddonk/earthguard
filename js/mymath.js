@@ -2,13 +2,13 @@ const Sylvester = require("./sylvester-withmods.js");
 
 Mymath = {};
 
-Mymath.largest_root_of_quadratic_equation = function(a, b, c) {
+Mymath.largest_root_of_quadratic_equation = function (a, b, c) {
   //a, b and c should be floats
   //returns: float
   return (b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
 };
 
-Mymath.intercept = function(shooter, bullet_speed, target, target_velocity) {
+Mymath.intercept = function (shooter, bullet_speed, target, target_velocity) {
   // shooter = point (vector x/y coords)
   // bullet_speed = float
   // target = point
@@ -25,11 +25,11 @@ Mymath.intercept = function(shooter, bullet_speed, target, target_velocity) {
   }
 };
 
-Mymath.clamp = function(num, min, max) {
+Mymath.clamp = function (num, min, max) {
   return num < min ? min : num > max ? max : num;
 };
 
-Mymath.prettyfloat = function(inf) {
+Mymath.prettyfloat = function (inf) {
   if (inf === undefined) {
     return "NaN";
   }
@@ -41,11 +41,11 @@ Mymath.prettyfloat = function(inf) {
   return retval;
 };
 
-Mymath.clampRot = function(inrot) {
+Mymath.clampRot = function (inrot) {
   return Mymath.clamp(inrot, -Math.PI * 0.01, Math.PI * 0.01);
 };
 
-Mymath.clampThrust = function(inthrust) {
+Mymath.clampThrust = function (inthrust) {
   return Mymath.clamp(inthrust, -1, 1);
 };
 
@@ -66,26 +66,26 @@ Mymath.clampThrust = function(inthrust) {
  *
  * SOURCE: http://stackoverflow.com/questions/2248876/2d-game-fire-at-a-moving-target-by-predicting-intersection-of-projectile-and-u
  */
-Mymath.intercept2 = function(src, dst, v) {
-  var tx = dst.x - src.x,
-    ty = dst.y - src.y,
-    tvx = dst.vx,
-    tvy = dst.vy;
+Mymath.intercept2 = function (src, dst, v) {
+  let tx = dst.x - src.x;
+  let ty = dst.y - src.y;
+  let tvx = dst.vx;
+  let tvy = dst.vy;
 
   // Get quadratic equation components
-  var a = tvx * tvx + tvy * tvy - v * v;
-  var b = 2 * (tvx * tx + tvy * ty);
-  var c = tx * tx + ty * ty;
+  let a = tvx * tvx + tvy * tvy - v * v;
+  let b = 2 * (tvx * tx + tvy * ty);
+  let c = tx * tx + ty * ty;
 
   // Solve quadratic
-  var ts = Mymath.quad(a, b, c); // See quad(), below
+  let ts = Mymath.quad(a, b, c); // See quad(), below
 
   // Find smallest positive solution
-  var sol = null;
+  let sol = null;
   if (ts) {
-    var t0 = ts[0],
-      t1 = ts[1];
-    var t = Math.min(t0, t1);
+    let t0 = ts[0];
+    let t1 = ts[1];
+    let t = Math.min(t0, t1);
     if (t < 0) t = Math.max(t0, t1);
     if (t > 0) {
       sol = {
@@ -107,8 +107,8 @@ Mymath.intercept2 = function(src, dst, v) {
 /**
  * Return solutions for quadratic
  */
-Mymath.quad = function(a, b, c) {
-  var sol = null;
+Mymath.quad = function (a, b, c) {
+  let sol = null;
   if (Math.abs(a) < 1e-6) {
     if (Math.abs(b) < 1e-6) {
       sol = Math.abs(c) < 1e-6 ? [0, 0] : null;
@@ -116,7 +116,7 @@ Mymath.quad = function(a, b, c) {
       sol = [-c / b, -c / b];
     }
   } else {
-    var disc = b * b - 4 * a * c;
+    let disc = b * b - 4 * a * c;
     if (disc >= 0) {
       disc = Math.sqrt(disc);
       a = 2 * a;

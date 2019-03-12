@@ -3,7 +3,7 @@ const _ = require("lodash");
      based on Phonetics (my own interpretation of them)
   */
 
-var Phonetics = function Phonetics() {
+const Phonetics = function Phonetics() {
   this.chargroups = {
     ordinary_vowels: { key: "o", values: ["a", "e", "i", "o", "u"] },
     vowels: { key: "v", values: ["a", "e", "i", "o", "u", "y"] },
@@ -61,7 +61,7 @@ var Phonetics = function Phonetics() {
 };
 Phonetics.prototype = Object.create(Object.prototype);
 
-Phonetics.prototype.generate = function(pattern) {
+Phonetics.prototype.generate = function (pattern) {
   var retString = "";
   var next_is_literal = false;
   for (var pi in pattern) {
@@ -105,9 +105,9 @@ Phonetics.prototype.generate = function(pattern) {
   return retString;
 };
 
-Phonetics.prototype.UGenerate = function(pattern) {
-  var generated;
-  var icount = 0;
+Phonetics.prototype.UGenerate = function (pattern) {
+  let generated;
+  let icount = 0;
   while (generated === undefined) {
     if (icount >= 1024) {
       throw "Either you're really unlucky, or this pattern can't generate any more stars!";
@@ -123,7 +123,7 @@ Phonetics.prototype.UGenerate = function(pattern) {
   return generated;
 };
 
-Phonetics.prototype.clearNameCache = function() {
+Phonetics.prototype.clearNameCache = function () {
   this._unique_generate_cache = [];
 };
 

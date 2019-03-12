@@ -1,91 +1,90 @@
-function PIDController(
-  kp,
-  ki,
-  kd,
-  minIntegral,
-  maxIntegral,
-  minCapIntegral,
-  maxCapIntegral
-) {
-  var self = this;
+class PIDController {
+  constructor(kp,
+    ki,
+    kd,
+    minIntegral,
+    maxIntegral,
+    minCapIntegral,
+    maxCapIntegral) {
+    this.kP = kp; //-0.7;
+    this.kI = ki; //-0.01;
+    this.kD = kd; //-0.3;
+    this.minIntegral = minIntegral;
+    this.maxIntegral = maxIntegral;
+    this.minCapIntegral = minCapIntegral;
+    this.maxCapIntegral = maxCapIntegral;
 
-  self.kP = kp; //-0.7;
-  self.kI = ki; //-0.01;
-  self.kD = kd; //-0.3;
-  self.minIntegral = minIntegral;
-  self.maxIntegral = maxIntegral;
-  self.minCapIntegral = minCapIntegral;
-  self.maxCapIntegral = maxCapIntegral;
+    this.error = null;
+    this.previousError = null;
+    this.integralError = null;
+    this.derivativeError = null;
 
-  self.error = null;
-  self.previousError = null;
-  self.integralError = null;
-  self.derivativeError = null;
+    this.retError = null;
+  }
 
-  self.retError = null;
+  update(current, target) {
+    this.error = target - current;
+  }
 
-  self.update = function update(current, target) {
-    self.error = target - current;
-  };
-  self.step = function step() {
-    if (self.previousError === null) {
-      self.previousError = self.error;
+  step() {
+    if (this.previousError === null) {
+      this.previousError = this.error;
     }
-    self.derivativeError = self.error - self.previousError;
-    self.integralError = self.integralError + self.error;
+    this.derivativeError = this.error - this.previousError;
+    this.integralError = this.integralError + this.error;
 
     if (
-      self.minCapIntegral !== undefined &&
-      self.minCapIntegral !== null &&
-      self.integralError < self.minCapIntegral
+      this.minCapIntegral !== undefined &&
+      this.minCapIntegral !== null &&
+      this.integralError < this.minCapIntegral
     ) {
-      self.integralError = self.minCapIntegral;
+      this.integralError = this.minCapIntegral;
     }
     if (
-      self.maxCapIntegral !== undefined &&
-      self.maxCapIntegral !== null &&
-      self.integralError > self.maxCapIntegral
+      this.maxCapIntegral !== undefined &&
+      this.maxCapIntegral !== null &&
+      this.integralError > this.maxCapIntegral
     ) {
-      self.integralError = self.maxCapIntegral;
+      this.integralError = this.maxCapIntegral;
     }
 
-    mP = self.error * self.kP;
-    mI = self.integralError * self.kI;
-    mD = self.derivativeError * self.kD;
+    let mP = this.error * this.kP;
+    let mI = this.integralError * this.kI;
+    let mD = this.derivativeError * this.kD;
 
     if (
-      self.minIntegral !== undefined &&
-      self.minIntegral !== null &&
-      mI < self.minIntegral
+      this.minIntegral !== undefined &&
+      this.minIntegral !== null &&
+      mI < this.minIntegral
     ) {
-      mI = self.minIntegral;
+      mI = this.minIntegral;
     }
     if (
-      self.maxIntegral !== undefined &&
-      self.maxIntegral !== null &&
-      mI > self.maxIntegral
+      this.maxIntegral !== undefined &&
+      this.maxIntegral !== null &&
+      mI > this.maxIntegral
     ) {
-      mI = self.maxIntegral;
+      mI = this.maxIntegral;
     }
 
-    self.last = {
+    this.last = {
       mP: mP,
       mI: mI,
       mD: mD
     };
 
-    self.previousError = self.error;
-    self.retError = mP + mI + mD;
-    return self.retError;
-  };
+    this.previousError = this.error;
+    this.retError = mP + mI + mD;
+    return this.retError;
+  }
 
-  self.getError = function() {
-    return self.retError;
-  };
+  getError() {
+    return this.retError;
+  }
 
-  self.reset = function() {
-    self.integralError = 0;
-  };
+  reset() {
+    this.integralError = 0;
+  }
 }
 
 module.exports = PIDController;

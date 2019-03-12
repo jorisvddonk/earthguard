@@ -21,7 +21,6 @@ class GraphWidget extends Object {
       };
     }
     this.getValueFunc = getValueFunc;
-    var NUM_TICKS_HORIZONTAL = 5;
 
     this.lastData = 0;
     this.lastUpdate = 0;
@@ -32,9 +31,9 @@ class GraphWidget extends Object {
     this.canvas.setAttribute("height", this.parentElement.offsetHeight);
     this.parentElement.append(this.canvas);
 
-    var ctx = this.canvas.getContext("2d");
+    let ctx = this.canvas.getContext("2d");
 
-    var smoothie_options = {
+    let smoothie_options = {
       interpolation: "linear",
       millisPerPixel: 50,
       grid: {
