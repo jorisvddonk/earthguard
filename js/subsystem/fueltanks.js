@@ -3,7 +3,7 @@ const ShipSubsystem = require("../shipSubsystem");
 
 class FueltanksSubsystem extends ShipSubsystem {
   constructor(ship, options) {
-    super()
+    super(ship);
     options = Object.assign({
       name: "Awesome Fueltank",
       capacity: 500,
@@ -12,10 +12,6 @@ class FueltanksSubsystem extends ShipSubsystem {
     this.subsystemType = "fueltanks";
     this.fueltanks = [{ name: options.name, capacity: options.capacity, content: options.content }];
   }
-
-  tick() {
-    // todo implement
-  };
 
   getFuelRemaining() {
     return _.reduce(

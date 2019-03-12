@@ -3,7 +3,7 @@ const ShipSubsystem = require("../shipSubsystem");
 
 class HullSubsystem extends ShipSubsystem {
     constructor(ship, options) {
-        super()
+        super(ship);
         options = Object.assign({
             maxIntegrity: 1000,
         }, options);
@@ -14,10 +14,6 @@ class HullSubsystem extends ShipSubsystem {
             this.takeDamage(evt.data.damage);
         });
     }
-
-    tick() {
-        // todo implement
-    };
 
     takeDamage(amount) {
         this.integrity -= amount;

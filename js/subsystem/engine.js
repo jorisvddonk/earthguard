@@ -4,7 +4,7 @@ const Sylvester = require("../sylvester-withmods.js");
 
 class EngineSubsystem extends ShipSubsystem {
     constructor(ship, options) {
-        super()
+        super(ship);
         options = Object.assign({
             power: 0.04,
             canReverse: true,
@@ -14,10 +14,6 @@ class EngineSubsystem extends ShipSubsystem {
         this.canReverse = options.canReverse;
         this.thrustVector = new Sylvester.Vector([this.power, 0]);
     }
-
-    tick() {
-        // todo implement
-    };
 };
 
 module.exports = EngineSubsystem;
