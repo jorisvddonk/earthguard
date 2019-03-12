@@ -149,7 +149,7 @@ function tick(event) {
           if (Math.pow(s.x - c.x, 2) + Math.pow(s.y - c.y, 2) < 300) {
             const evt = new createjs.Event("hit", false, true);
             // when shields are implemented: use evt.stopImmediatePropagation() inside shields.
-            evt.data = { damage: 1 }; // TODO: base damage on bullet's damage stats.
+            evt.data = { damage: 1, perpetrator: c.owner }; // TODO: base damage on bullet's damage stats. TODO: use owner objectID or something similar? What would happen if `owner` is destroyed?
             s.dispatchEvent(evt)
             c.destroy();
           }

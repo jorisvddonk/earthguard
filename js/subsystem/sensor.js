@@ -7,8 +7,11 @@ class SensorSubsystem extends ShipSubsystem {
         }, options);
         this.subsystemType = "sensor";
         ship.addEventListener('hit', (evt) => {
-            // TODO: register hit in Memory subsystem!
-        })
+            ship.subsystems.memory.push('hit', {
+                damage: evt.data.damage,
+                perpetrator: evt.data.perpetrator
+            });
+        });
     }
 };
 

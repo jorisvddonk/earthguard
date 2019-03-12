@@ -3,6 +3,7 @@ const FueltanksSubsystem = require("./subsystem/fueltanks");
 const HullSubsystem = require("./subsystem/hull");
 const EngineSubsystem = require("./subsystem/engine");
 const SensorSubsystem = require("./subsystem/sensor");
+const MemorySubsystem = require("./subsystem/memory");
 const Sylvester = require("./sylvester-withmods.js");
 const queue = require("./loadQueue");
 const Mymath = require("./mymath.js");
@@ -65,7 +66,8 @@ class Ship extends GameObject {
       shields: [],
       hull: new HullSubsystem(this, {}),
       cargobays: [],
-      sensor: new SensorSubsystem(this, {})
+      sensor: new SensorSubsystem(this, {}),
+      memory: new MemorySubsystem(this, {})
     };
 
     if (Math.random() < 0.5) {
