@@ -222,43 +222,43 @@ function debugtick(event) {
     if (miscDebug.debugship.ai instanceof BrainV1) {
       textlines[2].text =
         " rot.mP : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mP);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mP);
       textlines[3].text =
         " rot.mI : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mI);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mI);
       textlines[4].text =
         " rot.mD : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.rotPID.last.mD);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mD);
       textlines[5].text = "-";
       textlines[6].text =
         " mov.mP : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mP);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mP);
       textlines[7].text =
         " mov.mI : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mI);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mI);
       textlines[8].text =
         " mov.mD : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.movPID.last.mD);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mD);
     } else if (miscDebug.debugship.ai instanceof BrainV2) {
       textlines[2].text =
         " posXPID.mP : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posXPID.last.mP);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mP);
       textlines[3].text =
         " posXPID.mI : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posXPID.last.mI);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mI);
       textlines[4].text =
         " posXPID.mD : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posXPID.last.mD);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mD);
       textlines[5].text = "-";
       textlines[6].text =
         " posYPID.mP : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posYPID.last.mP);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mP);
       textlines[7].text =
         " posYPID.mI : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posYPID.last.mI);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mI);
       textlines[8].text =
         " posYPID.mD : " +
-        Mymath.prettyfloat(miscDebug.debugship.ai.controllers.posYPID.last.mD);
+        Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mD);
       textlines[9].text =
         " thrust : " + Mymath.prettyfloat(miscDebug.debugship.ai.state.lthrust);
     }
@@ -393,8 +393,8 @@ function spawnRandomShip(isPlanetTargetter) {
       notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.autopilot.target.name)
     }
     ship.subsystems.autopilot.target = getNextTarget();
-    ship.ai.controllers.posXPID.reset();
-    ship.ai.controllers.posYPID.reset();
+    ship.subsystems.autopilot.controllers.posXPID.reset();
+    ship.subsystems.autopilot.controllers.posYPID.reset();
   };
   stage.addChild(ship);
   return ship;
