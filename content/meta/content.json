@@ -3,7 +3,10 @@
     {
       "id": "ship",
       "src": "ship.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "tyrian_dcook"
       }
@@ -11,7 +14,10 @@
     {
       "id": "ship2",
       "src": "ship2.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "tyrian_dcook"
       }
@@ -19,7 +25,10 @@
     {
       "id": "ship5",
       "src": "ship5.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "tyrian_dcook"
       }
@@ -27,7 +36,10 @@
     {
       "id": "jumppoint",
       "src": "jumppoint.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "jorisvddonk_pd"
       }
@@ -35,7 +47,10 @@
     {
       "id": "parallax0",
       "src": "parallax_0.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "jorisvddonk_pd"
       }
@@ -43,7 +58,10 @@
     {
       "id": "parallax1_0",
       "src": "parallax_1_0.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd",
         "filedetails": "Modified so it tiles properly. Original filename: nebula34.png"
@@ -52,7 +70,10 @@
     {
       "id": "parallax2",
       "src": "parallax_2.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "jorisvddonk_pd",
         "filedetails": "Made using SpaceScape"
@@ -61,7 +82,10 @@
     {
       "id": "parallax3",
       "src": "parallax_3.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "jorisvddonk_pd",
         "filedetails": "Made using SpaceScape"
@@ -70,7 +94,10 @@
     {
       "id": "parallax4",
       "src": "parallax_4.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "jorisvddonk_pd",
         "filedetails": "Made using SpaceScape"
@@ -79,16 +106,21 @@
     {
       "id": "bullet",
       "src": "bullet.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "jorisvddonk_pd"
       }
     },
-
     {
       "id": "star_blue_1",
       "src": "stars/blue01.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -96,7 +128,10 @@
     {
       "id": "star_blue_2",
       "src": "stars/blue02.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -104,7 +139,10 @@
     {
       "id": "star_blue_3",
       "src": "stars/blue04.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -112,7 +150,10 @@
     {
       "id": "star_green_1",
       "src": "stars/green01.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -120,7 +161,10 @@
     {
       "id": "star_green_2",
       "src": "stars/green02.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -128,7 +172,10 @@
     {
       "id": "star_orange_1",
       "src": "stars/orange01.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -136,7 +183,10 @@
     {
       "id": "star_orange_2",
       "src": "stars/orange02.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -144,7 +194,10 @@
     {
       "id": "star_orange_3",
       "src": "stars/orange05.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -152,7 +205,10 @@
     {
       "id": "star_white_1",
       "src": "stars/white01.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -160,7 +216,10 @@
     {
       "id": "star_white_2",
       "src": "stars/white02.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -168,7 +227,10 @@
     {
       "id": "star_yellow_1",
       "src": "stars/yellow01.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -176,7 +238,10 @@
     {
       "id": "star_yellow_2",
       "src": "stars/yellow02.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
@@ -184,16 +249,21 @@
     {
       "id": "star_red_1",
       "src": "stars/redgiant01.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
     },
-
     {
       "id": "planet_test",
       "src": "planets/P02.png",
-      "contentType": ["image", "png"],
+      "contentType": [
+        "image",
+        "png"
+      ],
       "attribution": {
         "_id": "naev_btaxis_pd"
       }
