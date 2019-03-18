@@ -29,8 +29,8 @@ const DEFAULT_OPTIONS = {
 
 class Ship extends GameObject {
   constructor(options) {
-    super(options)
     options = _.extend({}, DEFAULT_OPTIONS, options);
+    super(options)
 
     this.gfx = {
       bitmap: new createjs.Bitmap(queue.getResult(options.gfxID)),

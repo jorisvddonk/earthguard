@@ -18,6 +18,7 @@ const queue = require("./loadQueue");
 const NotificationSystem = require('./notificationSystem');
 const AutopilotV1 = require('./autopilot/v1')
 const AutopilotV2 = require('./autopilot/v2')
+const ObjectRegistry = require('./objectRegistry');
 
 const miscDebug = {};
 const textlines = [];
@@ -406,4 +407,5 @@ document.addEventListener("DOMContentLoaded", function (event) {
   window.miscDebug = miscDebug;
   miscDebug.gameState = gameState;
   miscDebug.stage = stage;
+  miscDebug.objectRegistry = ObjectRegistry;
 });

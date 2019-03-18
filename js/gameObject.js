@@ -1,6 +1,8 @@
 const Stage = require("./stage");
 const Sylvester = require("./sylvester-withmods.js");
 const _ = require("lodash");
+let nextObjectID = 0;
+const ObjectRegistry = require("./objectRegistry");
 
 const DEFAULT_OPTIONS = {
     movementVec: new Sylvester.Vector([0, 0]), // Vector decribing current movement
@@ -12,12 +14,16 @@ class GameObject extends createjs.Container {
     constructor(options) {
         options = _.extend({}, DEFAULT_OPTIONS, options);
         super();
+        nextObjectID += 1;
+        this._objid = nextObjectID;
         this.movementVec = options.movementVec;
         this.rotationVec = options.rotationVec;
         this.positionVec = options.positionVec;
+        ObjectRegistry.add(this);
     };
 
     destroy() {
+        ObjectRegistry.remove(this);
         let stage = Stage.get();
         stage.removeChild(this);
         this.dispatchEvent('destroyed');
