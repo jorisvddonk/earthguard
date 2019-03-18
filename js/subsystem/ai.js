@@ -14,6 +14,9 @@ class AISubsystem extends ShipSubsystem {
         if (this.target !== null) {
             if (!ObjectRegistry.has(this.target)) {
                 console.log("Target lost", this.target)
+                const evt = new createjs.Event("ai_targetLost", false, false);
+                evt.data = { target: this.target };
+                this.ship.dispatchEvent(evt);
                 this.target = null;
             }
         }
@@ -24,13 +27,17 @@ class AISubsystem extends ShipSubsystem {
     }
 
     setTarget(target) {
-        if (target && !target.hasOwnProperty('_objid')) {
+        if (target === undefined || target === null || !target.hasOwnProperty('_objid')) {
             throw new Error(`Target has no object ID: ${target}`);
         }
         this.target = target._objid;
         const evt = new createjs.Event("ai_targetChanged", false, false);
         evt.data = { target };
         this.ship.dispatchEvent(evt);
+    }
+
+    clearTarget() {
+        this.target = null;
     }
 };
 

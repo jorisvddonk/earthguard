@@ -360,6 +360,12 @@ function spawnRandomShip() {
     Pirates: 'ship5',
     Police: 'ship6'
   }[faction];
+  const getNextTarget = {
+    Civilians: () => { return _.sample(gameState.player.currentstar.planets) },
+    Pirates: () => { return _.sample(stage.children.filter(x => x instanceof Ship && x.faction.name === 'Civilians')) },
+    Police: () => { return _.sample(stage.children.filter(x => x instanceof Ship && x.faction.name === 'Pirates')) },
+  }[faction];
+
   var ship = new Ship(
     {
       gfxID: gfxID,
@@ -376,24 +382,22 @@ function spawnRandomShip() {
     }
   );
 
-  let getNextTarget;
-  if (faction === 'Civilians') {
-    getNextTarget = function () {
-      return _.sample(gameState.player.currentstar.planets);
-    };
-  } else {
-    getNextTarget = function () {
-      return _.sample(stage.children.filter(x => x instanceof Ship));
-    };
-  }
-
-  ship.subsystems.ai.setTarget(getNextTarget());
-  ship.subsystems.autopilot.targetcallback = function () {
-    if (faction === 'Civilians') {
-      notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.ai.getTarget().name)
+  const setNextTarget = () => {
+    const nextTarget = getNextTarget();
+    if (nextTarget === undefined) {
+      ship.subsystems.ai.clearTarget();
+    } else {
+      ship.subsystems.ai.setTarget(nextTarget);
     }
-    ship.subsystems.ai.setTarget(getNextTarget());
-  };
+  }
+  ship.addEventListener('ai_targetLost', setNextTarget);
+  ship.addEventListener('autopilot_Complete', setNextTarget);
+  if (faction === 'Civilians') {
+    ship.addEventListener('autopilot_Complete', () => { notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.ai.getTarget().name); ship.subsystems.ai.setTarget(getNextTarget()); });
+  }
+  setTimeout(() => {
+    setNextTarget();
+  }); // wait one tick or else the other ships don't exist yet.
   stage.addChild(ship);
   return ship;
 }

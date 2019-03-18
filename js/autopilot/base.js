@@ -5,7 +5,6 @@ class BaseAutopilot extends ShipSubsystem {
     constructor(ship, options) {
         super(ship);
         this.subsystemType = "autopilot";
-        this.targetcallback = null;
         this.controllers = {};
         this.state = {};
         this.ship.addEventListener('ai_targetChanged', (evt) => {

@@ -83,10 +83,10 @@ class AutopilotV2 extends BaseAutopilot {
         }
 
         // Check if we need to call callback
-        if (this.targetcallback !== null) {
-            if (pos_vec_error.modulus() < 50 && this.ship.movementVec.modulus() < 0.75) {
-                this.targetcallback();
-            }
+        if (pos_vec_error.modulus() < 50 && this.ship.movementVec.modulus() < 0.75) {
+            const evt = new createjs.Event("autopilot_Complete", false, false);
+            evt.data = {};
+            this.ship.dispatchEvent(evt);
         }
     }
 }
