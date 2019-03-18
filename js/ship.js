@@ -16,23 +16,21 @@ const AutopilotV1 = require('./autopilot/v1')
 const AutopilotV2 = require('./autopilot/v2')
 const GameObject = require("./gameObject");
 
+const DEFAULT_OPTIONS = {
+  gfxID: "ship",
+  stats: {
+    maxspeed: new Sylvester.Vector([5, 0]),
+    bulletspeed: 10,
+    bulletlifetime: 1000
+  },
+  name: "SomeShip",
+  is_ai: true
+};
+
 class Ship extends GameObject {
   constructor(options) {
-    super()
-
-    var default_options = {
-      x: Math.random() * 3000 - 1500,
-      y: Math.random() * 3000 - 1500,
-      gfxID: "ship",
-      stats: {
-        maxspeed: new Sylvester.Vector([5, 0]),
-        bulletspeed: 10,
-        bulletlifetime: 1000
-      },
-      name: "SomeShip",
-      is_ai: true
-    };
-    options = _.extend({}, default_options, options);
+    super(options)
+    options = _.extend({}, DEFAULT_OPTIONS, options);
 
     this.gfx = {
       bitmap: new createjs.Bitmap(queue.getResult(options.gfxID)),
@@ -42,10 +40,6 @@ class Ship extends GameObject {
 
     this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
-
-    this.movementVec = new Sylvester.Vector([0, 0]); // Vector decribing current movement
-    this.rotationVec = new Sylvester.Vector([1, 0]); // Vector describing current angle (rotation). Should be a unit vector.
-    this.positionVec = new Sylvester.Vector([options.x, options.y]);
 
     this.name = options.name;
 
@@ -95,21 +89,12 @@ class Ship extends GameObject {
     }
   };
 
-  movementTick() {
+  tick() {
     if (this.subsystems.hull.integrity <= 0) {
       this.destroy();
       return;
     }
-
     this.capMovement();
-    this.rotation =
-      new Sylvester.Vector([1, 0]).angleTo(this.rotationVec) * 57.2957795 + 90;
-    this.positionVec = this.positionVec.add(this.movementVec);
-    this.x = this.positionVec.e(1);
-    this.y = this.positionVec.e(2);
-  };
-
-  tick() {
     if (this.subsystems.ai && this.subsystems.ai.tick) {
       this.subsystems.ai.tick();
     }
@@ -192,14 +177,14 @@ class Ship extends GameObject {
       var interception = this.getFire();
     }
     if (interception !== null) {
-      var bullet = new Bullet(
-        this.positionVec,
-        this.movementVec
+      var bullet = new Bullet({
+        positionVec: this.positionVec,
+        movementVec: this.movementVec
           .add(interception.toUnitVector().multiply(this.stats.bulletspeed))
           .rotate(Math.random() * 0.0523598776, new Sylvester.Vector([0, 0])),
-        this.stats.bulletlifetime,
-        this
-      );
+        lifetime: this.stats.bulletlifetime
+      });
+      bullet.setOwner(this);
       let stage = Stage.get();
       stage.addChild(bullet);
     }

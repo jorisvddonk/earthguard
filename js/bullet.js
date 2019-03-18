@@ -3,9 +3,8 @@ const Stage = require("./stage");
 const GameObject = require("./gameObject");
 
 class Bullet extends GameObject {
-  constructor(position, velocity, lifetime, owner) {
-    super();
-
+  constructor(options) {
+    super(options);
     this.gfx = {
       bitmap: new createjs.Bitmap(queue.getResult("bullet")),
       graph: new createjs.Shape()
@@ -14,25 +13,22 @@ class Bullet extends GameObject {
     this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
 
-    this.movementVec = velocity;
-    this.positionVec = position;
-
     this.stats = {
-      aliveUntil: new Date().getTime() + lifetime
+      aliveUntil: new Date().getTime() + options.lifetime
     };
+    this.owner = null;
+  }
+
+  setOwner(owner) {
     this.owner = owner;
   }
 
-  movementTick(event) {
-    let stage = Stage.get();
+  tick(event) {
     if (event.timeStamp > this.stats.aliveUntil) {
       this.destroy();
       return;
     }
-    this.positionVec = this.positionVec.add(this.movementVec);
-    this.x = this.positionVec.e(1);
-    this.y = this.positionVec.e(2);
-  };
+  }
 }
 
 module.exports = Bullet;

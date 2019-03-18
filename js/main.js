@@ -366,13 +366,13 @@ function spawnRandomShip(isPlanetTargetter) {
         maxspeed: new Sylvester.Vector([3, 0]),
         bulletspeed: 10,
         bulletlifetime: 1000
-      }
+      },
+      positionVec: new Sylvester.Vector([
+        Math.random() * 1500 - 750,
+        Math.random() * 1500 - 750
+      ])
     }
   );
-  ship.positionVec = new Sylvester.Vector([
-    Math.random() * 1500 - 750,
-    Math.random() * 1500 - 750
-  ]);
 
   var getNextTarget = function () {
     return null;
