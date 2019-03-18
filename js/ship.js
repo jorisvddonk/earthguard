@@ -15,6 +15,7 @@ const Stage = require("./stage");
 const AutopilotV1 = require('./autopilot/v1')
 const AutopilotV2 = require('./autopilot/v2')
 const GameObject = require("./gameObject");
+const factionRegistry = require("./factionRegistry");
 
 const DEFAULT_OPTIONS = {
   gfxID: "ship",
@@ -24,11 +25,15 @@ const DEFAULT_OPTIONS = {
     bulletlifetime: 1000
   },
   name: "SomeShip",
-  is_ai: true
+  is_ai: true,
+  faction: factionRegistry.get('Civilians')
 };
 
 class Ship extends GameObject {
   constructor(options) {
+    if (typeof options.faction === 'string') {
+      options.faction = factionRegistry.get(options.faction);
+    }
     options = _.extend({}, DEFAULT_OPTIONS, options);
     super(options)
 
@@ -42,6 +47,7 @@ class Ship extends GameObject {
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
 
     this.name = options.name;
+    this.faction = options.faction;
 
     this.stats = {
       maxspeed: options.stats.maxspeed,

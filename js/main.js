@@ -127,7 +127,7 @@ function generateParallax() {
 }
 
 function populateUniverse(event) {
-  gameState.player.ship = new Ship({ is_ai: false });
+  gameState.player.ship = new Ship({ is_ai: false, faction: 'Player' });
   gameState.player.ship.positionVec = new Sylvester.Vector([200, 300]);
   stage.addChild(gameState.player.ship);
 

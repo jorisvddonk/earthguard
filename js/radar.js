@@ -93,8 +93,8 @@ class Radar extends Object {
       .enter()
       .append("circle")
       .attr("class", "ship")
-      .style("stroke", "red")
-      .style("fill", "red")
+      .style("stroke", (d, i) => d.faction.color)
+      .style("fill", (d, i) => d.faction.color)
       .attr("cx", (d, i) => this.radarScale(d["x"]))
       .attr("cy", (d, i) => this.radarScale(d["y"]))
       .attr("r", (d, i) => 2);
@@ -126,27 +126,6 @@ class Radar extends Object {
       .attr("r", (d, i) => 4);
 
     misc_star.exit().remove();
-
-    // my ship
-    misc_myship = this.miscGroup
-      .selectAll("circle.myship")
-      .data([gameState.player.ship], d => d["id"]);
-
-    misc_myship
-      .enter()
-      .append("circle")
-      .attr("class", "star")
-      .style("stroke", "white")
-      .style("fill", "white")
-      .attr("cx", (d, i) => this.radarScale(d["x"]))
-      .attr("cy", (d, i) => this.radarScale(d["y"]))
-      .attr("r", (d, i) => 2);
-
-    misc_myship
-      .attr("cx", (d, i) => this.radarScale(d["x"]))
-      .attr("cy", (d, i) => this.radarScale(d["y"]));
-
-    misc_myship.exit().remove();
   };
 }
 
