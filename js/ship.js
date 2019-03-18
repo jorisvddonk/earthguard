@@ -144,7 +144,7 @@ class Ship extends GameObject {
 
     if (gameState.debugging.shiplines) {
       var stroke = "rgba(0,0,255,1)";
-      if (this.ai instanceof BrainV1) {
+      if (this.subsystems.autopilot instanceof BrainV1) {
         stroke = "rgba(255,0,0,1)";
       }
       this.gfx.graph.graphics

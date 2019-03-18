@@ -219,7 +219,7 @@ function tick(event) {
 function debugtick(event) {
   if (miscDebug.debugship != null) {
     textlines[0].text = "Debugship stats-------";
-    if (miscDebug.debugship.ai instanceof BrainV1) {
+    if (miscDebug.debugship.subsystems.autopilot instanceof BrainV1) {
       textlines[2].text =
         " rot.mP : " +
         Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mP);
@@ -239,7 +239,7 @@ function debugtick(event) {
       textlines[8].text =
         " mov.mD : " +
         Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mD);
-    } else if (miscDebug.debugship.ai instanceof BrainV2) {
+    } else if (miscDebug.debugship.subsystems.autopilot instanceof BrainV2) {
       textlines[2].text =
         " posXPID.mP : " +
         Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mP);
