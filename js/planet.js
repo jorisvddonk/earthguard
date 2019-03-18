@@ -1,14 +1,25 @@
 const _ = require("lodash");
 const queue = require("./loadQueue");
+const GameObject = require("./gameObject");
+const Sylvester = require("./sylvester-withmods.js");
 
-class Planet extends createjs.Container {
-  /*
-      options: {
-        gfxID: "planet_foo",
-      }
-    */
+const DEFAULT_OPTIONS = {
+  gfxID: "planet_test",
+  static: true
+};
+
+
+class Planet extends GameObject {
   constructor(options) {
-    super()
+    const orbit = {
+      distance: Math.random() * 3000 + 1500,
+      angle: Math.random() * 2 * Math.PI
+    };
+    options = _.extend({
+      positionVec: new Sylvester.Vector([Math.cos(orbit.angle) * orbit.distance, Math.sin(orbit.angle) * orbit.distance])
+    }, DEFAULT_OPTIONS, options);
+    super(options);
+
     this.gfx = {
       bitmap: new createjs.Bitmap(queue.getResult(options.gfxID))
     };
@@ -16,15 +27,6 @@ class Planet extends createjs.Container {
     this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
     this.name = options.name || "SomePlanet";
-
-    _.extend(this, options);
-
-    this.orbit = {
-      distance: Math.random() * 3000 + 1500,
-      angle: Math.random() * 2 * Math.PI
-    };
-
-    this.calcPosition();
   };
 
   toString() {
@@ -32,11 +34,6 @@ class Planet extends createjs.Container {
   };
   tooltipString() {
     return this.name;
-  };
-
-  calcPosition() {
-    this.x = Math.cos(this.orbit.angle) * this.orbit.distance;
-    this.y = Math.sin(this.orbit.angle) * this.orbit.distance;
   };
 };
 
