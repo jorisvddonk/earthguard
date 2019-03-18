@@ -10,6 +10,8 @@ const DEFAULT_OPTIONS = {
     positionVec: new Sylvester.Vector([0, 0]) // Vector describing current position
 };
 
+const FORCE_CALCULATE = "some_sentinel_value";
+
 class GameObject extends createjs.Container {
     constructor(options) {
         options = _.extend({}, DEFAULT_OPTIONS, options);
@@ -19,6 +21,8 @@ class GameObject extends createjs.Container {
         this.movementVec = options.movementVec;
         this.rotationVec = options.rotationVec;
         this.positionVec = options.positionVec;
+        this.static = options.static;
+        this.movementTick(FORCE_CALCULATE);
         ObjectRegistry.add(this);
     };
 
@@ -31,6 +35,9 @@ class GameObject extends createjs.Container {
     };
 
     movementTick(event) {
+        if (this.static && event !== FORCE_CALCULATE) {
+            return;
+        }
         this.rotation =
             new Sylvester.Vector([1, 0]).angleTo(this.rotationVec) * 57.2957795 + 90;
         this.positionVec = this.positionVec.add(this.movementVec);
