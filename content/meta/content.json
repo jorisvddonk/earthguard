@@ -34,6 +34,17 @@
       }
     },
     {
+      "id": "ship6",
+      "src": "ship6.png",
+      "contentType": [
+        "image",
+        "png"
+      ],
+      "attribution": {
+        "_id": "tyrian_dcook"
+      }
+    },
+    {
       "id": "jumppoint",
       "src": "jumppoint.png",
       "contentType": [
