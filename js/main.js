@@ -393,8 +393,9 @@ function spawnRandomShip(isPlanetTargetter) {
       notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.autopilot.target.name)
     }
     ship.subsystems.autopilot.target = getNextTarget();
-    ship.subsystems.autopilot.controllers.posXPID.reset();
-    ship.subsystems.autopilot.controllers.posYPID.reset();
+    const evt = new createjs.Event("ai_targetChanged", false, true);
+    evt.data = { target: ship.subsystems.autopilot.target };
+    ship.dispatchEvent(evt)
   };
   stage.addChild(ship);
   return ship;

@@ -14,6 +14,11 @@ class AutopilotV2 extends ShipSubsystem {
             posYPID: new PIDController(-0.45, -0.0, -80, -10, 10, -10, 10)
         };
         this.state = {}
+        this.ship.addEventListener('ai_targetChanged', (evt) => {
+            console.log("target changed; resetting ")
+            this.controllers.posXPID.reset();
+            this.controllers.posYPID.reset();
+        });
     }
 
     AITick() {

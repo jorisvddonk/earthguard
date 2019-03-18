@@ -12,6 +12,10 @@ class AutopilotV1 extends ShipSubsystem {
             movPID: new PIDController(-0.1, -0.1, -40, -1, 1)
         };
         this.state = {} // not really used
+        this.ship.addEventListener('ai_targetChanged', (evt) => {
+            this.controllers.rotPID.reset();
+            this.controllers.movPID.reset();
+        });
     }
 
     AITick() {
