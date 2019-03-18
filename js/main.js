@@ -131,12 +131,9 @@ function populateUniverse(event) {
   gameState.player.ship.positionVec = new Sylvester.Vector([200, 300]);
   stage.addChild(gameState.player.ship);
 
-  for (var i = 0; i < 10; i++) {
-    spawnRandomShip(true);
+  for (var i = 0; i < 30; i++) {
+    spawnRandomShip();
   }
-
-  let s = spawnRandomShip(false);
-  s.subsystems.ai.setTarget(gameState.player.ship);
 }
 
 function tick(event) {
@@ -356,14 +353,17 @@ function setupWidgets() {
   updatables.push(graphwidget);
 }
 
-function spawnRandomShip(isPlanetTargetter) {
-  if (isPlanetTargetter == undefined) {
-    isPlanetTargetter = true;
-  }
+function spawnRandomShip() {
+  const faction = _.sample(['Civilians', 'Civilians', 'Civilians', 'Pirates', 'Police', 'Police']);
+  const gfxID = {
+    Civilians: 'ship2',
+    Pirates: 'ship5',
+    Police: 'ship6'
+  }[faction];
   var ship = new Ship(
     {
-      gfxID: isPlanetTargetter ? "ship2" : "ship5",
-      faction: isPlanetTargetter ? 'Civilians' : 'Pirates',
+      gfxID: gfxID,
+      faction: faction,
       stats: {
         maxspeed: new Sylvester.Vector([3, 0]),
         bulletspeed: 10,
@@ -376,10 +376,8 @@ function spawnRandomShip(isPlanetTargetter) {
     }
   );
 
-  var getNextTarget = function () {
-    return null;
-  };
-  if (isPlanetTargetter) {
+  let getNextTarget;
+  if (faction === 'Civilians') {
     getNextTarget = function () {
       return _.sample(gameState.player.currentstar.planets);
     };
@@ -391,7 +389,7 @@ function spawnRandomShip(isPlanetTargetter) {
 
   ship.subsystems.ai.setTarget(getNextTarget());
   ship.subsystems.autopilot.targetcallback = function () {
-    if (isPlanetTargetter) {
+    if (faction === 'Civilians') {
       notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.ai.getTarget().name)
     }
     ship.subsystems.ai.setTarget(getNextTarget());
