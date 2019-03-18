@@ -6,7 +6,8 @@ const Sylvester = require("../sylvester-withmods.js");
 
 const TargetTypes = {
     GAMEOBJECT: "GAMEOBJECT",
-    POSITION: "POSITION"
+    POSITION: "POSITION",
+    NULL: "NULL"
 };
 
 class AISubsystem extends ShipSubsystem {
@@ -14,12 +15,11 @@ class AISubsystem extends ShipSubsystem {
         super(ship);
         this.subsystemType = "ai";
         this.target = null;
-        this.targetType = null;
+        this.targetType = TargetTypes.NULL;
         options = Object.assign({}, options);
     }
 
     tick() {
-        const GameObject = require("../gameObject");
         if (this.target !== null && this.targetType === TargetTypes.GAMEOBJECT) {
             if (!ObjectRegistry.has(this.target)) {
                 console.log("Target lost", this.target)
@@ -34,7 +34,7 @@ class AISubsystem extends ShipSubsystem {
     getTarget() {
         if (this.targetType === TargetTypes.GAMEOBJECT) {
             return ObjectRegistry.get(this.target) || null;
-        } else if (this.targetType = TargetTypes.POSITION) {
+        } else if (this.targetType == TargetTypes.POSITION || this.targetType == TargetTypes.NULL) {
             return this.target;
         }
     }
@@ -59,6 +59,7 @@ class AISubsystem extends ShipSubsystem {
 
     clearTarget() {
         this.target = null;
+        this.targetType = TargetTypes.NULL;
     }
 };
 
