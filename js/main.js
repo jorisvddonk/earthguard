@@ -360,10 +360,16 @@ function spawnRandomShip() {
     Pirates: 'ship5',
     Police: 'ship6'
   }[faction];
+  const getShipOfFactionOrRandomPosition = (factionName) => {
+    return _.sample(stage.children.filter(x => x instanceof Ship && x.faction.name === factionName)) || new Sylvester.Vector([
+      Math.random() * 3000 - 1500,
+      Math.random() * 3000 - 1500
+    ])
+  }
   const getNextTarget = {
     Civilians: () => { return _.sample(gameState.player.currentstar.planets) },
-    Pirates: () => { return _.sample(stage.children.filter(x => x instanceof Ship && x.faction.name === 'Civilians')) },
-    Police: () => { return _.sample(stage.children.filter(x => x instanceof Ship && x.faction.name === 'Pirates')) },
+    Pirates: () => getShipOfFactionOrRandomPosition('Civilians'),
+    Police: () => getShipOfFactionOrRandomPosition('Pirates'),
   }[faction];
 
   var ship = new Ship(
@@ -384,11 +390,13 @@ function spawnRandomShip() {
 
   const setNextTarget = () => {
     const nextTarget = getNextTarget();
-    if (nextTarget === undefined) {
-      ship.subsystems.ai.clearTarget();
-    } else {
-      ship.subsystems.ai.setTarget(nextTarget);
-    }
+    setTimeout(() => {
+      if (nextTarget === undefined || nextTarget === null) {
+        ship.subsystems.ai.clearTarget();
+      } else {
+        ship.subsystems.ai.setTarget(nextTarget);
+      }
+    }) // ugh!; race condition. TODO: fix.
   }
   ship.addEventListener('ai_targetLost', setNextTarget);
   ship.addEventListener('autopilot_Complete', setNextTarget);

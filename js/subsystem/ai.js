@@ -22,11 +22,11 @@ class AISubsystem extends ShipSubsystem {
     tick() {
         if (this.target !== null && this.targetType === TargetTypes.GAMEOBJECT) {
             if (!ObjectRegistry.has(this.target)) {
-                console.log("Target lost", this.target)
+                console.log(this.ship._objid, "Target lost", this.target)
                 const evt = new createjs.Event("ai_targetLost", false, false);
                 evt.data = { target: this.target };
                 this.ship.dispatchEvent(evt);
-                this.target = null;
+                this.clearTarget();
             }
         }
     }
@@ -34,7 +34,7 @@ class AISubsystem extends ShipSubsystem {
     getTarget() {
         if (this.targetType === TargetTypes.GAMEOBJECT) {
             return ObjectRegistry.get(this.target) || null;
-        } else if (this.targetType == TargetTypes.POSITION || this.targetType == TargetTypes.NULL) {
+        } else if (this.targetType === TargetTypes.POSITION || this.targetType === TargetTypes.NULL) {
             return this.target;
         }
     }

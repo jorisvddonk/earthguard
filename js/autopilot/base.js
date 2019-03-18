@@ -1,5 +1,6 @@
 const ShipSubsystem = require("../shipSubsystem");
 const Sylvester = require("../sylvester-withmods.js");
+const GameObject = require("../gameObject");
 
 class BaseAutopilot extends ShipSubsystem {
     constructor(ship, options) {
@@ -14,27 +15,14 @@ class BaseAutopilot extends ShipSubsystem {
 
     getTarget() {
         let target = this.ship.subsystems.ai ? this.ship.subsystems.ai.getTarget() : null;
-        if (target === null) {
-            return { target: null, targetpos: null };
-        }
-
         if (target !== null) {
-            if (target.hasOwnProperty("positionVec")) {
+            if (target instanceof GameObject) {
                 return { target, targetpos: target.positionVec };
-            } else if (
-                target.hasOwnProperty("x") &&
-                target.hasOwnProperty("y")
-            ) {
-                return {
-                    target, targetpos: new Sylvester.Vector([
-                        target.x,
-                        target.y
-                    ])
-                };
-            } else {
+            } else if (target instanceof Sylvester.Vector) {
                 return { target, targetpos: target };
             }
         }
+        return { target: null, targetpos: null }
     }
 }
 
