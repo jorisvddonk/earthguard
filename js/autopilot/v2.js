@@ -69,7 +69,7 @@ class AutopilotV2 extends BaseAutopilot {
             }
         } else {
             // If we have a small thrust vector, let's just point towards the enemy ship..
-            this.ship.rotate(rot);
+            // this.ship.rotate(rot); // ?? todo re-add?
         }
 
         // store state/data for gfx stuff
