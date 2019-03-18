@@ -14,7 +14,7 @@ class BaseAutopilot extends ShipSubsystem {
     }
 
     getTarget() {
-        let target = this.ship.subsystems.ai ? this.ship.subsystems.ai.target : null;
+        let target = this.ship.subsystems.ai ? this.ship.subsystems.ai.getTarget() : null;
         if (target === null) {
             return { target: null, targetpos: null };
         }
