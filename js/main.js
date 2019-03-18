@@ -363,6 +363,7 @@ function spawnRandomShip(isPlanetTargetter) {
   var ship = new Ship(
     {
       gfxID: isPlanetTargetter ? "ship2" : "ship5",
+      faction: isPlanetTargetter ? 'Civilians' : 'Pirates',
       stats: {
         maxspeed: new Sylvester.Vector([3, 0]),
         bulletspeed: 10,
