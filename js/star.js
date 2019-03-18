@@ -33,8 +33,7 @@ var _genPlanets = function () {
   for (var i = 0; i < nPlanets; i++) {
     retPlanets.push(
       new Planet({
-        gfxID: "planet_test",
-        index: i
+        gfxID: "planet_test"
       })
     );
   }
