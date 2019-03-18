@@ -142,8 +142,8 @@ class Ship extends GameObject {
         .endStroke();
 
       if (
-        this.subsystems.ai.target !== null &&
-        this.subsystems.ai.target.hasOwnProperty("positionVec")
+        this.subsystems.ai.getTarget() !== null &&
+        this.subsystems.ai.getTarget().hasOwnProperty("positionVec")
       ) {
         var interception = this.getFire();
         if (interception !== null) {
@@ -191,10 +191,10 @@ class Ship extends GameObject {
   };
 
   getFire() {
-    if (this.subsystems.ai && this.subsystems.ai.target) {
+    if (this.subsystems.ai && this.subsystems.ai.getTarget()) {
       // fire at target
-      var relPos = this.subsystems.ai.target.positionVec.subtract(this.positionVec);
-      var relVel = this.subsystems.ai.target.movementVec.subtract(this.movementVec);
+      var relPos = this.subsystems.ai.getTarget().positionVec.subtract(this.positionVec);
+      var relVel = this.subsystems.ai.getTarget().movementVec.subtract(this.movementVec);
       var interception2 = Mymath.intercept2(
         {
           x: 0,
