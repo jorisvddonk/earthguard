@@ -1,45 +1,18 @@
 const PIDController = require('../pidcontroller');
 const Sylvester = require("../sylvester-withmods.js");
-const ShipSubsystem = require("../shipSubsystem")
+const BaseAutopilot = require("./base");
 
-class AutopilotV2 extends ShipSubsystem {
+class AutopilotV2 extends BaseAutopilot {
     constructor(ship, options) {
-        super(ship)
-        this.ship = ship;
-        this.target = null
-        this.targetpos = null
-        this.targetcallback = null
-        this.controllers = {
-            posXPID: new PIDController(-0.45, -0.0, -80, -10, 10, -10, 10),
-            posYPID: new PIDController(-0.45, -0.0, -80, -10, 10, -10, 10)
-        };
-        this.state = {}
-        this.ship.addEventListener('ai_targetChanged', (evt) => {
-            console.log("target changed; resetting ")
-            this.controllers.posXPID.reset();
-            this.controllers.posYPID.reset();
-        });
+        super(ship, options)
+        this.controllers.posXPID = new PIDController(-0.45, -0.0, -80, -10, 10, -10, 10);
+        this.controllers.posYPID = new PIDController(-0.45, -0.0, -80, -10, 10, -10, 10);
     }
 
     AITick() {
-        if (this.target === null) {
+        let { target, targetpos } = this.getTarget();
+        if (targetpos === null) {
             return;
-        }
-
-        if (this.target !== null) {
-            if (this.target.hasOwnProperty("positionVec")) {
-                this.targetpos = this.target.positionVec;
-            } else if (
-                this.target.hasOwnProperty("x") &&
-                this.target.hasOwnProperty("y")
-            ) {
-                this.targetpos = new Sylvester.Vector([
-                    this.target.x,
-                    this.target.y
-                ]);
-            } else {
-                this.targetpos = this.target;
-            }
         }
 
         /*
@@ -47,7 +20,7 @@ class AutopilotV2 extends ShipSubsystem {
           */
 
         //posXPID and posYPID
-        var pos_vec_error = this.targetpos.subtract(this.ship.positionVec);
+        var pos_vec_error = targetpos.subtract(this.ship.positionVec);
         var x_error = pos_vec_error.e(1);
         var y_error = pos_vec_error.e(2);
         this.controllers.posXPID.error = x_error;
@@ -105,7 +78,7 @@ class AutopilotV2 extends ShipSubsystem {
 
         // Check if we can fire
         const Ship = require("../ship"); // for some reason, if this is put at the top of the file, it won't work. Weird.
-        if (this.target instanceof Ship) {
+        if (target instanceof Ship) {
             this.ship.maybeFire();
         }
 

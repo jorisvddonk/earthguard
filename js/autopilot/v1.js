@@ -1,42 +1,18 @@
 const PIDController = require('../pidcontroller');
 const Sylvester = require("../sylvester-withmods.js");
-const ShipSubsystem = require("../shipSubsystem")
+const BaseAutopilot = require("./base");
 
-class AutopilotV1 extends ShipSubsystem {
+class AutopilotV1 extends BaseAutopilot {
     constructor(ship, options) {
-        super(ship)
-        this.target = null
-        this.targetpos = null
-        this.controllers = {
-            rotPID: new PIDController(-0.9, -0.9, -10),
-            movPID: new PIDController(-0.1, -0.1, -40, -1, 1)
-        };
-        this.state = {} // not really used
-        this.ship.addEventListener('ai_targetChanged', (evt) => {
-            this.controllers.rotPID.reset();
-            this.controllers.movPID.reset();
-        });
+        super(ship, options)
+        this.controllers.rotPID = new PIDController(-0.9, -0.9, -10);
+        this.controllers.movPID = new PIDController(-0.1, -0.1, -40, -1, 1);
     }
 
     AITick() {
-        if (this.target === null) {
+        let { target, targetpos } = this.getTarget();
+        if (targetpos === null) {
             return;
-        }
-
-        if (this.target !== null) {
-            if (this.target.hasOwnProperty("positionVec")) {
-                this.targetpos = this.target.positionVec;
-            } else if (
-                this.target.hasOwnProperty("x") &&
-                this.target.hasOwnProperty("y")
-            ) {
-                this.targetpos = new Sylvester.Vector([
-                    this.target.x,
-                    this.target.y
-                ]);
-            } else {
-                this.targetpos = this.target;
-            }
         }
 
         /*
@@ -45,14 +21,14 @@ class AutopilotV1 extends ShipSubsystem {
 
         //rotPID
         var angle_error = this.ship.rotationVec.angleTo(
-            this.targetpos.subtract(this.ship.positionVec)
+            targetpos.subtract(this.ship.positionVec)
         );
         this.controllers.rotPID.error = angle_error;
         var ship_rot = this.controllers.rotPID.step();
         var rot = Mymath.clampRot(-(ship_rot * 0.1));
 
         //movPID: Set origin to ship's x/y, determine vector between ship and target, rotate everything so that ship points to the right ([1,0]) (rotated vector between ship and ship)'s x-coordinate is the error (OR IS IT THE DISTANCE OF THE VECTOR??? maybe not. probably not.)
-        var pos_error = this.targetpos
+        var pos_error = targetpos
             .subtract(this.ship.positionVec)
             .rotate(
                 -new Sylvester.Vector([1, 0]).angleTo(this.ship.rotationVec),
@@ -74,7 +50,7 @@ class AutopilotV1 extends ShipSubsystem {
 
         // Check if we can fire
         const Ship = require("../ship"); // for some reason, if this is put at the top of the file, it won't work. Weird.
-        if (this.target instanceof Ship) {
+        if (target instanceof Ship) {
             this.ship.maybeFire();
         }
     }

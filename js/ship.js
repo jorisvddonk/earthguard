@@ -4,6 +4,7 @@ const HullSubsystem = require("./subsystem/hull");
 const EngineSubsystem = require("./subsystem/engine");
 const SensorSubsystem = require("./subsystem/sensor");
 const MemorySubsystem = require("./subsystem/memory");
+const AISubsystem = require("./subsystem/ai");
 const Sylvester = require("./sylvester-withmods.js");
 const queue = require("./loadQueue");
 const Mymath = require("./mymath.js");
@@ -68,7 +69,8 @@ class Ship extends GameObject {
       cargobays: [],
       sensor: new SensorSubsystem(this, {}),
       memory: new MemorySubsystem(this, {}),
-      autopilot: new AutopilotV2(this, {})
+      autopilot: new AutopilotV2(this, {}),
+      ai: new AISubsystem(this, {})
     };
 
     this.is_ai = options.is_ai;

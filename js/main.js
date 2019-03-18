@@ -135,7 +135,7 @@ function populateUniverse(event) {
   }
 
   let s = spawnRandomShip(false);
-  s.subsystems.autopilot.target = gameState.player.ship;
+  s.subsystems.ai.target = gameState.player.ship;
 }
 
 function tick(event) {
@@ -387,15 +387,12 @@ function spawnRandomShip(isPlanetTargetter) {
     };
   }
 
-  ship.subsystems.autopilot.target = getNextTarget();
+  ship.subsystems.ai.target = getNextTarget();
   ship.subsystems.autopilot.targetcallback = function () {
     if (isPlanetTargetter) {
-      notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.autopilot.target.name)
+      notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.ai.target.name)
     }
-    ship.subsystems.autopilot.target = getNextTarget();
-    const evt = new createjs.Event("ai_targetChanged", false, true);
-    evt.data = { target: ship.subsystems.autopilot.target };
-    ship.dispatchEvent(evt)
+    ship.subsystems.ai.setTarget(getNextTarget());
   };
   stage.addChild(ship);
   return ship;
