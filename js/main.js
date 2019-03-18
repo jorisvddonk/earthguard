@@ -260,7 +260,7 @@ function debugtick(event) {
         " posYPID.mD : " +
         Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mD);
       textlines[9].text =
-        " thrust : " + Mymath.prettyfloat(miscDebug.debugship.ai.state.lthrust);
+        " thrust : " + Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.state.lthrust);
     }
   }
 }
