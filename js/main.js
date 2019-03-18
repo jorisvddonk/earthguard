@@ -16,8 +16,8 @@ const GraphWidget = require("./graphwidget");
 const Keyboard = require("./keyboard");
 const queue = require("./loadQueue");
 const NotificationSystem = require('./notificationSystem');
-const BrainV1 = require('./autopilot/v1')
-const BrainV2 = require('./autopilot/v2')
+const AutopilotV1 = require('./autopilot/v1')
+const AutopilotV2 = require('./autopilot/v2')
 
 const miscDebug = {};
 const textlines = [];
@@ -219,7 +219,7 @@ function tick(event) {
 function debugtick(event) {
   if (miscDebug.debugship != null) {
     textlines[0].text = "Debugship stats-------";
-    if (miscDebug.debugship.subsystems.autopilot instanceof BrainV1) {
+    if (miscDebug.debugship.subsystems.autopilot instanceof AutopilotV1) {
       textlines[2].text =
         " rot.mP : " +
         Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mP);
@@ -239,7 +239,7 @@ function debugtick(event) {
       textlines[8].text =
         " mov.mD : " +
         Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mD);
-    } else if (miscDebug.debugship.subsystems.autopilot instanceof BrainV2) {
+    } else if (miscDebug.debugship.subsystems.autopilot instanceof AutopilotV2) {
       textlines[2].text =
         " posXPID.mP : " +
         Mymath.prettyfloat(miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mP);

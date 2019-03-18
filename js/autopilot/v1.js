@@ -2,7 +2,7 @@ const PIDController = require('../pidcontroller');
 const Sylvester = require("../sylvester-withmods.js");
 const ShipSubsystem = require("../shipSubsystem")
 
-class BrainV1 extends ShipSubsystem {
+class AutopilotV1 extends ShipSubsystem {
     constructor(ship, options) {
         super(ship)
         this.target = null
@@ -76,4 +76,4 @@ class BrainV1 extends ShipSubsystem {
     }
 }
 
-module.exports = BrainV1
+module.exports = AutopilotV1
