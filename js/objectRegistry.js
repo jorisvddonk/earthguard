@@ -1,7 +1,10 @@
 let registry = new Map();
 module.exports = {
     add: (obj) => {
-        return registry.set(obj._objid, obj);
+        let objid = obj._objid;
+        if (objid !== null && objid !== undefined) {
+            return registry.set(objid, obj);
+        }
     },
     remove: (obj) => {
         if (typeof obj === "object") {
