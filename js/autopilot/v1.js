@@ -47,7 +47,7 @@ class BrainV1 extends Object {
         var ship_rot = this.controllers.rotPID.step();
         var rot = Mymath.clampRot(-(ship_rot * 0.1));
 
-        //movPID: Set origin to ship's x/y, determine vector between ship and ship.ai.target, rotate everything so that ship points to the right ([1,0]) (rotated vector between ship and ship)'s x-coordinate is the error (OR IS IT THE DISTANCE OF THE VECTOR??? maybe not. probably not.)
+        //movPID: Set origin to ship's x/y, determine vector between ship and target, rotate everything so that ship points to the right ([1,0]) (rotated vector between ship and ship)'s x-coordinate is the error (OR IS IT THE DISTANCE OF THE VECTOR??? maybe not. probably not.)
         var pos_error = this.targetpos
             .subtract(this.ship.positionVec)
             .rotate(

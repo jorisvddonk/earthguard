@@ -16,8 +16,8 @@ const GraphWidget = require("./graphwidget");
 const Keyboard = require("./keyboard");
 const queue = require("./loadQueue");
 const NotificationSystem = require('./notificationSystem');
-const BrainV1 = require('./brains/v1')
-const BrainV2 = require('./brains/v2')
+const BrainV1 = require('./autopilot/v1')
+const BrainV2 = require('./autopilot/v2')
 
 const miscDebug = {};
 const textlines = [];
@@ -135,7 +135,7 @@ function populateUniverse(event) {
   }
 
   let s = spawnRandomShip(false);
-  s.ai.target = gameState.player.ship;
+  s.subsystems.autopilot.target = gameState.player.ship;
 }
 
 function tick(event) {
@@ -387,12 +387,12 @@ function spawnRandomShip(isPlanetTargetter) {
     };
   }
 
-  ship.ai.target = getNextTarget();
-  ship.ai.targetcallback = function () {
+  ship.subsystems.autopilot.target = getNextTarget();
+  ship.subsystems.autopilot.targetcallback = function () {
     if (isPlanetTargetter) {
-      notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.ai.target.name)
+      notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.autopilot.target.name)
     }
-    ship.ai.target = getNextTarget();
+    ship.subsystems.autopilot.target = getNextTarget();
     ship.ai.controllers.posXPID.reset();
     ship.ai.controllers.posYPID.reset();
   };

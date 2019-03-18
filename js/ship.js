@@ -11,8 +11,8 @@ const PIDController = require("./pidcontroller.js");
 const Bullet = require("./bullet");
 const gameState = require("./gameState");
 const Stage = require("./stage");
-const BrainV1 = require('./brains/v1')
-const BrainV2 = require('./brains/v2')
+const AutopilotV1 = require('./autopilot/v1')
+const AutopilotV2 = require('./autopilot/v2')
 const GameObject = require("./gameObject");
 
 class Ship extends GameObject {
@@ -67,14 +67,9 @@ class Ship extends GameObject {
       hull: new HullSubsystem(this, {}),
       cargobays: [],
       sensor: new SensorSubsystem(this, {}),
-      memory: new MemorySubsystem(this, {})
+      memory: new MemorySubsystem(this, {}),
+      autopilot: new AutopilotV2(this, {})
     };
-
-    if (Math.random() < 0.5) {
-      this.ai = new BrainV1(this);
-    } else {
-      this.ai = new BrainV2(this);
-    }
 
     this.is_ai = options.is_ai;
 
@@ -116,7 +111,7 @@ class Ship extends GameObject {
 
   AITick() {
     if (this.is_ai) {
-      this.ai.AITick();
+      this.subsystems.autopilot.AITick();
     }
   };
 
@@ -155,12 +150,12 @@ class Ship extends GameObject {
       this.gfx.graph.graphics
         .beginStroke(stroke)
         .moveTo(0, 0)
-        .lineTo(this.ai.state.x_thrust, this.ai.state.y_thrust)
+        .lineTo(this.subsystems.autopilot.state.x_thrust, this.subsystems.autopilot.state.y_thrust)
         .endStroke();
 
       if (
-        this.ai.target !== null &&
-        this.ai.target.hasOwnProperty("positionVec")
+        this.subsystems.autopilot.target !== null &&
+        this.subsystems.autopilot.target.hasOwnProperty("positionVec")
       ) {
         var interception = this.getFire();
         if (interception !== null) {
@@ -208,10 +203,10 @@ class Ship extends GameObject {
   };
 
   getFire() {
-    if (this.ai.target) {
+    if (this.subsystems.autopilot.target) {
       // fire at target
-      var relPos = this.ai.target.positionVec.subtract(this.positionVec);
-      var relVel = this.ai.target.movementVec.subtract(this.movementVec);
+      var relPos = this.subsystems.autopilot.target.positionVec.subtract(this.positionVec);
+      var relVel = this.subsystems.autopilot.target.movementVec.subtract(this.movementVec);
       var interception2 = Mymath.intercept2(
         {
           x: 0,
