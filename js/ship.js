@@ -206,7 +206,7 @@ class Ship extends GameObject {
   };
 
   getFire() {
-    if (this.subsystems.ai.target) {
+    if (this.subsystems.ai && this.subsystems.ai.target) {
       // fire at target
       var relPos = this.subsystems.ai.target.positionVec.subtract(this.positionVec);
       var relVel = this.subsystems.ai.target.movementVec.subtract(this.movementVec);
