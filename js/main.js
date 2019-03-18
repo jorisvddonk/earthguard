@@ -144,8 +144,8 @@ function tick(event) {
       if (c.movementTick) {
         c.movementTick(event);
       }
-      if (c.AITick) {
-        c.AITick(event);
+      if (c.tick) {
+        c.tick(event);
       }
       if (c.GFXTick) {
         c.GFXTick(event);

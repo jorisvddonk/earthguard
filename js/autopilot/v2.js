@@ -9,7 +9,7 @@ class AutopilotV2 extends BaseAutopilot {
         this.controllers.posYPID = new PIDController(-0.45, -0.0, -80, -10, 10, -10, 10);
     }
 
-    AITick() {
+    tick() {
         let { target, targetpos } = this.getTarget();
         if (targetpos === null) {
             return;

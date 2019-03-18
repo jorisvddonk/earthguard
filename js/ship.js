@@ -21,7 +21,6 @@ class Ship extends GameObject {
     super()
 
     var default_options = {
-      is_ai: true,
       x: Math.random() * 3000 - 1500,
       y: Math.random() * 3000 - 1500,
       gfxID: "ship",
@@ -30,7 +29,8 @@ class Ship extends GameObject {
         bulletspeed: 10,
         bulletlifetime: 1000
       },
-      name: "SomeShip"
+      name: "SomeShip",
+      is_ai: true
     };
     options = _.extend({}, default_options, options);
 
@@ -69,11 +69,9 @@ class Ship extends GameObject {
       cargobays: [],
       sensor: new SensorSubsystem(this, {}),
       memory: new MemorySubsystem(this, {}),
-      autopilot: new AutopilotV2(this, {}),
-      ai: new AISubsystem(this, {})
+      autopilot: options.is_ai ? new AutopilotV2(this, {}) : null,
+      ai: options.is_ai ? new AISubsystem(this, {}) : null
     };
-
-    this.is_ai = options.is_ai;
 
     // debugging stuff when you control-click a ship:
     this.addEventListener('click', event => {
@@ -111,9 +109,12 @@ class Ship extends GameObject {
     this.y = this.positionVec.e(2);
   };
 
-  AITick() {
-    if (this.is_ai) {
-      this.subsystems.autopilot.AITick();
+  tick() {
+    if (this.subsystems.ai && this.subsystems.ai.tick) {
+      this.subsystems.ai.tick();
+    }
+    if (this.subsystems.autopilot && this.subsystems.autopilot.tick) {
+      this.subsystems.autopilot.tick();
     }
   };
 

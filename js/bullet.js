@@ -33,8 +33,6 @@ class Bullet extends GameObject {
     this.x = this.positionVec.e(1);
     this.y = this.positionVec.e(2);
   };
-
-  GFXTick() { };
 }
 
 module.exports = Bullet;

@@ -9,7 +9,7 @@ class AutopilotV1 extends BaseAutopilot {
         this.controllers.movPID = new PIDController(-0.1, -0.1, -40, -1, 1);
     }
 
-    AITick() {
+    tick() {
         let { target, targetpos } = this.getTarget();
         if (targetpos === null) {
             return;
