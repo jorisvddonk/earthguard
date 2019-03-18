@@ -156,8 +156,8 @@ class Ship extends GameObject {
         .endStroke();
 
       if (
-        this.subsystems.autopilot.target !== null &&
-        this.subsystems.autopilot.target.hasOwnProperty("positionVec")
+        this.subsystems.ai.target !== null &&
+        this.subsystems.ai.target.hasOwnProperty("positionVec")
       ) {
         var interception = this.getFire();
         if (interception !== null) {
@@ -205,10 +205,10 @@ class Ship extends GameObject {
   };
 
   getFire() {
-    if (this.subsystems.autopilot.target) {
+    if (this.subsystems.ai.target) {
       // fire at target
-      var relPos = this.subsystems.autopilot.target.positionVec.subtract(this.positionVec);
-      var relVel = this.subsystems.autopilot.target.movementVec.subtract(this.movementVec);
+      var relPos = this.subsystems.ai.target.positionVec.subtract(this.positionVec);
+      var relVel = this.subsystems.ai.target.movementVec.subtract(this.movementVec);
       var interception2 = Mymath.intercept2(
         {
           x: 0,
