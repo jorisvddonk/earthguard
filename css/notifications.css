@@ -7,3 +7,7 @@
 .notification:hover {
     stroke: #fff;
 }
+
+.notification.notification-shipdestroyed {
+    fill: orangered;
+}

@@ -29,7 +29,6 @@ let stage;
 let radar;
 let starmapradar;
 let graphwidget;
-let notificationSystem;
 
 function init() {
   Stage.init();
@@ -41,7 +40,7 @@ function init() {
   queue.addEventListener("complete", setupWidgets);
   queue.loadManifest(contentJSON.files);
 
-  notificationSystem = new NotificationSystem('#updateBar', '#updateBubble')
+  NotificationSystem.init('#updateBar', '#updateBubble');
 
   createjs.Ticker.setFPS(60);
 }
@@ -401,7 +400,7 @@ function spawnRandomShip() {
   ship.addEventListener('ai_targetLost', setNextTarget);
   ship.addEventListener('autopilot_Complete', setNextTarget);
   if (faction === 'Civilians') {
-    ship.addEventListener('autopilot_Complete', () => { notificationSystem.push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.ai.getTarget().name); ship.subsystems.ai.setTarget(getNextTarget()); });
+    ship.addEventListener('autopilot_Complete', () => { NotificationSystem.get().push('shipLanded', "A ship (" + ship.name + ") has landed on planet " + ship.subsystems.ai.getTarget().name); ship.subsystems.ai.setTarget(getNextTarget()); });
   }
   setTimeout(() => {
     setNextTarget();

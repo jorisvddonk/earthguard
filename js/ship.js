@@ -16,6 +16,7 @@ const AutopilotV1 = require('./autopilot/v1')
 const AutopilotV2 = require('./autopilot/v2')
 const GameObject = require("./gameObject");
 const factionRegistry = require("./factionRegistry");
+const NotificationSystem = require("./notificationSystem");
 
 const DEFAULT_OPTIONS = {
   gfxID: "ship",
@@ -85,6 +86,10 @@ class Ship extends GameObject {
         miscDebug.debugship = this;
       }
     })
+
+    this.addEventListener('destroyed', () => {
+      NotificationSystem.get().push('shipDestroyed', 'Ship ' + this._objid + " has been destroyed!");
+    });
   }
 
   capMovement() {

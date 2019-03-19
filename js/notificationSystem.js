@@ -71,4 +71,13 @@ class NotificationSystem extends Object {
     }
 }
 
-module.exports = NotificationSystem;
+let notificationSystem;
+
+module.exports = {
+    get: () => {
+        return notificationSystem;
+    },
+    init: (bar, bubble) => {
+        notificationSystem = new NotificationSystem(bar, bubble);
+    }
+}
