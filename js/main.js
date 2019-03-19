@@ -19,6 +19,7 @@ const NotificationSystem = require('./notificationSystem');
 const AutopilotV1 = require('./autopilot/v1')
 const AutopilotV2 = require('./autopilot/v2')
 const ObjectRegistry = require('./objectRegistry');
+const TargetTypes = require('./subsystem/ai_targettypes');
 
 const miscDebug = {};
 const textlines = [];
@@ -359,16 +360,13 @@ function spawnRandomShip() {
     Pirates: 'ship5',
     Police: 'ship6'
   }[faction];
-  const getShipOfFactionOrRandomPosition = (factionName) => {
-    return _.sample(stage.children.filter(x => x instanceof Ship && x.faction.name === factionName)) || new Sylvester.Vector([
-      Math.random() * 3000 - 1500,
-      Math.random() * 3000 - 1500
-    ])
+  const getShipOfFactionOrHalt = (factionName) => {
+    return _.sample(stage.children.filter(x => x instanceof Ship && x.faction.name === factionName)) || TargetTypes.HALT;
   }
   const getNextTarget = {
     Civilians: () => { return _.sample(gameState.player.currentstar.planets) },
-    Pirates: () => getShipOfFactionOrRandomPosition('Civilians'),
-    Police: () => getShipOfFactionOrRandomPosition('Pirates'),
+    Pirates: () => getShipOfFactionOrHalt('Civilians'),
+    Police: () => getShipOfFactionOrHalt('Pirates'),
   }[faction];
 
   var ship = new Ship(
@@ -383,12 +381,21 @@ function spawnRandomShip() {
       positionVec: new Sylvester.Vector([
         Math.random() * 1500 - 750,
         Math.random() * 1500 - 750
+      ]),
+      movementVec: new Sylvester.Vector([
+        Math.random() * 5 - 1.5,
+        Math.random() * 5 - 1.5
       ])
     }
   );
 
-  const setNextTarget = () => {
-    const nextTarget = getNextTarget();
+  const setNextTarget = (event) => {
+    let nextTarget;
+    if (event && event.data && event.data.target == TargetTypes.HALT) { // ugh, not pretty!
+      nextTarget = null;
+    } else {
+      nextTarget = getNextTarget();
+    }
     setTimeout(() => {
       if (nextTarget === undefined || nextTarget === null) {
         ship.subsystems.ai.clearTarget();

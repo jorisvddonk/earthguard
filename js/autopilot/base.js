@@ -1,6 +1,7 @@
 const ShipSubsystem = require("../shipSubsystem");
 const Sylvester = require("../sylvester-withmods.js");
 const GameObject = require("../gameObject");
+const TargetType = require("../subsystem/ai_targettypes");
 
 class BaseAutopilot extends ShipSubsystem {
     constructor(ship, options) {
@@ -20,6 +21,8 @@ class BaseAutopilot extends ShipSubsystem {
                 return { target, targetpos: target.positionVec };
             } else if (target instanceof Sylvester.Vector) {
                 return { target, targetpos: target };
+            } else if (target === TargetType.HALT) {
+                return { target, targetpos: TargetType.HALT }
             }
         }
         return { target: null, targetpos: null }

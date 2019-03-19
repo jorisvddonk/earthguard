@@ -114,9 +114,14 @@ class Ship extends GameObject {
     }
   };
 
-  rotate(radians) {
+  rotate(radians_or_vector) {
+    // radians_or_vector is a local-vector pointing towards an angle to rate to
+    // or a rotation to point to specified in radians
+    if (radians_or_vector instanceof Sylvester.Vector) {
+      radians_or_vector = this.rotationVec.angleTo(radians_or_vector);
+    }
     this.rotationVec = this.rotationVec
-      .rotate(radians, new Sylvester.Vector([0, 0]))
+      .rotate(Mymath.clampRot(radians_or_vector), new Sylvester.Vector([0, 0]))
       .toUnitVector();
   };
 
@@ -146,13 +151,16 @@ class Ship extends GameObject {
       if (this.subsystems.autopilot instanceof AutopilotV1) {
         stroke = "rgba(255,0,0,1)";
       }
-      this.gfx.graph.graphics
-        .beginStroke(stroke)
-        .moveTo(0, 0)
-        .lineTo(this.subsystems.autopilot.state.x_thrust, this.subsystems.autopilot.state.y_thrust)
-        .endStroke();
+      if (this.subsystems.autopilot) {
+        this.gfx.graph.graphics
+          .beginStroke(stroke)
+          .moveTo(0, 0)
+          .lineTo(this.subsystems.autopilot.state.x_thrust, this.subsystems.autopilot.state.y_thrust)
+          .endStroke();
+      }
 
       if (
+        this.subsystems.ai &&
         this.subsystems.ai.getTarget() !== null &&
         this.subsystems.ai.getTarget().hasOwnProperty("positionVec")
       ) {

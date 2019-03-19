@@ -3,12 +3,7 @@ const ShipSubsystem = require("../shipSubsystem");
 const ObjectRegistry = require("../objectRegistry");
 const GameObject = require("../gameObject");
 const Sylvester = require("../sylvester-withmods.js");
-
-const TargetTypes = {
-    GAMEOBJECT: "GAMEOBJECT",
-    POSITION: "POSITION",
-    NULL: "NULL"
-};
+const TargetTypes = require("./ai_targettypes.js");
 
 class AISubsystem extends ShipSubsystem {
     constructor(ship, options) {
@@ -36,6 +31,8 @@ class AISubsystem extends ShipSubsystem {
             return ObjectRegistry.get(this.target) || null;
         } else if (this.targetType === TargetTypes.POSITION || this.targetType === TargetTypes.NULL) {
             return this.target;
+        } else if (this.targetType === TargetTypes.HALT) {
+            return TargetTypes.HALT;
         }
     }
 
@@ -49,6 +46,9 @@ class AISubsystem extends ShipSubsystem {
         } else if (target instanceof Sylvester.Vector) {
             this.target = target;
             this.targetType = TargetTypes.POSITION;
+        } else if (target === TargetTypes.HALT) {
+            this.target = TargetTypes.HALT;
+            this.targetType = TargetTypes.HALT;
         } else {
             throw new Error("AI: unsupported target type: ", target);
         }

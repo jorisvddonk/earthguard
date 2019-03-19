@@ -1,7 +1,10 @@
 const PIDController = require('../pidcontroller');
 const Sylvester = require("../sylvester-withmods.js");
 const BaseAutopilot = require("./base");
+const TargetTypes = require("../subsystem/ai_targettypes");
 
+const OFFSET_ALLOWED = 0.0872664626; // 5 degrees
+const OFFSET_ALLOWED_BACKWARDS = 0.436332313; // 25 degrees
 class AutopilotV2 extends BaseAutopilot {
     constructor(ship, options) {
         super(ship, options)
@@ -11,7 +14,35 @@ class AutopilotV2 extends BaseAutopilot {
 
     tick() {
         let { target, targetpos } = this.getTarget();
-        if (targetpos === null) {
+        const dispatchCompleteEvent = () => {
+            const evt = new createjs.Event("autopilot_Complete", false, false);
+            evt.data = { target: target, targetpos: targetpos };
+            this.ship.dispatchEvent(evt);
+        }
+
+        if (target === TargetTypes.HALT) {
+            // brake!
+            // rotate towards movement vector's opposite
+            let thrust_vec = this.ship.movementVec.rotate(Math.PI, new Sylvester.Vector([0, 0]));
+            this.ship.rotate(thrust_vec);
+            // thrust!
+            let thrust_angle = this.ship.rotationVec.angleTo(thrust_vec);
+            if (thrust_angle < OFFSET_ALLOWED && thrust_angle > -OFFSET_ALLOWED) {
+                let act_thrust = Mymath.clampThrust(
+                    thrust_vec.modulus() * 500
+                );
+                this.state.lthrust = act_thrust;
+                this.ship.thrust(act_thrust);
+            }
+
+            // Check if we need to call callback
+            if (this.ship.movementVec.modulus() < 0.05) {
+                dispatchCompleteEvent();
+            }
+            return;
+        }
+
+        if (target === null && targetpos === null) {
             return;
         }
 
@@ -36,8 +67,6 @@ class AutopilotV2 extends BaseAutopilot {
         var thrust_vec = new Sylvester.Vector([x_thrust, y_thrust]);
         var sign = 1;
         var thrust_angle = this.ship.rotationVec.angleTo(thrust_vec);
-        const OFFSET_ALLOWED = 0.0872664626; // 5 degrees
-        const OFFSET_ALLOWED_BACKWARDS = 0.436332313; // 25 degrees
 
         // If we have a large thrust vector (large error):
         if (thrust_vec.modulus() > 0) {
@@ -47,7 +76,7 @@ class AutopilotV2 extends BaseAutopilot {
                     thrust_angle < Math.PI - OFFSET_ALLOWED_BACKWARDS &&
                     thrust_angle > -Math.PI + OFFSET_ALLOWED_BACKWARDS
                 ) {
-                    this.ship.rotate(Mymath.clampRot(thrust_angle));
+                    this.ship.rotate(thrust_angle);
                 } else {
                     sign = -1;
                     if (thrust_angle > 0) {
@@ -55,7 +84,7 @@ class AutopilotV2 extends BaseAutopilot {
                     } else if (thrust_angle < 0) {
                         thrust_angle = -(-Math.PI + thrust_angle);
                     }
-                    this.ship.rotate(Mymath.clampRot(thrust_angle));
+                    this.ship.rotate(thrust_angle);
                 }
             }
 
@@ -84,9 +113,7 @@ class AutopilotV2 extends BaseAutopilot {
 
         // Check if we need to call callback
         if (pos_vec_error.modulus() < 50 && this.ship.movementVec.modulus() < 0.75) {
-            const evt = new createjs.Event("autopilot_Complete", false, false);
-            evt.data = {};
-            this.ship.dispatchEvent(evt);
+            dispatchCompleteEvent();
         }
     }
 }
