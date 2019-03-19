@@ -68,6 +68,21 @@ function initGame() {
     evt.preventDefault();
   });
 
+  // Zoom out when pressing minus
+  Keyboard.onKeyDown(189, (evt) => {
+    stage.scaleX *= 0.5;
+    stage.scaleY *= 0.5;
+    generateParallax();
+    evt.preventDefault();
+  });
+  // Zoom in when pressing plus
+  Keyboard.onKeyDown(187, (evt) => {
+    stage.scaleX *= 2.0;
+    stage.scaleY *= 2.0;
+    generateParallax();
+    evt.preventDefault();
+  });
+
   setupParallax();
 
   // Setup solar system container
