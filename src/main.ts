@@ -4,7 +4,7 @@ import Sylvester from './sylvester-withmods';
 const Mymath = require("./mymath").default;
 const gameState = require("./gameState").default;
 const Stage = require("./stage").default;
-const Noty = require("noty").default;
+const Noty = require("noty");
 const Ship = require("./ship").default;
 const Bullet = require("./bullet").default;
 const Starmap = require("./starmap").default;
