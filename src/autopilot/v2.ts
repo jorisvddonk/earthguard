@@ -1,7 +1,7 @@
 import Mymath from '../mymath'
 import PIDController from '../pidcontroller'
 import Ship from '../ship'
-import TargetTypes from '../subsystem/ai_targettypes'
+import { TargetType } from '../subsystem/ai_targettypes'
 import Sylvester from '../sylvester-withmods'
 import BaseAutopilot from './base'
 
@@ -40,7 +40,7 @@ export class AutopilotV2 extends BaseAutopilot {
       this.ship.dispatchEvent(evt)
     }
 
-    if (target === TargetTypes.HALT) {
+    if (target === TargetType.HALT) {
       // brake!
       // rotate towards movement vector's opposite
       const thrust_vec = this.ship.movementVec.rotate(

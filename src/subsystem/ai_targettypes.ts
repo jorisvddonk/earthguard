@@ -1,6 +1,6 @@
-export default {
-  GAMEOBJECT: 'GAMEOBJECT',
-  POSITION: 'POSITION',
-  NULL: 'NULL',
-  HALT: 'HALT',
+export enum TargetType {
+  GAMEOBJECT,
+  POSITION,
+  NULL,
+  HALT,
 }

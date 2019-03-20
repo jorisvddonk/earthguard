@@ -18,7 +18,7 @@ import Stage from './stage'
 import Starmap from './starmap'
 import StarmapRadar from './starmapradar'
 import { StarWidget } from './starwidget'
-import TargetTypes from './subsystem/ai_targettypes'
+import { TargetType } from './subsystem/ai_targettypes'
 import Sylvester from './sylvester-withmods'
 
 const miscDebug = {}
@@ -419,7 +419,7 @@ function spawnRandomShip() {
         stage.children.filter(
           x => x instanceof Ship && x.faction.name === factionName
         )
-      ) || TargetTypes.HALT
+      ) || TargetType.HALT
     )
   }
   const getNextTarget = {
@@ -450,7 +450,7 @@ function spawnRandomShip() {
 
   const setNextTarget = event => {
     let nextTarget
-    if (event && event.data && event.data.target === TargetTypes.HALT) {
+    if (event && event.data && event.data.target === TargetType.HALT) {
       // ugh, not pretty!
       nextTarget = null
     } else {

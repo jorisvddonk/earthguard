@@ -3,20 +3,20 @@ import GameObject from '../gameObject'
 import ObjectRegistry from '../objectRegistry'
 import ShipSubsystem from '../shipSubsystem'
 import Sylvester from '../sylvester-withmods'
-import TargetTypes from './ai_targettypes'
+import { TargetType } from './ai_targettypes'
 
 class AISubsystem extends ShipSubsystem {
   public target: any
-  public targetType: string
+  public targetType: TargetType
   constructor(ship, options) {
     super(ship)
     this.subsystemType = 'ai'
     this.target = null
-    this.targetType = TargetTypes.NULL
+    this.targetType = TargetType.NULL
   }
 
   public tick() {
-    if (this.target !== null && this.targetType === TargetTypes.GAMEOBJECT) {
+    if (this.target !== null && this.targetType === TargetType.GAMEOBJECT) {
       if (!ObjectRegistry.has(this.target)) {
         console.log(this.ship._objid, 'Target lost', this.target)
         const evt = new createjs.Event('ai_targetLost', false, false)
@@ -28,15 +28,15 @@ class AISubsystem extends ShipSubsystem {
   }
 
   public getTarget() {
-    if (this.targetType === TargetTypes.GAMEOBJECT) {
+    if (this.targetType === TargetType.GAMEOBJECT) {
       return ObjectRegistry.get(this.target) || null
     } else if (
-      this.targetType === TargetTypes.POSITION ||
-      this.targetType === TargetTypes.NULL
+      this.targetType === TargetType.POSITION ||
+      this.targetType === TargetType.NULL
     ) {
       return this.target
-    } else if (this.targetType === TargetTypes.HALT) {
-      return TargetTypes.HALT
+    } else if (this.targetType === TargetType.HALT) {
+      return TargetType.HALT
     }
   }
 
@@ -50,13 +50,13 @@ class AISubsystem extends ShipSubsystem {
         throw new Error(`Target has no object ID: ${target}`)
       }
       this.target = target._objid
-      this.targetType = TargetTypes.GAMEOBJECT
+      this.targetType = TargetType.GAMEOBJECT
     } else if (target instanceof Sylvester.Vector) {
       this.target = target
-      this.targetType = TargetTypes.POSITION
-    } else if (target === TargetTypes.HALT) {
-      this.target = TargetTypes.HALT
-      this.targetType = TargetTypes.HALT
+      this.targetType = TargetType.POSITION
+    } else if (target === TargetType.HALT) {
+      this.target = TargetType.HALT
+      this.targetType = TargetType.HALT
     } else {
       throw new Error(`AI: unsupported target type for ${target}`)
     }
@@ -67,7 +67,7 @@ class AISubsystem extends ShipSubsystem {
 
   public clearTarget() {
     this.target = null
-    this.targetType = TargetTypes.NULL
+    this.targetType = TargetType.NULL
   }
 }
 
