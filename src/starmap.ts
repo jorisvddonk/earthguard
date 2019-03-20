@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import Phonetics from './namegen.js'
+import Phonetics from './phonetics'
 import SIMPROPS from './simproperties'
 import Star from './star'
 // STARMAP constructor function. This is returned in this module...

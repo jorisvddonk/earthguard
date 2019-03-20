@@ -2,7 +2,7 @@ import _ from 'lodash'
 import StarMetadata from '../content/meta/stars.json'
 import Jumpgate from './jumpgate'
 import queue from './loadQueue'
-import Phonetics from './namegen.js'
+import Phonetics from './phonetics'
 import Planet from './planet'
 import Sylvester from './sylvester-withmods'
 let _last_id = 0
