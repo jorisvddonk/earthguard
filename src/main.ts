@@ -11,7 +11,7 @@ import queue from './loadQueue'
 import Mymath from './mymath'
 import NotificationSystem from './notificationSystem'
 import ObjectRegistry from './objectRegistry'
-import Parallax from './parallax.js'
+import Parallax from './parallax'
 import Radar from './radar'
 import Ship from './ship'
 import Stage from './stage'
@@ -125,20 +125,21 @@ function generateParallax() {
   gameState.containers.parallax.removeAllChildren()
 
   // Setup parallax
+  const myCanvas = document.getElementById('myCanvas')
   gameState.containers.parallax.addChild(
-    new Parallax('parallax0', 0, queue, stage)
+    new Parallax('parallax0', 0, queue, myCanvas)
   )
   gameState.containers.parallax.addChild(
-    new Parallax('parallax1_0', 1 / 50, queue, stage)
+    new Parallax('parallax1_0', 1 / 50, queue, myCanvas)
   )
   gameState.containers.parallax.addChild(
-    new Parallax('parallax2', 1 / 30, queue, stage)
+    new Parallax('parallax2', 1 / 30, queue, myCanvas)
   )
   gameState.containers.parallax.addChild(
-    new Parallax('parallax3', 1 / 10, queue, stage)
+    new Parallax('parallax3', 1 / 10, queue, myCanvas)
   )
   gameState.containers.parallax.addChild(
-    new Parallax('parallax4', 1 / 1, queue, stage)
+    new Parallax('parallax4', 1 / 1, queue, myCanvas)
   )
 }
 

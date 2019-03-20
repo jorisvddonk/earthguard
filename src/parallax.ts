@@ -1,67 +1,85 @@
-export default function Parallax(manifestID, parallax_factor, queue, stage) {
-  var plx = new createjs.Container()
-  plx.gfx = {
-    bitmaps: [],
-    width: null,
-    height: null,
+export default class Parallax extends createjs.Container {
+  public gfx: { bitmaps: any[]; width: any; height: any }
+  public parallaxFactor: any
+  public myCanvas: any
+  private initialized: boolean
+  private queue: any
+  private manifestID: any
+  constructor(manifestID, parallaxFactor, queue, myCanvas) {
+    super()
+    this.gfx = {
+      bitmaps: [],
+      width: null,
+      height: null,
+    }
+    this.myCanvas = myCanvas
+    this.queue = queue
+    this.manifestID = manifestID
+    this.parallaxFactor = parallaxFactor
+    const tbitmap = new createjs.Bitmap(queue.getResult(manifestID))
+    this.gfx.width = tbitmap.image.width
+    this.gfx.height = tbitmap.image.height
+    this.initialized = false
   }
-  plx.parallax_factor = parallax_factor
-  var tbitmap = new createjs.Bitmap(queue.getResult(manifestID))
-  plx.gfx.width = tbitmap.image.width
-  plx.gfx.height = tbitmap.image.height
-  var ix = 0
-  var iy = 0
-  function addParallaxBitmap(x, y, ix, iy) {
-    var bmap = new createjs.Bitmap(queue.getResult(manifestID))
+
+  public GFXTick() {
+    if (!this.initialized) {
+      this.initialize()
+    }
+    this.x =
+      this.stage.regX -
+      this.gfx.width -
+      ((this.stage.regX * this.parallaxFactor) % this.gfx.width) +
+      this.myCanvas.width * 0.5
+    while (this.x - this.stage.regX > 0) {
+      this.x = this.x - this.gfx.width
+    }
+    while (this.x - this.stage.regX < -this.gfx.width) {
+      this.x = this.x + this.gfx.width
+    }
+
+    this.y =
+      this.stage.regY -
+      this.gfx.height -
+      ((this.stage.regY * this.parallaxFactor) % this.gfx.height) +
+      this.myCanvas.height * 0.5
+    while (this.y - this.stage.regY > 0) {
+      this.y = this.y - this.gfx.height
+    }
+    while (this.y - this.stage.regY < -this.gfx.height) {
+      this.y = this.y + this.gfx.height
+    }
+  }
+
+  private addParallaxBitmap(x, y, ix, iy) {
+    const bmap = new createjs.Bitmap(this.queue.getResult(this.manifestID))
     bmap.regX = 0
     bmap.regY = 0
     bmap.x = x
     bmap.y = y
-    plx.gfx.bitmaps.push(bmap)
-    plx.addChild(bmap)
+    this.gfx.bitmaps.push(bmap)
+    this.addChild(bmap)
   }
-  for (
-    let y = 0;
-    y < myCanvas.height * (1 / stage.scaleY) + 1 * plx.gfx.height;
-    y = y + plx.gfx.height
-  ) {
-    ix = 0
+
+  private initialize() {
+    let ix = 0
+    let iy = 0
     for (
-      let x = 0;
-      x < myCanvas.width * (1 / stage.scaleX) + 1 * plx.gfx.width;
-      x = x + plx.gfx.width
+      let y = 0;
+      y < this.myCanvas.height * (1 / this.stage.scaleY) + 1 * this.gfx.height;
+      y = y + this.gfx.height
     ) {
-      addParallaxBitmap(x, y, ix, iy)
-      ix += 1
+      ix = 0
+      for (
+        let x = 0;
+        x < this.myCanvas.width * (1 / this.stage.scaleX) + 1 * this.gfx.width;
+        x = x + this.gfx.width
+      ) {
+        this.addParallaxBitmap(x, y, ix, iy)
+        ix += 1
+      }
+      iy += 1
     }
-    iy += 1
+    this.initialized = true
   }
-
-  plx.GFXTick = function() {
-    plx.x =
-      stage.regX -
-      plx.gfx.width -
-      ((stage.regX * plx.parallax_factor) % plx.gfx.width) +
-      myCanvas.width * 0.5
-    while (plx.x - stage.regX > 0) {
-      plx.x = plx.x - plx.gfx.width
-    }
-    while (plx.x - stage.regX < -plx.gfx.width) {
-      plx.x = plx.x + plx.gfx.width
-    }
-
-    plx.y =
-      stage.regY -
-      plx.gfx.height -
-      ((stage.regY * plx.parallax_factor) % plx.gfx.height) +
-      myCanvas.height * 0.5
-    while (plx.y - stage.regY > 0) {
-      plx.y = plx.y - plx.gfx.height
-    }
-    while (plx.y - stage.regY < -plx.gfx.height) {
-      plx.y = plx.y + plx.gfx.height
-    }
-  }
-
-  return plx
 }

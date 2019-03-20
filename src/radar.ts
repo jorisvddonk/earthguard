@@ -47,7 +47,7 @@ class Radar {
     /*
         PLANETS and JUMPGATES (BODIES)
       */
-    let planets = this.bodiesGroup
+    const planets = this.bodiesGroup
       .selectAll('circle.planet')
       .data(gameState.player.currentstar.planets, d => d.id)
 
@@ -65,7 +65,7 @@ class Radar {
 
     planets.exit().remove()
 
-    let jumpgates = this.bodiesGroup
+    const jumpgates = this.bodiesGroup
       .selectAll('circle.jumpgate')
       .data(gameState.player.currentstar.jumpgates, function(d) {
         return d.id
@@ -88,7 +88,7 @@ class Radar {
     /*
         SHIPS
       */
-    let ships = this.shipsGroup
+    const ships = this.shipsGroup
       .selectAll('circle.ship')
       .data(Stage.get().children.filter(x => x instanceof Ship), function(d) {
         return d.id
@@ -114,7 +114,7 @@ class Radar {
         MISC
       */
     // star
-    let misc_star = this.miscGroup
+    const misc_star = this.miscGroup
       .selectAll('circle.star')
       .data([gameState.player.currentstar], function(d) {
         return d.id
