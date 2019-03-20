@@ -1,5 +1,5 @@
+import Sylvester from '../sylvester-withmods';
 const ShipSubsystem = require("../shipSubsystem");
-const Sylvester = require("../sylvester-withmods");
 const GameObject = require("../gameObject");
 const TargetType = require("../subsystem/ai_targettypes");
 
@@ -29,4 +29,4 @@ class BaseAutopilot extends ShipSubsystem {
     }
 }
 
-module.exports = BaseAutopilot;
+export default BaseAutopilot;

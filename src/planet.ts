@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const queue = require("./loadQueue");
 const GameObject = require("./gameObject");
-const Sylvester = require("./sylvester-withmods");
+import Sylvester from './sylvester-withmods';
 
 const DEFAULT_OPTIONS = {
   gfxID: "planet_test",
@@ -37,4 +37,4 @@ class Planet extends GameObject {
   };
 };
 
-module.exports = Planet;
+export default Planet;

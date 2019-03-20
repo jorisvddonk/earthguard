@@ -1,6 +1,6 @@
+import Sylvester from '../sylvester-withmods';
 const _ = require("lodash");
 const ShipSubsystem = require("../shipSubsystem");
-const Sylvester = require("../sylvester-withmods");
 
 class EngineSubsystem extends ShipSubsystem {
     constructor(ship, options) {
@@ -16,4 +16,4 @@ class EngineSubsystem extends ShipSubsystem {
     }
 };
 
-module.exports = EngineSubsystem;
+export default EngineSubsystem;

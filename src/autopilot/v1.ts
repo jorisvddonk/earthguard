@@ -1,5 +1,5 @@
+import Sylvester from '../sylvester-withmods';
 const PIDController = require('../pidcontroller');
-const Sylvester = require("../sylvester-withmods");
 const BaseAutopilot = require("./base");
 
 class AutopilotV1 extends BaseAutopilot {
@@ -56,4 +56,4 @@ class AutopilotV1 extends BaseAutopilot {
     }
 }
 
-module.exports = AutopilotV1
+export default AutopilotV1

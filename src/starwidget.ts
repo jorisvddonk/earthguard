@@ -23,4 +23,4 @@ class StarWidget extends Object {
   }
 };
 
-module.exports = StarWidget;
+export default StarWidget;

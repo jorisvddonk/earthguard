@@ -1,4 +1,4 @@
-module.exports = function Parallax(
+export default function Parallax(
   manifestID,
   parallax_factor,
   queue,

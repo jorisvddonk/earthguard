@@ -127,4 +127,4 @@ Phonetics.prototype.clearNameCache = function () {
   this._unique_generate_cache = [];
 };
 
-module.exports = Phonetics;
+export default Phonetics;

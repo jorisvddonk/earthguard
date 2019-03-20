@@ -4,7 +4,7 @@ const colorIncrement = 0.1;
 let nextColor = -colorIncrement;
 const DEFAULT_OPTIONS = {};
 
-class Faction extends Object {
+export class Faction extends Object {
     constructor(options) {
         nextColor += colorIncrement;
         nextColor = nextColor % 1;
@@ -14,5 +14,3 @@ class Faction extends Object {
         this.color = options.color;
     }
 }
-
-module.exports = Faction;

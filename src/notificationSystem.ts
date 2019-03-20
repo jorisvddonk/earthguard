@@ -1,6 +1,13 @@
 const d3 = require("d3");
 
-class NotificationSystem extends Object {
+export class NotificationSystem extends Object {
+    notificationBarElement: any;
+    bubbleElement: any;
+    data: any[];
+    ind: number;
+    chart: any;
+    notificationSVGElement: any;
+
     constructor(notificationBarSelector, bubbleSelector) {
         super();
 
@@ -73,7 +80,7 @@ class NotificationSystem extends Object {
 
 let notificationSystem;
 
-module.exports = {
+export default {
     get: () => {
         return notificationSystem;
     },

@@ -22,4 +22,4 @@ const Keyboard = {
 };
 window.addEventListener("keydown", Keyboard.keyPress.bind(Keyboard));
 window.addEventListener("keyup", Keyboard.keyRelease.bind(Keyboard));
-module.exports = Keyboard;
+export default Keyboard;

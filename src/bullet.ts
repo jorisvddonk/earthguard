@@ -31,4 +31,4 @@ class Bullet extends GameObject {
   }
 }
 
-module.exports = Bullet;
+export default Bullet;

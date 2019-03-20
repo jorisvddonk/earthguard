@@ -1,6 +1,6 @@
-const Sylvester = require("./sylvester-withmods");
+import Sylvester from './sylvester-withmods';
 
-Mymath = {};
+const Mymath = {};
 
 Mymath.largest_root_of_quadratic_equation = function (a, b, c) {
   //a, b and c should be floats
@@ -126,4 +126,4 @@ Mymath.quad = function (a, b, c) {
   return sol;
 };
 
-module.exports = Mymath;
+export default Mymath;

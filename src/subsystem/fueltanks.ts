@@ -37,4 +37,4 @@ class FueltanksSubsystem extends ShipSubsystem {
 
 };
 
-module.exports = FueltanksSubsystem;
+export default FueltanksSubsystem;

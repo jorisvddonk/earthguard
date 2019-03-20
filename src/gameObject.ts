@@ -1,5 +1,5 @@
+import Sylvester from './sylvester-withmods';
 const Stage = require("./stage");
-const Sylvester = require("./sylvester-withmods");
 const _ = require("lodash");
 let nextObjectID = 0;
 const ObjectRegistry = require("./objectRegistry");
@@ -46,4 +46,4 @@ class GameObject extends createjs.Container {
     };
 }
 
-module.exports = GameObject
+export default GameObject

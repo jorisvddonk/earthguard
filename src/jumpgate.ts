@@ -48,4 +48,4 @@ class Jumpgate extends createjs.Container {
   };
 }
 
-module.exports = Jumpgate;
+export default Jumpgate;

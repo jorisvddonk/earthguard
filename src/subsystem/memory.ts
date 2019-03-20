@@ -51,4 +51,4 @@ class MemorySubsystem extends ShipSubsystem {
     }
 };
 
-module.exports = MemorySubsystem;
+export default MemorySubsystem;

@@ -1,3 +1,4 @@
+import factionRegistry from './factionRegistry';
 const _ = require("lodash");
 const FueltanksSubsystem = require("./subsystem/fueltanks");
 const HullSubsystem = require("./subsystem/hull");
@@ -5,7 +6,7 @@ const EngineSubsystem = require("./subsystem/engine");
 const SensorSubsystem = require("./subsystem/sensor");
 const MemorySubsystem = require("./subsystem/memory");
 const AISubsystem = require("./subsystem/ai");
-const Sylvester = require("./sylvester-withmods");
+import Sylvester from './sylvester-withmods';
 const queue = require("./loadQueue");
 const Mymath = require("./mymath");
 const PIDController = require("./pidcontroller");
@@ -15,7 +16,6 @@ const Stage = require("./stage");
 const AutopilotV1 = require('./autopilot/v1')
 const AutopilotV2 = require('./autopilot/v2')
 const GameObject = require("./gameObject");
-const factionRegistry = require("./factionRegistry");
 const NotificationSystem = require("./notificationSystem");
 
 const DEFAULT_OPTIONS = {
@@ -235,4 +235,4 @@ class Ship extends GameObject {
   };
 };
 
-module.exports = Ship;
+export default Ship;

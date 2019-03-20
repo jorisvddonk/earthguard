@@ -1,9 +1,9 @@
+import Sylvester from '../sylvester-withmods';
 const _ = require("lodash");
 const ShipSubsystem = require("../shipSubsystem");
 const ObjectRegistry = require("../objectRegistry");
 const GameObject = require("../gameObject");
-const Sylvester = require("../sylvester-withmods");
-const TargetTypes = require("./ai_targettypes.js");
+const TargetTypes = require("./ai_targettypes");
 
 class AISubsystem extends ShipSubsystem {
     constructor(ship, options) {
@@ -63,4 +63,4 @@ class AISubsystem extends ShipSubsystem {
     }
 };
 
-module.exports = AISubsystem;
+export default AISubsystem;

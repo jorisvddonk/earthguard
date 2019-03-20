@@ -1,5 +1,5 @@
 let registry = new Map();
-module.exports = {
+export default {
     add: (obj) => {
         let objid = obj._objid;
         if (objid !== null && objid !== undefined) {

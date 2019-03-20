@@ -129,4 +129,4 @@ class Radar extends Object {
   };
 }
 
-module.exports = Radar;
+export default Radar;

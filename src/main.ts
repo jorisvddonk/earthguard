@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const Parallax = require("./parallax");
-const Sylvester = require("./sylvester-withmods");
+import Sylvester from './sylvester-withmods';
 const Mymath = require("./mymath");
 const gameState = require("./gameState");
 const Stage = require("./stage");

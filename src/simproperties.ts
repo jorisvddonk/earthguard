@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   NSTARS: 100,
   IMGSIZE: 700,
   MIN_LINKS_BETWEEN_STARS: 3,

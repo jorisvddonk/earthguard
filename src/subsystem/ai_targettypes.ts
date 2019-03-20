@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     GAMEOBJECT: "GAMEOBJECT",
     POSITION: "POSITION",
     NULL: "NULL",

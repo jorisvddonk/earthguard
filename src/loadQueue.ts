@@ -1,1 +1,1 @@
-module.exports = new createjs.LoadQueue();
+export default new createjs.LoadQueue();

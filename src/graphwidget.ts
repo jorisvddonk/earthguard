@@ -69,4 +69,4 @@ class GraphWidget extends Object {
 
 }
 
-module.exports = GraphWidget;
+export default GraphWidget;

@@ -1,5 +1,5 @@
 let stage;
-module.exports = {
+export default {
   init: () => {
     stage = new createjs.Stage("myCanvas");
   },

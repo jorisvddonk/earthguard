@@ -1,5 +1,5 @@
+import Sylvester from '../sylvester-withmods';
 const PIDController = require('../pidcontroller');
-const Sylvester = require("../sylvester-withmods");
 const BaseAutopilot = require("./base");
 const TargetTypes = require("../subsystem/ai_targettypes");
 
@@ -118,4 +118,4 @@ class AutopilotV2 extends BaseAutopilot {
     }
 }
 
-module.exports = AutopilotV2
+export default AutopilotV2

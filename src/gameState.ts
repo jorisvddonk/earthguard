@@ -30,4 +30,4 @@ const gameState = {
   },
   on: ee.on.bind(ee)
 };
-module.exports = gameState;
+export default gameState;

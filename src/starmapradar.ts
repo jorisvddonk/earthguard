@@ -136,4 +136,4 @@ class StarmapRadar extends Object {
   };
 };
 
-module.exports = StarmapRadar;
+export default StarmapRadar;

@@ -15,4 +15,4 @@ class SensorSubsystem extends ShipSubsystem {
     }
 };
 
-module.exports = SensorSubsystem;
+export default SensorSubsystem;

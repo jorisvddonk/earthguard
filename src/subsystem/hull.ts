@@ -20,4 +20,4 @@ class HullSubsystem extends ShipSubsystem {
     }
 };
 
-module.exports = HullSubsystem;
+export default HullSubsystem;

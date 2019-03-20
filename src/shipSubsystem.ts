@@ -6,4 +6,4 @@ class ShipSubsystem extends Object {
   }
 };
 
-module.exports = ShipSubsystem;
+export default ShipSubsystem;
