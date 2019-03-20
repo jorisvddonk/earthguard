@@ -85,7 +85,9 @@ const Mymath = {
       const t0 = ts[0]
       const t1 = ts[1]
       let t = Math.min(t0, t1)
-      if (t < 0) { t = Math.max(t0, t1) }
+      if (t < 0) {
+        t = Math.max(t0, t1)
+      }
       if (t > 0) {
         sol = {
           x: dst.x + dst.vx * t,
