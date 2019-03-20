@@ -5,8 +5,8 @@ let nextColor = -colorIncrement
 const DEFAULT_OPTIONS = {}
 
 export class Faction {
-  name: string
-  color: any
+  public name: string
+  public color: any
   constructor(options) {
     nextColor += colorIncrement
     nextColor = nextColor % 1

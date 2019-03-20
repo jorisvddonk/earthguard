@@ -4,13 +4,13 @@ const SmoothieChart = smoothie.SmoothieChart
 const TimeSeries = smoothie.TimeSeries
 
 class GraphWidget {
-  getValueFunc: any
-  lastData: number
-  lastUpdate: number
-  parentElement: any
-  canvas: HTMLCanvasElement
-  chart: any
-  line1: any
+  public getValueFunc: any
+  public lastData: number
+  public lastUpdate: number
+  public parentElement: any
+  public canvas: HTMLCanvasElement
+  public chart: any
+  public line1: any
   constructor(element_selector, chartoptions, getValueFunc) {
     if (chartoptions === undefined) {
       chartoptions = {}
@@ -32,7 +32,7 @@ class GraphWidget {
     this.canvas.setAttribute('height', this.parentElement.offsetHeight)
     this.parentElement.append(this.canvas)
 
-    let ctx = this.canvas.getContext('2d')
+    const ctx = this.canvas.getContext('2d')
 
     let smoothie_options = {
       interpolation: 'linear',
@@ -59,7 +59,7 @@ class GraphWidget {
     })
   }
 
-  update() {
+  public update() {
     this.lastData = this.getValueFunc()
     if (this.lastUpdate > 2) {
       this.line1.append(new Date().getTime(), this.lastData)

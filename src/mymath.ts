@@ -2,8 +2,8 @@ import Sylvester from './sylvester-withmods'
 
 const Mymath = {
   largest_root_of_quadratic_equation(a, b, c) {
-    //a, b and c should be floats
-    //returns: float
+    // a, b and c should be floats
+    // returns: float
     return (b + Math.sqrt(b * b - 4 * a * c)) / (2 * a)
   },
 
@@ -12,14 +12,14 @@ const Mymath = {
     // bullet_speed = float
     // target = point
     // target_velocity = vector
-    var a = bullet_speed * bullet_speed - target_velocity.dot(target_velocity)
-    var b = -2 * target_velocity.dot(target.subtract(shooter))
-    var c = -target.subtract(shooter).dot(target.subtract(shooter))
-    var lrg = this.largest_root_of_quadratic_equation(a, b, c)
+    const a = bullet_speed * bullet_speed - target_velocity.dot(target_velocity)
+    const b = -2 * target_velocity.dot(target.subtract(shooter))
+    const c = -target.subtract(shooter).dot(target.subtract(shooter))
+    const lrg = this.largest_root_of_quadratic_equation(a, b, c)
     if (isNaN(lrg)) {
       return null
     } else {
-      var interception_world = target.add(target_velocity.multiply(lrg))
+      const interception_world = target.add(target_velocity.multiply(lrg))
       return interception_world.subtract(shooter)
     }
   },
@@ -66,26 +66,26 @@ const Mymath = {
    * SOURCE: http://stackoverflow.com/questions/2248876/2d-game-fire-at-a-moving-target-by-predicting-intersection-of-projectile-and-u
    */
   intercept2(src, dst, v) {
-    let tx = dst.x - src.x
-    let ty = dst.y - src.y
-    let tvx = dst.vx
-    let tvy = dst.vy
+    const tx = dst.x - src.x
+    const ty = dst.y - src.y
+    const tvx = dst.vx
+    const tvy = dst.vy
 
     // Get quadratic equation components
-    let a = tvx * tvx + tvy * tvy - v * v
-    let b = 2 * (tvx * tx + tvy * ty)
-    let c = tx * tx + ty * ty
+    const a = tvx * tvx + tvy * tvy - v * v
+    const b = 2 * (tvx * tx + tvy * ty)
+    const c = tx * tx + ty * ty
 
     // Solve quadratic
-    let ts = this.quad(a, b, c) // See quad(), below
+    const ts = this.quad(a, b, c) // See quad(), below
 
     // Find smallest positive solution
     let sol = null
     if (ts) {
-      let t0 = ts[0]
-      let t1 = ts[1]
+      const t0 = ts[0]
+      const t1 = ts[1]
       let t = Math.min(t0, t1)
-      if (t < 0) t = Math.max(t0, t1)
+      if (t < 0) { t = Math.max(t0, t1) }
       if (t > 0) {
         sol = {
           x: dst.x + dst.vx * t,

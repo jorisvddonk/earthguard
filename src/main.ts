@@ -1,31 +1,31 @@
-import Sylvester from './sylvester-withmods'
-import { StarWidget } from './starwidget'
-import { AutopilotV2 } from './autopilot/v2'
 import _ from 'lodash'
-import Parallax from './parallax.js'
-import Mymath from './mymath'
-import gameState from './gameState'
-import Stage from './stage'
 import Noty from 'noty'
-import Ship from './ship'
-import Bullet from './bullet'
-import Starmap from './starmap'
 import contentJSON from '../content/meta/content.json'
-import Radar from './radar'
-import StarmapRadar from './starmapradar'
+import AutopilotV1 from './autopilot/v1'
+import { AutopilotV2 } from './autopilot/v2'
+import Bullet from './bullet'
+import gameState from './gameState'
 import GraphWidget from './graphwidget'
 import Keyboard from './keyboard'
 import queue from './loadQueue'
+import Mymath from './mymath'
 import NotificationSystem from './notificationSystem'
-import AutopilotV1 from './autopilot/v1'
 import ObjectRegistry from './objectRegistry'
+import Parallax from './parallax.js'
+import Radar from './radar'
+import Ship from './ship'
+import Stage from './stage'
+import Starmap from './starmap'
+import StarmapRadar from './starmapradar'
+import { StarWidget } from './starwidget'
 import TargetTypes from './subsystem/ai_targettypes'
+import Sylvester from './sylvester-withmods'
 
 const miscDebug = {}
 const textlines = []
 const updatables = []
 
-let ticking = true
+const ticking = true
 let stage
 let radar
 let starmapradar
@@ -54,8 +54,8 @@ function initGame() {
   gameState.containers.parallax = new createjs.Container()
 
   // Setup debug textlines
-  for (var i = 0; i < 100; i++) {
-    var text = new createjs.Text('', '12px monospace', '#aaaaaa')
+  for (let i = 0; i < 100; i++) {
+    const text = new createjs.Text('', '12px monospace', '#aaaaaa')
     text.x = 10
     text.y = 200 + 10 * i
     text.textBaseline = 'alphabetic'
@@ -92,7 +92,7 @@ function initGame() {
   // Set up OSD (GUI) last
   stage.addChild(gameState.containers.osd, gameState.containers.osd_world)
 
-  //finally set up tick eventlistener
+  // finally set up tick eventlistener
   createjs.Ticker.addEventListener('tick', tick)
 }
 
@@ -114,7 +114,7 @@ function setupParallax() {
   */
 
   // Regenerate whenever we resize our window.
-  //TODO! For some reason, WatchJS and PathObserver can't do this, and binding the onresize event to myCanvas doesn't work either. Shit.
+  // TODO! For some reason, WatchJS and PathObserver can't do this, and binding the onresize event to myCanvas doesn't work either. Shit.
 
   // Generate parallaxes
   generateParallax()
@@ -147,14 +147,14 @@ function populateUniverse(event) {
   gameState.player.ship.positionVec = new Sylvester.Vector([200, 300])
   stage.addChild(gameState.player.ship)
 
-  for (var i = 0; i < 30; i++) {
+  for (let i = 0; i < 30; i++) {
     spawnRandomShip()
   }
 }
 
 function tick(event) {
   if (ticking) {
-    for (let c of stage.children) {
+    for (const c of stage.children) {
       if (c.movementTick) {
         c.movementTick(event)
       }
@@ -167,7 +167,7 @@ function tick(event) {
 
       if (c instanceof Bullet) {
         // test if it's close to a ship
-        for (let s of stage.children.filter(
+        for (const s of stage.children.filter(
           x =>
             x instanceof Ship && x !== c.owner && c.owner.faction !== x.faction
         )) {
@@ -181,7 +181,7 @@ function tick(event) {
         }
       }
     }
-    for (let c of gameState.containers.parallax.children) {
+    for (const c of gameState.containers.parallax.children) {
       if (c.GFXTick) {
         c.GFXTick(event)
       }
@@ -190,19 +190,19 @@ function tick(event) {
     debugtick()
 
     if (Keyboard.isPressed(65)) {
-      //A
+      // A
       gameState.player.ship.rotate(Math.PI * -0.01)
     }
     if (Keyboard.isPressed(68)) {
-      //D
+      // D
       gameState.player.ship.rotate(Math.PI * 0.01)
     }
     if (Keyboard.isPressed(87)) {
-      //W
+      // W
       gameState.player.ship.thrust(1)
     }
     if (Keyboard.isPressed(83)) {
-      //S
+      // S
       gameState.player.ship.thrust(-1)
     }
     if (Keyboard.isPressed(32)) {
@@ -333,7 +333,7 @@ function recreateSolarSystem() {
             (jumpgate.y - gameState.player.ship.y) <
         10000
       ) {
-        let n = new Noty({
+        const n = new Noty({
           text: 'Do you want to jump to ' + jumpgate.linkedstar.name + '?',
           layout: 'bottomRight',
           type: 'alert',
@@ -341,12 +341,12 @@ function recreateSolarSystem() {
             Noty.button('Ok', 'btn btn-primary', function($noty) {
               $noty.close()
               // Jump to star
-              var prevStar = gameState.player.currentstar
+              const prevStar = gameState.player.currentstar
               gameState.player.currentstar = jumpgate.linkedstar
               // Set player position at jumpgate to previous star
               console.log(prevStar)
               console.log(gameState.player.currentstar)
-              var prevjg = _.find(
+              const prevjg = _.find(
                 gameState.player.currentstar.jumpgates,
                 function(jg) {
                   return jg.linkedstar == prevStar
@@ -392,7 +392,7 @@ function setupWidgets() {
   starmapradar = new StarmapRadar()
 
   window.GraphWidget = GraphWidget
-  var graphWidgetContainer = document.createElement('div')
+  const graphWidgetContainer = document.createElement('div')
   graphWidgetContainer.classList.add('game-ui-widget')
   document.querySelector('#widgets').append(graphWidgetContainer)
   graphwidget = new GraphWidget(graphWidgetContainer, {}, function(invalue) {
@@ -432,9 +432,9 @@ function spawnRandomShip() {
     Police: () => getShipOfFactionOrHalt('Pirates'),
   }[faction]
 
-  var ship = new Ship({
-    gfxID: gfxID,
-    faction: faction,
+  const ship = new Ship({
+    gfxID,
+    faction,
     stats: {
       maxspeed: new Sylvester.Vector([3, 0]),
       bulletspeed: 10,

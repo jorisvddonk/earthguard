@@ -1,12 +1,12 @@
 import d3 from 'd3'
 
 export class NotificationSystem {
-  notificationBarElement: any
-  bubbleElement: any
-  data: any[]
-  ind: number
-  chart: any
-  notificationSVGElement: any
+  public notificationBarElement: any
+  public bubbleElement: any
+  public data: any[]
+  public ind: number
+  public chart: any
+  public notificationSVGElement: any
 
   constructor(notificationBarSelector, bubbleSelector) {
     this.notificationBarElement = document.querySelector(
@@ -29,18 +29,18 @@ export class NotificationSystem {
     this.update()
   }
 
-  push(type, message) {
-    let index = ++this.ind
+  public push(type, message) {
+    const index = ++this.ind
     this.data.push({ type, message, index })
     this.update()
   }
 
-  pop(index) {
+  public pop(index) {
     this.data.splice(index, 1)
     this.update()
   }
 
-  getSVGX(d, i) {
+  public getSVGX(d, i) {
     return (
       this.notificationSVGElement.clientWidth -
       (this.data.length - i - 1) * 22 -
@@ -49,8 +49,8 @@ export class NotificationSystem {
     )
   }
 
-  update() {
-    let rect = this.chart.selectAll('circle').data(this.data, d => d.index)
+  public update() {
+    const rect = this.chart.selectAll('circle').data(this.data, d => d.index)
 
     rect
       .enter()

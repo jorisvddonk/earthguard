@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import queue from './loadQueue'
 import GameObject from './gameObject'
+import queue from './loadQueue'
 import Sylvester from './sylvester-withmods'
 
 const DEFAULT_OPTIONS = {
@@ -35,10 +35,10 @@ class Planet extends GameObject {
     this.name = options.name || 'SomePlanet'
   }
 
-  toString() {
+  public toString() {
     return this.name
   }
-  tooltipString() {
+  public tooltipString() {
     return this.name
   }
 }

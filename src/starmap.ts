@@ -1,23 +1,23 @@
 import _ from 'lodash'
+import Phonetics from './namegen.js'
 import SIMPROPS from './simproperties'
 import Star from './star'
-import Phonetics from './namegen.js'
-//STARMAP constructor function. This is returned in this module...
+// STARMAP constructor function. This is returned in this module...
 class Starmap {
-  phonetics: any
-  stars: any[]
-  links: any[]
+  public phonetics: any
+  public stars: any[]
+  public links: any[]
   constructor() {
     // Setup stuff
     this.phonetics = new Phonetics()
 
-    //GENERATE THE ACTUAL STARMAP
+    // GENERATE THE ACTUAL STARMAP
     this.generateStarmap()
     this.stars[0].faction = 0
   }
 
-  ///STARMAP GENERATION ALGORITHM
-  generateStarmap() {
+  /// STARMAP GENERATION ALGORITHM
+  public generateStarmap() {
     this.stars = []
     this.links = []
 
@@ -26,30 +26,30 @@ class Starmap {
       this.stars.length < SIMPROPS.NSTARS &&
       reject_count < SIMPROPS.MAX_NUMBER_OF_STAR_REJECTS
     ) {
-      let newStar = new Star({ name: this.phonetics.UGenerate('Cosof') })
-      //Check if star is close to another star so that we should reject it
-      let dists = this.getClosestStars(newStar)
+      const newStar = new Star({ name: this.phonetics.UGenerate('Cosof') })
+      // Check if star is close to another star so that we should reject it
+      const dists = this.getClosestStars(newStar)
       if (
         dists.length > 0 &&
         dists[0].dist < SIMPROPS.MIN_DISTANCE_BETWEEN_STARS
       ) {
         reject_count = reject_count + 1
-        continue //reject it!
+        continue // reject it!
       }
-      //Finally, add the star
+      // Finally, add the star
       this.stars.push(newStar)
     }
 
-    //Generate links between stars. Find nearest closest stars and link them
+    // Generate links between stars. Find nearest closest stars and link them
     for (let i = 0; i < this.stars.length; i++) {
-      let cstar = this.stars[i]
-      let dists = this.getClosestStars(cstar)
+      const cstar = this.stars[i]
+      const dists = this.getClosestStars(cstar)
       for (let ii = 0; ii < SIMPROPS.MIN_LINKS_BETWEEN_STARS; ii++) {
         this.links.push({ star1: cstar, star2: dists[ii].star })
       }
     }
 
-    //Remove duplicate links
+    // Remove duplicate links
     this.links = _.uniq(this.links, function(d) {
       if (d.star1.id <= d.star2.id) {
         return d.star1.id + '|' + d.star2.id
@@ -68,11 +68,11 @@ class Starmap {
     )
 
     const checkStarmap = (star, allstars, numi, callback) => {
-      let new_numi = numi + 1
+      const new_numi = numi + 1
       allstars.push(star)
-      let linkeds = this.getLinkedStars(star)
-      for (let ci in linkeds) {
-        let cstar = linkeds[ci]
+      const linkeds = this.getLinkedStars(star)
+      for (const ci in linkeds) {
+        const cstar = linkeds[ci]
         if (!_.includes(allstars, cstar)) {
           checkStarmap(cstar, allstars, new_numi)
         }
@@ -82,44 +82,44 @@ class Starmap {
       }
     }
 
-    //Verify that all stars can be reached (e.g. no isolated stars exist)
+    // Verify that all stars can be reached (e.g. no isolated stars exist)
     checkStarmap(this.stars[0], [], 0, allstars => {
       if (allstars.length == this.stars.length) {
         console.log('Proper map!')
       } else {
         console.log('Map contains unreachable stars! Regenerating...')
-        this.generateStarmap() //Herp; do it again!
+        this.generateStarmap() // Herp; do it again!
       }
     })
   }
 
-  findPathways(srcstar, deststar) {
-    //TODO var recursive_find = function(star, )
+  public findPathways(srcstar, deststar) {
+    // TODO var recursive_find = function(star, )
   }
 
-  //UTILITY FUNCTIONS
-  getClosestStars(cstar) {
+  // UTILITY FUNCTIONS
+  public getClosestStars(cstar) {
     let dists = _.map(_.without(this.stars, cstar), function(star) {
       return {
-        star: star,
+        star,
         dist:
           Math.pow(cstar.mapx - star.mapx, 2) +
           Math.pow(cstar.mapy - star.mapy, 2),
       }
     })
     dists = _.sortBy(dists, function(ditem) {
-      return ditem['dist']
+      return ditem.dist
     })
     return dists
   }
 
-  getLinks(cstar) {
+  public getLinks(cstar) {
     return _.filter(this.links, function(link) {
       return link.star1.id == cstar.id || link.star2.id == cstar.id
     })
   }
 
-  getLinkedStars(cstar) {
+  public getLinkedStars(cstar) {
     return _.map(this.getLinks(cstar), function(link) {
       if (link.star1.id == cstar.id) {
         return link.star2
@@ -130,14 +130,14 @@ class Starmap {
     })
   }
 
-  getStarById(objid) {
+  public getStarById(objid) {
     return _.find(this.stars, function(star) {
       return star.objid == objid
     })
   }
 
-  getShortestpath(srcstar, deststar) {
-    //http://en.wikipedia.org/wiki/A*_search_algorithm
+  public getShortestpath(srcstar, deststar) {
+    // http://en.wikipedia.org/wiki/A*_search_algorithm
     const closedset = []
     const came_from = {}
     let openset = [srcstar]
@@ -146,9 +146,9 @@ class Starmap {
     const f_score = {}
 
     const getLowest = (stars, inset) => {
-      var minscore = Infinity
-      var mintile = null
-      for (var i = 0; i < stars.length; i++) {
+      let minscore = Infinity
+      let mintile = null
+      for (let i = 0; i < stars.length; i++) {
         if (inset[stars[i].objid] < minscore) {
           minscore = inset[stars[i].objid]
           mintile = stars[i]
@@ -163,7 +163,7 @@ class Starmap {
       let i = 99999
       while (i > 0 && cstar !== undefined) {
         retarr.push(cstar)
-        let nstar = came_from[cstar.objid]
+        const nstar = came_from[cstar.objid]
         cstar = nstar
         i = i - 1
       }
@@ -193,8 +193,8 @@ class Starmap {
       closedset.push(current)
       const neighbors = this.getLinkedStars(current)
       for (let i = 0; i < neighbors.length; i++) {
-        let neighbor = neighbors[i]
-        let tentative_g_score =
+        const neighbor = neighbors[i]
+        const tentative_g_score =
           dist_between(current, neighbor) +
           (g_score[current.objid] === undefined ? 0 : g_score[current.objid])
         if (_.includes(closedset, neighbor)) {
@@ -218,9 +218,9 @@ class Starmap {
         }
       }
     }
-    return null //no path found!!!
+    return null // no path found!!!
   }
 }
 
-//Return the constructor function
+// Return the constructor function
 export default Starmap

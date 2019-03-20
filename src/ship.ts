@@ -1,22 +1,22 @@
-import factionRegistry from './factionRegistry'
 import _ from 'lodash'
-import FueltanksSubsystem from './subsystem/fueltanks'
-import HullSubsystem from './subsystem/hull'
-import EngineSubsystem from './subsystem/engine'
-import SensorSubsystem from './subsystem/sensor'
-import MemorySubsystem from './subsystem/memory'
-import AISubsystem from './subsystem/ai'
-import Sylvester from './sylvester-withmods'
-import queue from './loadQueue'
-import Mymath from './mymath'
-import PIDController from './pidcontroller'
-import Bullet from './bullet'
-import gameState from './gameState'
-import Stage from './stage'
 import AutopilotV1 from './autopilot/v1'
 import { AutopilotV2 } from './autopilot/v2'
+import Bullet from './bullet'
+import factionRegistry from './factionRegistry'
 import GameObject from './gameObject'
+import gameState from './gameState'
+import queue from './loadQueue'
+import Mymath from './mymath'
 import NotificationSystem from './notificationSystem'
+import PIDController from './pidcontroller'
+import Stage from './stage'
+import AISubsystem from './subsystem/ai'
+import EngineSubsystem from './subsystem/engine'
+import FueltanksSubsystem from './subsystem/fueltanks'
+import HullSubsystem from './subsystem/hull'
+import MemorySubsystem from './subsystem/memory'
+import SensorSubsystem from './subsystem/sensor'
+import Sylvester from './sylvester-withmods'
 
 const DEFAULT_OPTIONS = {
   gfxID: 'ship',
@@ -95,7 +95,7 @@ class Ship extends GameObject {
     })
   }
 
-  capMovement() {
+  public capMovement() {
     if (this.movementVec.modulus() > this.stats.maxspeed.modulus()) {
       this.movementVec = this.movementVec
         .toUnitVector()
@@ -103,7 +103,7 @@ class Ship extends GameObject {
     }
   }
 
-  tick() {
+  public tick() {
     if (this.subsystems.hull.integrity <= 0) {
       this.destroy()
       return
@@ -117,7 +117,7 @@ class Ship extends GameObject {
     }
   }
 
-  rotate(radians_or_vector) {
+  public rotate(radians_or_vector) {
     // radians_or_vector is a local-vector pointing towards an angle to rate to
     // or a rotation to point to specified in radians
     if (radians_or_vector instanceof Sylvester.Vector) {
@@ -128,7 +128,7 @@ class Ship extends GameObject {
       .toUnitVector()
   }
 
-  thrust(multiply) {
+  public thrust(multiply) {
     multiply = Mymath.clamp(
       multiply,
       this.subsystems.engine.canReverse ? -1 : 0,
@@ -144,7 +144,7 @@ class Ship extends GameObject {
     )
   }
 
-  GFXTick() {
+  public GFXTick() {
     this.gfx.graph.graphics.clear()
     this.gfx.graph.rotation = -this.rotation
     const HULL_HEALTH_BAR_WIDTH = 80
@@ -170,7 +170,7 @@ class Ship extends GameObject {
       .endFill()
 
     if (gameState.debugging.shiplines) {
-      var stroke = 'rgba(0,0,255,1)'
+      let stroke = 'rgba(0,0,255,1)'
       if (this.subsystems.autopilot instanceof AutopilotV1) {
         stroke = 'rgba(255,0,0,1)'
       }
@@ -190,7 +190,7 @@ class Ship extends GameObject {
         this.subsystems.ai.getTarget() !== null &&
         this.subsystems.ai.getTarget().hasOwnProperty('positionVec')
       ) {
-        var interception = this.getFire()
+        const interception = this.getFire()
         if (interception !== null) {
           this.gfx.graph.graphics
             .beginStroke('rgba(0,255,0,1)')
@@ -202,8 +202,8 @@ class Ship extends GameObject {
     }
   }
 
-  maybeFire() {
-    var interception = this.getFire()
+  public maybeFire() {
+    const interception = this.getFire()
     if (interception != null) {
       // determine if our bullets would live long enough to actually make it to the interception point
       if (
@@ -217,12 +217,12 @@ class Ship extends GameObject {
     }
   }
 
-  fire(interception) {
+  public fire(interception) {
     if (interception === null || interception === undefined) {
-      var interception = this.getFire()
+      const interception = this.getFire()
     }
     if (interception !== null) {
-      var bullet = new Bullet({
+      const bullet = new Bullet({
         positionVec: this.positionVec,
         movementVec: this.movementVec
           .add(interception.toUnitVector().multiply(this.stats.bulletspeed))
@@ -230,21 +230,21 @@ class Ship extends GameObject {
         lifetime: this.stats.bulletlifetime,
       })
       bullet.setOwner(this)
-      let stage = Stage.get()
+      const stage = Stage.get()
       stage.addChild(bullet)
     }
   }
 
-  getFire() {
+  public getFire() {
     if (this.subsystems.ai && this.subsystems.ai.getTarget()) {
       // fire at target
-      var relPos = this.subsystems.ai
+      const relPos = this.subsystems.ai
         .getTarget()
         .positionVec.subtract(this.positionVec)
-      var relVel = this.subsystems.ai
+      const relVel = this.subsystems.ai
         .getTarget()
         .movementVec.subtract(this.movementVec)
-      var interception2 = Mymath.intercept2(
+      const interception2 = Mymath.intercept2(
         {
           x: 0,
           y: 0,

@@ -18,7 +18,7 @@ class HullSubsystem extends ShipSubsystem {
     })
   }
 
-  takeDamage(amount) {
+  public takeDamage(amount) {
     this.integrity -= amount
   }
 }

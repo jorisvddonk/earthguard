@@ -1,7 +1,7 @@
-import Sylvester from '../sylvester-withmods'
-import ShipSubsystem from '../shipSubsystem'
 import GameObject from '../gameObject'
+import ShipSubsystem from '../shipSubsystem'
 import TargetType from '../subsystem/ai_targettypes'
+import Sylvester from '../sylvester-withmods'
 
 class BaseAutopilot extends ShipSubsystem {
   constructor(ship, options) {
@@ -14,8 +14,8 @@ class BaseAutopilot extends ShipSubsystem {
     })
   }
 
-  getTarget() {
-    let target = this.ship.subsystems.ai
+  public getTarget() {
+    const target = this.ship.subsystems.ai
       ? this.ship.subsystems.ai.getTarget()
       : null
     if (target !== null) {

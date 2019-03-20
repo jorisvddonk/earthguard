@@ -1,6 +1,6 @@
-import Sylvester from '../sylvester-withmods'
 import _ from 'lodash'
 import ShipSubsystem from '../shipSubsystem'
+import Sylvester from '../sylvester-withmods'
 
 class EngineSubsystem extends ShipSubsystem {
   constructor(ship, options) {

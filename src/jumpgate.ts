@@ -12,7 +12,7 @@ class Jumpgate extends createjs.Container {
   */
   constructor(options) {
     super()
-    let default_options = {
+    const default_options = {
       gfxID: 'jumppoint',
       static_orbit: {
         distance: 500,
@@ -35,14 +35,14 @@ class Jumpgate extends createjs.Container {
     this.calcPosition()
   }
 
-  toString() {
+  public toString() {
     return 'Jumpgate[to ' + this.linkedstar.name + ']'
   }
-  tooltipString() {
+  public tooltipString() {
     return 'Jumpgate to ' + this.linkedstar.name
   }
 
-  calcPosition() {
+  public calcPosition() {
     this.x = Math.cos(this.static_orbit.angle) * this.static_orbit.distance
     this.y = Math.sin(this.static_orbit.angle) * this.static_orbit.distance
   }

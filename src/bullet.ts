@@ -1,6 +1,6 @@
+import GameObject from './gameObject'
 import queue from './loadQueue'
 import Stage from './stage'
-import GameObject from './gameObject'
 
 class Bullet extends GameObject {
   constructor(options) {
@@ -19,11 +19,11 @@ class Bullet extends GameObject {
     this.owner = null
   }
 
-  setOwner(owner) {
+  public setOwner(owner) {
     this.owner = owner
   }
 
-  tick(event) {
+  public tick(event) {
     if (event.timeStamp > this.stats.aliveUntil) {
       this.destroy()
       return

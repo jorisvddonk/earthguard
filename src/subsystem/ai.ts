@@ -1,8 +1,8 @@
-import Sylvester from '../sylvester-withmods'
 import _ from 'lodash'
-import ShipSubsystem from '../shipSubsystem'
-import ObjectRegistry from '../objectRegistry'
 import GameObject from '../gameObject'
+import ObjectRegistry from '../objectRegistry'
+import ShipSubsystem from '../shipSubsystem'
+import Sylvester from '../sylvester-withmods'
 import TargetTypes from './ai_targettypes'
 
 class AISubsystem extends ShipSubsystem {
@@ -14,7 +14,7 @@ class AISubsystem extends ShipSubsystem {
     options = Object.assign({}, options)
   }
 
-  tick() {
+  public tick() {
     if (this.target !== null && this.targetType === TargetTypes.GAMEOBJECT) {
       if (!ObjectRegistry.has(this.target)) {
         console.log(this.ship._objid, 'Target lost', this.target)
@@ -26,7 +26,7 @@ class AISubsystem extends ShipSubsystem {
     }
   }
 
-  getTarget() {
+  public getTarget() {
     if (this.targetType === TargetTypes.GAMEOBJECT) {
       return ObjectRegistry.get(this.target) || null
     } else if (
@@ -39,7 +39,7 @@ class AISubsystem extends ShipSubsystem {
     }
   }
 
-  setTarget(target) {
+  public setTarget(target) {
     if (target instanceof GameObject) {
       if (
         target === undefined ||
@@ -64,7 +64,7 @@ class AISubsystem extends ShipSubsystem {
     this.ship.dispatchEvent(evt)
   }
 
-  clearTarget() {
+  public clearTarget() {
     this.target = null
     this.targetType = TargetTypes.NULL
   }

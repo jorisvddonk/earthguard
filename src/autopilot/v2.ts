@@ -1,15 +1,15 @@
-import Sylvester from '../sylvester-withmods'
 import Mymath from '../mymath'
 import PIDController from '../pidcontroller'
-import BaseAutopilot from './base'
-import TargetTypes from '../subsystem/ai_targettypes'
 import Ship from '../ship'
+import TargetTypes from '../subsystem/ai_targettypes'
+import Sylvester from '../sylvester-withmods'
+import BaseAutopilot from './base'
 
 const OFFSET_ALLOWED = 0.0872664626 // 5 degrees
 const OFFSET_ALLOWED_BACKWARDS = 0.436332313 // 25 degrees
 export class AutopilotV2 extends BaseAutopilot {
-  controllers: any
-  state: any
+  public controllers: any
+  public state: any
   constructor(ship, options) {
     super(ship, options)
     this.controllers.posXPID = new PIDController(
@@ -32,26 +32,26 @@ export class AutopilotV2 extends BaseAutopilot {
     )
   }
 
-  tick() {
-    let { target, targetpos } = this.getTarget()
+  public tick() {
+    const { target, targetpos } = this.getTarget()
     const dispatchCompleteEvent = () => {
       const evt = new createjs.Event('autopilot_Complete', false, false)
-      evt.data = { target: target, targetpos: targetpos }
+      evt.data = { target, targetpos }
       this.ship.dispatchEvent(evt)
     }
 
     if (target === TargetTypes.HALT) {
       // brake!
       // rotate towards movement vector's opposite
-      let thrust_vec = this.ship.movementVec.rotate(
+      const thrust_vec = this.ship.movementVec.rotate(
         Math.PI,
         new Sylvester.Vector([0, 0])
       )
       this.ship.rotate(thrust_vec)
       // thrust!
-      let thrust_angle = this.ship.rotationVec.angleTo(thrust_vec)
+      const thrust_angle = this.ship.rotationVec.angleTo(thrust_vec)
       if (thrust_angle < OFFSET_ALLOWED && thrust_angle > -OFFSET_ALLOWED) {
-        let act_thrust = Mymath.clampThrust(thrust_vec.modulus() * 500)
+        const act_thrust = Mymath.clampThrust(thrust_vec.modulus() * 500)
         this.state.lthrust = act_thrust
         this.ship.thrust(act_thrust)
       }
@@ -71,23 +71,23 @@ export class AutopilotV2 extends BaseAutopilot {
           Update PID controllers
           */
 
-    //posXPID and posYPID
-    var pos_vec_error = targetpos.subtract(this.ship.positionVec)
-    var x_error = pos_vec_error.e(1)
-    var y_error = pos_vec_error.e(2)
+    // posXPID and posYPID
+    const pos_vec_error = targetpos.subtract(this.ship.positionVec)
+    const x_error = pos_vec_error.e(1)
+    const y_error = pos_vec_error.e(2)
     this.controllers.posXPID.error = x_error
     this.controllers.posYPID.error = y_error
-    var x_thrust = -this.controllers.posXPID.step()
-    var y_thrust = -this.controllers.posYPID.step()
+    const x_thrust = -this.controllers.posXPID.step()
+    const y_thrust = -this.controllers.posYPID.step()
 
     /* 
           THRUSTING AND ROTATING
           */
 
     /* THRUSTING CONTROLS */
-    var thrust_vec = new Sylvester.Vector([x_thrust, y_thrust])
-    var sign = 1
-    var thrust_angle = this.ship.rotationVec.angleTo(thrust_vec)
+    const thrust_vec = new Sylvester.Vector([x_thrust, y_thrust])
+    let sign = 1
+    let thrust_angle = this.ship.rotationVec.angleTo(thrust_vec)
 
     // If we have a large thrust vector (large error):
     if (thrust_vec.modulus() > 0) {
@@ -111,11 +111,11 @@ export class AutopilotV2 extends BaseAutopilot {
 
       // Thrust if we're aligned correctly;
       if (thrust_angle < OFFSET_ALLOWED && thrust_angle > -OFFSET_ALLOWED) {
-        var actual_thrust = Mymath.clampThrust(
+        const actual_thrust = Mymath.clampThrust(
           thrust_vec.modulus() * sign * 500
         )
         this.state.lthrust = actual_thrust
-        this.ship.thrust(actual_thrust) //todo lower/max thrust?
+        this.ship.thrust(actual_thrust) // todo lower/max thrust?
       }
     } else {
       // If we have a small thrust vector, let's just point towards the enemy ship..

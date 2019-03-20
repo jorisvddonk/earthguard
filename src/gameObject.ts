@@ -1,6 +1,6 @@
-import Sylvester from './sylvester-withmods'
-import Stage from './stage'
 import _ from 'lodash'
+import Stage from './stage'
+import Sylvester from './sylvester-withmods'
 let nextObjectID = 0
 import ObjectRegistry from './objectRegistry'
 
@@ -26,15 +26,15 @@ class GameObject extends createjs.Container {
     ObjectRegistry.add(this)
   }
 
-  destroy() {
+  public destroy() {
     ObjectRegistry.remove(this)
-    let stage = Stage.get()
+    const stage = Stage.get()
     stage.removeChild(this)
     this.dispatchEvent('destroyed')
     this.removeAllEventListeners()
   }
 
-  movementTick(event) {
+  public movementTick(event) {
     if (this.static && event !== FORCE_CALCULATE) {
       return
     }

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import gameState from './gameState'
 
 export class StarWidget {
-  vue: any
+  public vue: any
   constructor(element_selector) {
     this.vue = new Vue({
       el: element_selector,

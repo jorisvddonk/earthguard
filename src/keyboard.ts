@@ -1,18 +1,18 @@
 const Keyboard = {
   keys: {},
-  keyPress: function(evt) {
+  keyPress(evt) {
     if (this.keys[evt.keyCode] > 0) {
       return
     }
     this.keys[evt.keyCode] = evt.timeStamp || new Date().getTime()
   },
-  keyRelease: function(evt) {
+  keyRelease(evt) {
     this.keys[evt.keyCode] = 0
   },
-  isPressed: function(keycode) {
+  isPressed(keycode) {
     return this.keys.hasOwnProperty(keycode) && this.keys[keycode] > 0
   },
-  onKeyDown: function(keycode, callback) {
+  onKeyDown(keycode, callback) {
     window.addEventListener('keydown', evt => {
       if (evt.keyCode == keycode) {
         callback(evt)

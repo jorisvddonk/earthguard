@@ -1,25 +1,25 @@
-import Sylvester from './sylvester-withmods'
 import _ from 'lodash'
+import StarMetadata from '../content/meta/stars.json'
+import Jumpgate from './jumpgate'
+import queue from './loadQueue'
 import Phonetics from './namegen.js'
 import Planet from './planet'
-import Jumpgate from './jumpgate'
-import StarMetadata from '../content/meta/stars.json'
-import queue from './loadQueue'
-var _last_id = 0
-var genID = function() {
-  //Used during constructor
+import Sylvester from './sylvester-withmods'
+let _last_id = 0
+const genID = function() {
+  // Used during constructor
   _last_id += 1
   return _last_id
 }
-var genStarClass = function() {
-  //Used during constructor
+const genStarClass = function() {
+  // Used during constructor
   return StarMetadata.starClasses[
     _.random(0, StarMetadata.starClasses.length - 1)
   ]
 }
 
-var _genPlanets = function() {
-  var nPlanets =
+const _genPlanets = function() {
+  let nPlanets =
     Math.random() *
       StarMetadata.starClassProperties[this.starclass].maxPlanets +
     1
@@ -27,8 +27,8 @@ var _genPlanets = function() {
     StarMetadata.starClassProperties[this.starclass].minPlanets,
     nPlanets
   )
-  var retPlanets = []
-  for (var i = 0; i < nPlanets; i++) {
+  const retPlanets = []
+  for (let i = 0; i < nPlanets; i++) {
     retPlanets.push(
       new Planet({
         gfxID: 'planet_test',
@@ -38,22 +38,22 @@ var _genPlanets = function() {
   return retPlanets
 }
 
-var phonetics = new Phonetics()
+const phonetics = new Phonetics()
 
 class Star extends createjs.Container {
-  jumpgates: any
-  mapx: any
-  mapy: any
-  radius: any
-  objid: any
-  starclass: any
-  faction: any
-  planets: any
-  _constructor_options: any
+  public jumpgates: any
+  public mapx: any
+  public mapy: any
+  public radius: any
+  public objid: any
+  public starclass: any
+  public faction: any
+  public planets: any
+  public _constructor_options: any
   constructor(options) {
     super()
 
-    var default_options = {
+    const default_options = {
       name: phonetics.UGenerate('Svfvsv'),
       mapx: Math.random() * 100,
       mapy: Math.random() * 100,
@@ -91,29 +91,29 @@ class Star extends createjs.Container {
     this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5
   }
 
-  toString() {
+  public toString() {
     return this.name
   }
 
-  tooltipString() {
+  public tooltipString() {
     return this.name
   }
 
-  _genJumpgates(otherstars) {
+  public _genJumpgates(otherstars) {
     const distfunc = x => {
       return (Math.sqrt(x) + 10) * 300
     }
     this.jumpgates = _.map(
       otherstars,
       ostar => {
-        var dist = distfunc(
+        const dist = distfunc(
           Math.sqrt(
             (ostar.mapx - this.mapx) * (ostar.mapx - this.mapx) +
               (ostar.mapy - this.mapy) * (ostar.mapy - this.mapy)
           )
         )
-        let v = new Sylvester.Vector([1, 0])
-        var jg = new Jumpgate({
+        const v = new Sylvester.Vector([1, 0])
+        const jg = new Jumpgate({
           linkedstar: ostar,
           /*static_orbit: {
             distance: dist

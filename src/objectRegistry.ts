@@ -1,7 +1,7 @@
-let registry = new Map()
+const registry = new Map()
 export default {
   add: obj => {
-    let objid = obj._objid
+    const objid = obj._objid
     if (objid !== null && objid !== undefined) {
       return registry.set(objid, obj)
     }

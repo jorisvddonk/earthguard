@@ -1,17 +1,17 @@
 export class PIDController {
-  kP: any
-  kI: any
-  kD: any
-  minIntegral: any
-  minCapIntegral: any
-  error: any
-  previousError: any
-  integralError: any
-  derivativeError: any
-  maxCapIntegral: any
-  maxIntegral: any
-  last: { mP: number; mI: number; mD: number }
-  retError: number
+  public kP: any
+  public kI: any
+  public kD: any
+  public minIntegral: any
+  public minCapIntegral: any
+  public error: any
+  public previousError: any
+  public integralError: any
+  public derivativeError: any
+  public maxCapIntegral: any
+  public maxIntegral: any
+  public last: { mP: number; mI: number; mD: number }
+  public retError: number
 
   constructor(
     kp,
@@ -22,9 +22,9 @@ export class PIDController {
     minCapIntegral?,
     maxCapIntegral?
   ) {
-    this.kP = kp //-0.7;
-    this.kI = ki //-0.01;
-    this.kD = kd //-0.3;
+    this.kP = kp // -0.7;
+    this.kI = ki // -0.01;
+    this.kD = kd // -0.3;
     this.minIntegral = minIntegral
     this.minIntegral = maxIntegral
     this.minCapIntegral = minCapIntegral
@@ -38,11 +38,11 @@ export class PIDController {
     this.retError = null
   }
 
-  update(current, target) {
+  public update(current, target) {
     this.error = target - current
   }
 
-  step() {
+  public step() {
     if (this.previousError === null) {
       this.previousError = this.error
     }
@@ -64,9 +64,9 @@ export class PIDController {
       this.integralError = this.maxCapIntegral
     }
 
-    let mP = this.error * this.kP
+    const mP = this.error * this.kP
     let mI = this.integralError * this.kI
-    let mD = this.derivativeError * this.kD
+    const mD = this.derivativeError * this.kD
 
     if (
       this.minIntegral !== undefined &&
@@ -84,9 +84,9 @@ export class PIDController {
     }
 
     this.last = {
-      mP: mP,
-      mI: mI,
-      mD: mD,
+      mP,
+      mI,
+      mD,
     }
 
     this.previousError = this.error
@@ -94,11 +94,11 @@ export class PIDController {
     return this.retError
   }
 
-  getError() {
+  public getError() {
     return this.retError
   }
 
-  reset() {
+  public reset() {
     this.integralError = 0
   }
 }
