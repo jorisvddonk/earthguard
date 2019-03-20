@@ -49,7 +49,7 @@ export class AutopilotV2 extends BaseAutopilot {
       return
     }
 
-    if (target === TargetType.HALT) {
+    if (target.type === TargetType.HALT) {
       // brake!
       // rotate towards movement vector's opposite
       const thrust_vec = this.ship.movementVec.rotate(
