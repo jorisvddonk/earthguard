@@ -14,7 +14,7 @@ const Keyboard = {
   },
   onKeyDown(keycode, callback) {
     window.addEventListener('keydown', evt => {
-      if (evt.keyCode == keycode) {
+      if (evt.keyCode === keycode) {
         callback(evt)
       }
     })

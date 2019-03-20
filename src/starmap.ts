@@ -115,16 +115,16 @@ class Starmap {
 
   public getLinks(cstar) {
     return _.filter(this.links, function(link) {
-      return link.star1.id == cstar.id || link.star2.id == cstar.id
+      return link.star1.id === cstar.id || link.star2.id === cstar.id
     })
   }
 
   public getLinkedStars(cstar) {
     return _.map(this.getLinks(cstar), function(link) {
-      if (link.star1.id == cstar.id) {
+      if (link.star1.id === cstar.id) {
         return link.star2
       }
-      if (link.star2.id == cstar.id) {
+      if (link.star2.id === cstar.id) {
         return link.star1
       }
     })
@@ -132,7 +132,7 @@ class Starmap {
 
   public getStarById(objid) {
     return _.find(this.stars, function(star) {
-      return star.objid == objid
+      return star.objid === objid
     })
   }
 

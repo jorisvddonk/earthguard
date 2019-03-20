@@ -224,7 +224,7 @@ function tick(event) {
       radar.update()
     }
 
-    _.forEach(updatables, function(updatable) {
+    _.forEach(updatables, updatable => {
       updatable.update()
     })
 
@@ -316,16 +316,13 @@ function recreateSolarSystem() {
   gameState.containers.solarSystem.removeAllEventListeners()
 
   gameState.containers.solarSystem.addChild(gameState.player.currentstar)
-  _.each(gameState.player.currentstar.planets, function(planet, index) {
+  _.each(gameState.player.currentstar.planets, (planet, index) => {
     gameState.containers.solarSystem.addChild(planet)
-    planet.addEventListener('click', function() {
-      alert(planet)
-    })
   })
 
-  _.each(gameState.player.currentstar.jumpgates, function(jumpgate, index) {
+  _.each(gameState.player.currentstar.jumpgates, (jumpgate, index) => {
     gameState.containers.solarSystem.addChild(jumpgate)
-    jumpgate.addEventListener('click', function() {
+    jumpgate.addEventListener('click', () => {
       if (
         (jumpgate.x - gameState.player.ship.x) *
           (jumpgate.x - gameState.player.ship.x) +
@@ -338,7 +335,7 @@ function recreateSolarSystem() {
           layout: 'bottomRight',
           type: 'alert',
           buttons: [
-            Noty.button('Ok', 'btn btn-primary', function($noty) {
+            Noty.button('Ok', 'btn btn-primary', $noty => {
               $noty.close()
               // Jump to star
               const prevStar = gameState.player.currentstar
@@ -348,8 +345,8 @@ function recreateSolarSystem() {
               console.log(gameState.player.currentstar)
               const prevjg = _.find(
                 gameState.player.currentstar.jumpgates,
-                function(jg) {
-                  return jg.linkedstar == prevStar
+                jg => {
+                  return jg.linkedstar === prevStar
                 }
               )
               console.log(prevjg)
@@ -395,7 +392,7 @@ function setupWidgets() {
   const graphWidgetContainer = document.createElement('div')
   graphWidgetContainer.classList.add('game-ui-widget')
   document.querySelector('#widgets').append(graphWidgetContainer)
-  graphwidget = new GraphWidget(graphWidgetContainer, {}, function(invalue) {
+  graphwidget = new GraphWidget(graphWidgetContainer, {}, () => {
     return gameState.player.ship.movementVec.modulus()
   })
   updatables.push(graphwidget)
@@ -452,7 +449,7 @@ function spawnRandomShip() {
 
   const setNextTarget = event => {
     let nextTarget
-    if (event && event.data && event.data.target == TargetTypes.HALT) {
+    if (event && event.data && event.data.target === TargetTypes.HALT) {
       // ugh, not pretty!
       nextTarget = null
     } else {
@@ -487,7 +484,7 @@ function spawnRandomShip() {
   return ship
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', () => {
   // Init createJS
   init()
 
