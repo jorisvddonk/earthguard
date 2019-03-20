@@ -33,11 +33,20 @@ export class AutopilotV2 extends BaseAutopilot {
   }
 
   public tick() {
-    const { target, targetpos } = this.getTarget()
+    const target = this.getTarget()
+    const targetpos = target.getTargetPosition()
     const dispatchCompleteEvent = () => {
       const evt = new createjs.Event('autopilot_Complete', false, false)
-      evt.data = { target, targetpos }
+      evt.data = { target }
       this.ship.dispatchEvent(evt)
+    }
+
+    if (
+      target.type === TargetType.IDLE ||
+      target.type === TargetType.LOST ||
+      targetpos === TargetType.LOST
+    ) {
+      return
     }
 
     if (target === TargetType.HALT) {
@@ -63,15 +72,7 @@ export class AutopilotV2 extends BaseAutopilot {
       return
     }
 
-    if (target === null && targetpos === null) {
-      return
-    }
-
-    /*
-          Update PID controllers
-          */
-
-    // posXPID and posYPID
+    // Update PID controllers; posXPID and posYPID
     const pos_vec_error = targetpos.subtract(this.ship.positionVec)
     const x_error = pos_vec_error.e(1)
     const y_error = pos_vec_error.e(2)
@@ -80,10 +81,7 @@ export class AutopilotV2 extends BaseAutopilot {
     const x_thrust = -this.controllers.posXPID.step()
     const y_thrust = -this.controllers.posYPID.step()
 
-    /* 
-          THRUSTING AND ROTATING
-          */
-
+    // THRUSTING AND ROTATING
     /* THRUSTING CONTROLS */
     const thrust_vec = new Sylvester.Vector([x_thrust, y_thrust])
     let sign = 1
@@ -127,7 +125,7 @@ export class AutopilotV2 extends BaseAutopilot {
     this.state.y_thrust = y_thrust
 
     // Check if we can fire
-    if (target instanceof Ship) {
+    if (target.type === TargetType.SHIP) {
       this.ship.maybeFire()
     }
 

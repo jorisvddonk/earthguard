@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import AutopilotV1 from './autopilot/v1'
 import { AutopilotV2 } from './autopilot/v2'
 import Bullet from './bullet'
 import factionRegistry from './factionRegistry'
@@ -184,9 +183,6 @@ class Ship extends GameObject {
 
     if (gameState.debugging.shiplines) {
       let stroke = 'rgba(0,0,255,1)'
-      if (this.subsystems.autopilot instanceof AutopilotV1) {
-        stroke = 'rgba(255,0,0,1)'
-      }
       if (this.subsystems.autopilot) {
         this.gfx.graph.graphics
           .beginStroke(stroke)
@@ -251,12 +247,9 @@ class Ship extends GameObject {
   public getFire(): Sylvester.Vector {
     if (this.subsystems.ai && this.subsystems.ai.getTarget()) {
       // fire at target
-      const relPos = this.subsystems.ai
-        .getTarget()
-        .positionVec.subtract(this.positionVec)
-      const relVel = this.subsystems.ai
-        .getTarget()
-        .movementVec.subtract(this.movementVec)
+      const obj = this.subsystems.ai.getTarget().getGameObject()
+      const relPos = obj.positionVec.subtract(this.positionVec)
+      const relVel = obj.movementVec.subtract(this.movementVec)
       const interception2: Sylvester.Vector = Mymath.intercept2(
         {
           x: 0,

@@ -1,6 +1,6 @@
 import GameObject from '../gameObject'
 import ShipSubsystem from '../shipSubsystem'
-import { TargetType } from '../targets'
+import { TargetType, createTarget } from '../targets'
 import Sylvester from '../sylvester-withmods'
 
 class BaseAutopilot extends ShipSubsystem {
@@ -15,19 +15,9 @@ class BaseAutopilot extends ShipSubsystem {
   }
 
   public getTarget() {
-    const target = this.ship.subsystems.ai
+    return this.ship.subsystems.ai
       ? this.ship.subsystems.ai.getTarget()
-      : null
-    if (target !== null) {
-      if (target instanceof GameObject) {
-        return { target, targetpos: target.positionVec }
-      } else if (target instanceof Sylvester.Vector) {
-        return { target, targetpos: target }
-      } else if (target === TargetType.HALT) {
-        return { target, targetpos: TargetType.HALT }
-      }
-    }
-    return { target: null, targetpos: null }
+      : createTarget(TargetType.IDLE)
   }
 }
 

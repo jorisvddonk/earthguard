@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import Noty from 'noty'
 import contentJSON from '../content/meta/content.json'
-import AutopilotV1 from './autopilot/v1'
 import { AutopilotV2 } from './autopilot/v2'
 import Bullet from './bullet'
 import gameState from './gameState'
@@ -18,7 +17,7 @@ import Stage from './stage'
 import Starmap from './starmap'
 import StarmapRadar from './starmapradar'
 import { StarWidget } from './starwidget'
-import { TargetType } from './targets'
+import { TargetType, createTarget } from './targets'
 import Sylvester from './sylvester-withmods'
 
 const miscDebug = {}
@@ -236,78 +235,48 @@ function tick(event) {
 
 function debugtick(event) {
   if (miscDebug.debugship != null) {
-    textlines[0].text = 'Debugship stats-------'
-    if (miscDebug.debugship.subsystems.autopilot instanceof AutopilotV1) {
-      textlines[2].text =
-        ' rot.mP : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mP
-        )
-      textlines[3].text =
-        ' rot.mI : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mI
-        )
-      textlines[4].text =
-        ' rot.mD : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.rotPID.last.mD
-        )
-      textlines[5].text = '-'
-      textlines[6].text =
-        ' mov.mP : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mP
-        )
-      textlines[7].text =
-        ' mov.mI : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mI
-        )
-      textlines[8].text =
-        ' mov.mD : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.movPID.last.mD
-        )
-    } else if (
-      miscDebug.debugship.subsystems.autopilot instanceof AutopilotV2
-    ) {
-      textlines[2].text =
-        ' posXPID.mP : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mP
-        )
-      textlines[3].text =
-        ' posXPID.mI : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mI
-        )
-      textlines[4].text =
-        ' posXPID.mD : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mD
-        )
-      textlines[5].text = '-'
-      textlines[6].text =
-        ' posYPID.mP : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mP
-        )
-      textlines[7].text =
-        ' posYPID.mI : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mI
-        )
-      textlines[8].text =
-        ' posYPID.mD : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mD
-        )
-      textlines[9].text =
-        ' thrust : ' +
-        Mymath.prettyfloat(
-          miscDebug.debugship.subsystems.autopilot.state.lthrust
-        )
+    try {
+      textlines[0].text = 'Debugship stats-------'
+      if (miscDebug.debugship.subsystems.autopilot instanceof AutopilotV2) {
+        textlines[2].text =
+          ' posXPID.mP : ' +
+          Mymath.prettyfloat(
+            miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mP
+          )
+        textlines[3].text =
+          ' posXPID.mI : ' +
+          Mymath.prettyfloat(
+            miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mI
+          )
+        textlines[4].text =
+          ' posXPID.mD : ' +
+          Mymath.prettyfloat(
+            miscDebug.debugship.subsystems.autopilot.controllers.posXPID.last.mD
+          )
+        textlines[5].text = '-'
+        textlines[6].text =
+          ' posYPID.mP : ' +
+          Mymath.prettyfloat(
+            miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mP
+          )
+        textlines[7].text =
+          ' posYPID.mI : ' +
+          Mymath.prettyfloat(
+            miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mI
+          )
+        textlines[8].text =
+          ' posYPID.mD : ' +
+          Mymath.prettyfloat(
+            miscDebug.debugship.subsystems.autopilot.controllers.posYPID.last.mD
+          )
+        textlines[9].text =
+          ' thrust : ' +
+          Mymath.prettyfloat(
+            miscDebug.debugship.subsystems.autopilot.state.lthrust
+          )
+      }
+    } catch (e) {
+      console.error(e)
     }
   }
 }
@@ -423,11 +392,10 @@ function spawnRandomShip() {
     )
   }
   const getNextTarget = {
-    Civilians: () => {
-      return _.sample(gameState.player.currentstar.planets)
-    },
-    Pirates: () => getShipOfFactionOrHalt('Civilians'),
-    Police: () => getShipOfFactionOrHalt('Pirates'),
+    Civilians: () =>
+      createTarget(_.sample(gameState.player.currentstar.planets)),
+    Pirates: () => createTarget(getShipOfFactionOrHalt('Civilians')),
+    Police: () => createTarget(getShipOfFactionOrHalt('Pirates')),
   }[faction]
 
   const ship = new Ship({
@@ -448,20 +416,16 @@ function spawnRandomShip() {
     ]),
   })
 
-  const setNextTarget = event => {
+  const setNextTarget = (event?: any) => {
     let nextTarget
-    if (event && event.data && event.data.target === TargetType.HALT) {
+    if (event && event.data && event.data.target.type === TargetType.HALT) {
       // ugh, not pretty!
-      nextTarget = null
+      nextTarget = createTarget(TargetType.IDLE)
     } else {
       nextTarget = getNextTarget()
     }
     setTimeout(() => {
-      if (nextTarget === undefined || nextTarget === null) {
-        ship.subsystems.ai.clearTarget()
-      } else {
-        ship.subsystems.ai.setTarget(nextTarget)
-      }
+      ship.subsystems.ai.setTarget(nextTarget)
     }) // ugh!; race condition. TODO: fix.
   }
   ship.addEventListener('ai_targetLost', setNextTarget)

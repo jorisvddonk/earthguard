@@ -4,6 +4,8 @@ import Sylvester from './sylvester-withmods'
 let nextObjectID = 0
 import ObjectRegistry from './objectRegistry'
 
+export type ObjectID = number
+
 const DEFAULT_OPTIONS = {
   movementVec: new Sylvester.Vector([0, 0]), // Vector decribing current movement
   rotationVec: new Sylvester.Vector([1, 0]), // Vector describing current angle (rotation). Should be a unit vector.
@@ -14,7 +16,7 @@ const FORCE_CALCULATE = 'some_sentinel_value'
 
 class GameObject extends createjs.Container {
   public movementVec: any
-  public _objid: number
+  public _objid: ObjectID
   public rotationVec: any
   public positionVec: any
   public static: any

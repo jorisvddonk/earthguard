@@ -3,71 +3,47 @@ import GameObject from '../gameObject'
 import ObjectRegistry from '../objectRegistry'
 import ShipSubsystem from '../shipSubsystem'
 import Sylvester from '../sylvester-withmods'
-import { TargetType } from '../targets'
+import { TargetType, Target, createTarget } from '../targets'
 
 class AISubsystem extends ShipSubsystem {
-  public target: any
-  public targetType: TargetType
+  public target: Target
   constructor(ship, options) {
     super(ship)
     this.subsystemType = 'ai'
-    this.target = null
-    this.targetType = TargetType.NULL
+    this.target = createTarget(TargetType.IDLE)
   }
 
   public tick() {
-    if (this.target !== null && this.targetType === TargetType.GAMEOBJECT) {
-      if (!ObjectRegistry.has(this.target)) {
-        console.log(this.ship._objid, 'Target lost', this.target)
-        const evt = new createjs.Event('ai_targetLost', false, false)
-        evt.data = { target: this.target }
-        this.ship.dispatchEvent(evt)
-        this.clearTarget()
-      }
+    if (
+      ((this.target.type === TargetType.GAMEOBJECT ||
+        this.target.type === TargetType.SHIP) &&
+        !ObjectRegistry.has(this.target.tgt)) ||
+      this.target.type === TargetType.LOST
+    ) {
+      console.log(this.ship._objid, 'Target lost', this.target)
+      const evt = new createjs.Event('ai_targetLost', false, false)
+      evt.data = { target: this.target }
+      this.ship.dispatchEvent(evt)
+      this.setTarget(createTarget(TargetType.LOST))
     }
   }
 
   public getTarget() {
-    if (this.targetType === TargetType.GAMEOBJECT) {
-      return ObjectRegistry.get(this.target) || null
-    } else if (
-      this.targetType === TargetType.POSITION ||
-      this.targetType === TargetType.NULL
-    ) {
-      return this.target
-    } else if (this.targetType === TargetType.HALT) {
-      return TargetType.HALT
-    }
+    return this.target
   }
 
-  public setTarget(target) {
-    if (target instanceof GameObject) {
-      if (
-        target === undefined ||
-        target === null ||
-        !target.hasOwnProperty('_objid')
-      ) {
-        throw new Error(`Target has no object ID: ${target}`)
-      }
-      this.target = target._objid
-      this.targetType = TargetType.GAMEOBJECT
-    } else if (target instanceof Sylvester.Vector) {
-      this.target = target
-      this.targetType = TargetType.POSITION
-    } else if (target === TargetType.HALT) {
-      this.target = TargetType.HALT
-      this.targetType = TargetType.HALT
-    } else {
-      throw new Error(`AI: unsupported target type for ${target}`)
+  public setTarget(target: Target) {
+    if (!(target instanceof Target)) {
+      throw new Error(`Target is no target! ${target}`)
     }
+    this.target = target
     const evt = new createjs.Event('ai_targetChanged', false, false)
-    evt.data = { target, targetType: this.targetType }
+    evt.data = { target }
     this.ship.dispatchEvent(evt)
   }
 
   public clearTarget() {
-    this.target = null
-    this.targetType = TargetType.NULL
+    this.target = createTarget(TargetType.IDLE)
   }
 }
 
