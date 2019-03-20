@@ -3,7 +3,7 @@ import GameObject from '../gameObject'
 import ObjectRegistry from '../objectRegistry'
 import ShipSubsystem from '../shipSubsystem'
 import Sylvester from '../sylvester-withmods'
-import { TargetType } from './ai_targettypes'
+import { TargetType } from '../targets'
 
 class AISubsystem extends ShipSubsystem {
   public target: any

@@ -1,7 +1,7 @@
 import Mymath from '../mymath'
 import PIDController from '../pidcontroller'
 import Ship from '../ship'
-import { TargetType } from '../subsystem/ai_targettypes'
+import { TargetType } from '../targets'
 import Sylvester from '../sylvester-withmods'
 import BaseAutopilot from './base'
 

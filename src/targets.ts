@@ -1,6 +1,6 @@
-import Planet from '../planet'
-import Ship from '../ship'
-import Sylvester from '../sylvester-withmods'
+import Planet from './planet'
+import Ship from './ship'
+import Sylvester from './sylvester-withmods'
 
 export enum TargetType {
   GAMEOBJECT,

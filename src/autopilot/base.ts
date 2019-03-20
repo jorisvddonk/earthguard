@@ -1,6 +1,6 @@
 import GameObject from '../gameObject'
 import ShipSubsystem from '../shipSubsystem'
-import { TargetType } from '../subsystem/ai_targettypes'
+import { TargetType } from '../targets'
 import Sylvester from '../sylvester-withmods'
 
 class BaseAutopilot extends ShipSubsystem {

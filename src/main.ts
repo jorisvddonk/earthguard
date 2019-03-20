@@ -18,7 +18,7 @@ import Stage from './stage'
 import Starmap from './starmap'
 import StarmapRadar from './starmapradar'
 import { StarWidget } from './starwidget'
-import { TargetType } from './subsystem/ai_targettypes'
+import { TargetType } from './targets'
 import Sylvester from './sylvester-withmods'
 
 const miscDebug = {}
