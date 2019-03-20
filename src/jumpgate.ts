@@ -1,5 +1,5 @@
-const _ = require("lodash");
-const queue = require("./loadQueue").default;
+const _ = require('lodash')
+const queue = require('./loadQueue').default
 class Jumpgate extends createjs.Container {
   /*
       options: {
@@ -13,39 +13,39 @@ class Jumpgate extends createjs.Container {
   constructor(options) {
     super()
     let default_options = {
-      gfxID: "jumppoint",
+      gfxID: 'jumppoint',
       static_orbit: {
         distance: 500,
-        angle: Math.random() * 2 * Math.PI
+        angle: Math.random() * 2 * Math.PI,
       },
-      linkedstar: null
-    };
-    options = _.extend({}, default_options, options);
+      linkedstar: null,
+    }
+    options = _.extend({}, default_options, options)
 
     this.gfx = {
-      bitmap: new createjs.Bitmap(queue.getResult(options.gfxID))
-    };
-    this.addChild(this.gfx.bitmap);
-    this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
-    this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
+      bitmap: new createjs.Bitmap(queue.getResult(options.gfxID)),
+    }
+    this.addChild(this.gfx.bitmap)
+    this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5
+    this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5
 
-    this.static_orbit = options.static_orbit;
-    this.linkedstar = options.linkedstar;
-    this.gfxID = options.gfxID;
-    this.calcPosition();
+    this.static_orbit = options.static_orbit
+    this.linkedstar = options.linkedstar
+    this.gfxID = options.gfxID
+    this.calcPosition()
   }
 
   toString() {
-    return "Jumpgate[to " + this.linkedstar.name + "]";
-  };
+    return 'Jumpgate[to ' + this.linkedstar.name + ']'
+  }
   tooltipString() {
-    return "Jumpgate to " + this.linkedstar.name;
-  };
+    return 'Jumpgate to ' + this.linkedstar.name
+  }
 
   calcPosition() {
-    this.x = Math.cos(this.static_orbit.angle) * this.static_orbit.distance;
-    this.y = Math.sin(this.static_orbit.angle) * this.static_orbit.distance;
-  };
+    this.x = Math.cos(this.static_orbit.angle) * this.static_orbit.distance
+    this.y = Math.sin(this.static_orbit.angle) * this.static_orbit.distance
+  }
 }
 
-export default Jumpgate;
+export default Jumpgate

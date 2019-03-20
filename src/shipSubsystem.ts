@@ -1,10 +1,10 @@
 class ShipSubsystem {
-  ship: any;
-  subsystemType: string;
+  ship: any
+  subsystemType: string
   constructor(ship) {
-    this.ship = ship;
-    this.subsystemType = "genericSubsystem";
+    this.ship = ship
+    this.subsystemType = 'genericSubsystem'
   }
-};
+}
 
-export default ShipSubsystem;
+export default ShipSubsystem

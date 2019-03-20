@@ -1,9 +1,9 @@
-let stage;
+let stage
 export default {
   init: () => {
-    stage = new createjs.Stage("myCanvas");
+    stage = new createjs.Stage('myCanvas')
   },
   get: () => {
-    return stage;
-  }
-};
+    return stage
+  },
+}

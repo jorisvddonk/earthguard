@@ -1,17 +1,17 @@
-const Vue = require("vue");
-const gameState = require("./gameState").default;
+const Vue = require('vue')
+const gameState = require('./gameState').default
 
 export class StarWidget {
-  vue: any;
+  vue: any
   constructor(element_selector) {
     this.vue = new Vue({
       el: element_selector,
-      data: { name: "" }
-    });
+      data: { name: '' },
+    })
 
-    gameState.on("starChanged", () => {
+    gameState.on('starChanged', () => {
       this.vue.name = gameState.player.currentstar.name
-    });
+    })
 
     if (
       gameState.player.currentstar != undefined &&
@@ -20,4 +20,4 @@ export class StarWidget {
       this.vue.name = gameState.player.currentstar.name
     }
   }
-};
+}

@@ -1,34 +1,34 @@
-const queue = require("./loadQueue").default;
-const Stage = require("./stage").default;
-const GameObject = require("./gameObject").default;
+const queue = require('./loadQueue').default
+const Stage = require('./stage').default
+const GameObject = require('./gameObject').default
 
 class Bullet extends GameObject {
   constructor(options) {
-    super(options);
+    super(options)
     this.gfx = {
-      bitmap: new createjs.Bitmap(queue.getResult("bullet")),
-      graph: new createjs.Shape()
-    };
-    this.addChild(this.gfx.bitmap, this.gfx.graph);
-    this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5;
-    this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5;
+      bitmap: new createjs.Bitmap(queue.getResult('bullet')),
+      graph: new createjs.Shape(),
+    }
+    this.addChild(this.gfx.bitmap, this.gfx.graph)
+    this.gfx.bitmap.regX = this.gfx.bitmap.image.width * 0.5
+    this.gfx.bitmap.regY = this.gfx.bitmap.image.height * 0.5
 
     this.stats = {
-      aliveUntil: new Date().getTime() + options.lifetime
-    };
-    this.owner = null;
+      aliveUntil: new Date().getTime() + options.lifetime,
+    }
+    this.owner = null
   }
 
   setOwner(owner) {
-    this.owner = owner;
+    this.owner = owner
   }
 
   tick(event) {
     if (event.timeStamp > this.stats.aliveUntil) {
-      this.destroy();
-      return;
+      this.destroy()
+      return
     }
   }
 }
 
-export default Bullet;
+export default Bullet

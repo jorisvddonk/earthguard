@@ -1,1 +1,1 @@
-export default new createjs.LoadQueue();
+export default new createjs.LoadQueue()
