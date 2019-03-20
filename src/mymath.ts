@@ -65,7 +65,11 @@ const Mymath = {
    *
    * SOURCE: http://stackoverflow.com/questions/2248876/2d-game-fire-at-a-moving-target-by-predicting-intersection-of-projectile-and-u
    */
-  intercept2(src, dst, v) {
+  intercept2(
+    src: { x: number; y: number },
+    dst: { x: number; y: number; vx: number; vy: number },
+    v: number
+  ): Sylvester.Vector {
     const tx = dst.x - src.x
     const ty = dst.y - src.y
     const tvx = dst.vx

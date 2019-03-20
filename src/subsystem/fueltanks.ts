@@ -2,6 +2,8 @@ import _ from 'lodash'
 import ShipSubsystem from '../shipSubsystem'
 
 class FueltanksSubsystem extends ShipSubsystem {
+  public fueltanks: Array<{ name: any; capacity: any; content: any }>
+
   constructor(ship, options) {
     super(ship)
     options = Object.assign(
@@ -25,7 +27,7 @@ class FueltanksSubsystem extends ShipSubsystem {
   public getFuelRemaining() {
     return _.reduce(
       this.fueltanks,
-      function(memo, fueltank) {
+      (memo, fueltank) => {
         return memo + fueltank.content
       },
       0
@@ -33,9 +35,10 @@ class FueltanksSubsystem extends ShipSubsystem {
   }
 
   public consumeFuel(amount) {
-    const fuelTankToUse = _.find(this.fueltanks, function(fueltank) {
-      return fueltank.content > amount
-    })
+    const fuelTankToUse = _.find(
+      this.fueltanks,
+      fueltank => fueltank.content > amount
+    )
     if (fuelTankToUse != null) {
       fuelTankToUse.content = fuelTankToUse.content - amount
       return true

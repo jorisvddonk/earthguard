@@ -1,8 +1,12 @@
 import GameObject from './gameObject'
 import queue from './loadQueue'
-import Stage from './stage'
+import Ship from './ship'
 
 class Bullet extends GameObject {
+  public gfx: any
+  public stats: { aliveUntil: number }
+  public owner: Ship
+
   constructor(options) {
     super(options)
     this.gfx = {
@@ -19,7 +23,7 @@ class Bullet extends GameObject {
     this.owner = null
   }
 
-  public setOwner(owner) {
+  public setOwner(owner: Ship) {
     this.owner = owner
   }
 

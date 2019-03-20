@@ -116,14 +116,6 @@ class Ship extends GameObject {
     })
   }
 
-  public capMovement() {
-    if (this.movementVec.modulus() > this.stats.maxspeed.modulus()) {
-      this.movementVec = this.movementVec
-        .toUnitVector()
-        .multiply(this.stats.maxspeed.modulus())
-    }
-  }
-
   public tick() {
     if (this.subsystems.hull.integrity <= 0) {
       this.destroy()
@@ -138,18 +130,18 @@ class Ship extends GameObject {
     }
   }
 
-  public rotate(radians_or_vector) {
-    // radians_or_vector is a local-vector pointing towards an angle to rate to
+  public rotate(amount: number | Sylvester.Vector) {
+    // amount is a local-vector pointing towards an angle to rate to
     // or a rotation to point to specified in radians
-    if (radians_or_vector instanceof Sylvester.Vector) {
-      radians_or_vector = this.rotationVec.angleTo(radians_or_vector)
+    if (amount instanceof Sylvester.Vector) {
+      amount = this.rotationVec.angleTo(amount)
     }
     this.rotationVec = this.rotationVec
-      .rotate(Mymath.clampRot(radians_or_vector), new Sylvester.Vector([0, 0]))
+      .rotate(Mymath.clampRot(amount), new Sylvester.Vector([0, 0]))
       .toUnitVector()
   }
 
-  public thrust(multiply) {
+  public thrust(multiply: number) {
     multiply = Mymath.clamp(
       multiply,
       this.subsystems.engine.canReverse ? -1 : 0,
@@ -238,7 +230,7 @@ class Ship extends GameObject {
     }
   }
 
-  public fire(interception) {
+  public fire(interception: Sylvester.Vector) {
     if (interception === null || interception === undefined) {
       interception = this.getFire()
     }
@@ -256,7 +248,7 @@ class Ship extends GameObject {
     }
   }
 
-  public getFire() {
+  public getFire(): Sylvester.Vector {
     if (this.subsystems.ai && this.subsystems.ai.getTarget()) {
       // fire at target
       const relPos = this.subsystems.ai
@@ -265,7 +257,7 @@ class Ship extends GameObject {
       const relVel = this.subsystems.ai
         .getTarget()
         .movementVec.subtract(this.movementVec)
-      const interception2 = Mymath.intercept2(
+      const interception2: Sylvester.Vector = Mymath.intercept2(
         {
           x: 0,
           y: 0,
@@ -282,6 +274,14 @@ class Ship extends GameObject {
     } else {
       // fire straight ahead
       return this.rotationVec
+    }
+  }
+
+  private capMovement() {
+    if (this.movementVec.modulus() > this.stats.maxspeed.modulus()) {
+      this.movementVec = this.movementVec
+        .toUnitVector()
+        .multiply(this.stats.maxspeed.modulus())
     }
   }
 }

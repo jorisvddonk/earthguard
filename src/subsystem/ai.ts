@@ -6,12 +6,13 @@ import Sylvester from '../sylvester-withmods'
 import TargetTypes from './ai_targettypes'
 
 class AISubsystem extends ShipSubsystem {
+  public target: any
+  public targetType: string
   constructor(ship, options) {
     super(ship)
     this.subsystemType = 'ai'
     this.target = null
     this.targetType = TargetTypes.NULL
-    options = Object.assign({}, options)
   }
 
   public tick() {
@@ -57,7 +58,7 @@ class AISubsystem extends ShipSubsystem {
       this.target = TargetTypes.HALT
       this.targetType = TargetTypes.HALT
     } else {
-      throw new Error('AI: unsupported target type: ', target)
+      throw new Error(`AI: unsupported target type for ${target}`)
     }
     const evt = new createjs.Event('ai_targetChanged', false, false)
     evt.data = { target, targetType: this.targetType }
