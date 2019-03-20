@@ -1,13 +1,18 @@
 const _ = require("lodash");
-const gameState = require("./gameState");
+const gameState = require("./gameState").default;
 const d3 = require("d3");
 const d3tip = require("d3-tip")(d3);
 const d3Scale = require("d3-scale");
 
-class StarmapRadar extends Object {
+export class StarmapRadar {
+  SVG: any;
+  startip: any;
+  miscGroup: any;
+  linesGroup: any;
+  starsGroup: any;
+  radarScale: any;
+  sizeScale: any;
   constructor() {
-    super()
-
     // Setup stuff
     //$("#starmapradar").draggable(); // todo: make draggable. jquery-ui?
     this.SVG = d3.select("#starmapradar svg");
@@ -100,7 +105,7 @@ class StarmapRadar extends Object {
         LINES
       */
     /* todo */
-    lines = this.linesGroup
+    let lines = this.linesGroup
       .selectAll("line")
       .data(gameState.universe.starmap.links, d => d["star1"]["objid"] + "," + d["star2"]["objid"]);
 
@@ -120,7 +125,7 @@ class StarmapRadar extends Object {
     /* 
         MISC
       */
-    playerStarHighlight = this.miscGroup
+    let playerStarHighlight = this.miscGroup
       .selectAll("circle.starPlayerHighlight")
       .data([gameState.player.currentstar], d => d["objid"]);
 

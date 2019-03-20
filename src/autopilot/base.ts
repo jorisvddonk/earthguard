@@ -1,7 +1,7 @@
 import Sylvester from '../sylvester-withmods';
-const ShipSubsystem = require("../shipSubsystem");
-const GameObject = require("../gameObject");
-const TargetType = require("../subsystem/ai_targettypes");
+const ShipSubsystem = require("../shipSubsystem").default;
+const GameObject = require("../gameObject").default;
+const TargetType = require("../subsystem/ai_targettypes").default;
 
 class BaseAutopilot extends ShipSubsystem {
     constructor(ship, options) {

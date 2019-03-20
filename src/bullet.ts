@@ -1,6 +1,6 @@
-const queue = require("./loadQueue");
-const Stage = require("./stage");
-const GameObject = require("./gameObject");
+const queue = require("./loadQueue").default;
+const Stage = require("./stage").default;
+const GameObject = require("./gameObject").default;
 
 class Bullet extends GameObject {
   constructor(options) {

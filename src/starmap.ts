@@ -1,11 +1,13 @@
 const _ = require("lodash");
-const SIMPROPS = require("./simproperties");
-const Star = require("./star");
+const SIMPROPS = require("./simproperties").default;
+const Star = require("./star").default;
 const Phonetics = require("./namegen.js").default;
 //STARMAP constructor function. This is returned in this module...
-class Starmap extends Object {
+class Starmap {
+  phonetics: any;
+  stars: any[];
+  links: any[];
   constructor() {
-    super();
     // Setup stuff
     this.phonetics = new Phonetics();
 

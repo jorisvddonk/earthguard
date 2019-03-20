@@ -1,22 +1,22 @@
 import factionRegistry from './factionRegistry';
 const _ = require("lodash");
-const FueltanksSubsystem = require("./subsystem/fueltanks");
-const HullSubsystem = require("./subsystem/hull");
-const EngineSubsystem = require("./subsystem/engine");
-const SensorSubsystem = require("./subsystem/sensor");
-const MemorySubsystem = require("./subsystem/memory");
-const AISubsystem = require("./subsystem/ai");
+const FueltanksSubsystem = require("./subsystem/fueltanks").default;
+const HullSubsystem = require("./subsystem/hull").default;
+const EngineSubsystem = require("./subsystem/engine").default;
+const SensorSubsystem = require("./subsystem/sensor").default;
+const MemorySubsystem = require("./subsystem/memory").default;
+const AISubsystem = require("./subsystem/ai").default;
 import Sylvester from './sylvester-withmods';
-const queue = require("./loadQueue");
-const Mymath = require("./mymath");
-const PIDController = require("./pidcontroller");
-const Bullet = require("./bullet");
-const gameState = require("./gameState");
-const Stage = require("./stage");
+const queue = require("./loadQueue").default;
+const Mymath = require("./mymath").default;
+const PIDController = require("./pidcontroller").default;
+const Bullet = require("./bullet").default;
+const gameState = require("./gameState").default;
+const Stage = require("./stage").default;
 const AutopilotV1 = require('./autopilot/v1')
-const AutopilotV2 = require('./autopilot/v2')
-const GameObject = require("./gameObject");
-const NotificationSystem = require("./notificationSystem");
+import { AutopilotV2 } from './autopilot/v2';
+const GameObject = require("./gameObject").default;
+const NotificationSystem = require("./notificationSystem").default;
 
 const DEFAULT_OPTIONS = {
   gfxID: "ship",

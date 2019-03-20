@@ -1,25 +1,25 @@
 const _ = require("lodash");
-const Parallax = require("./parallax");
+const Parallax = require("./parallax.js").default;
 import Sylvester from './sylvester-withmods';
-const Mymath = require("./mymath");
-const gameState = require("./gameState");
-const Stage = require("./stage");
-const Noty = require("noty");
-const Ship = require("./ship");
-const Bullet = require("./bullet");
-const Starmap = require("./starmap");
+const Mymath = require("./mymath").default;
+const gameState = require("./gameState").default;
+const Stage = require("./stage").default;
+const Noty = require("noty").default;
+const Ship = require("./ship").default;
+const Bullet = require("./bullet").default;
+const Starmap = require("./starmap").default;
 const contentJSON = require("../content/meta/content.json");
-const Radar = require("./radar");
-const StarmapRadar = require("./starmapradar");
-const StarWidget = require("./starwidget");
-const GraphWidget = require("./graphwidget");
-const Keyboard = require("./keyboard");
-const queue = require("./loadQueue");
-const NotificationSystem = require('./notificationSystem');
+const Radar = require("./radar").default;
+const StarmapRadar = require("./starmapradar").default;
+import { StarWidget } from "./starwidget");
+const GraphWidget = require("./graphwidget").default;
+const Keyboard = require("./keyboard").default;
+const queue = require("./loadQueue").default;
+const NotificationSystem = require('./notificationSystem').default;
 const AutopilotV1 = require('./autopilot/v1')
-const AutopilotV2 = require('./autopilot/v2')
-const ObjectRegistry = require('./objectRegistry');
-const TargetTypes = require('./subsystem/ai_targettypes');
+import { AutopilotV2 } from './autopilot/v2';
+const ObjectRegistry = require('./objectRegistry').default;
+const TargetTypes = require('./subsystem/ai_targettypes').default;
 
 const miscDebug = {};
 const textlines = [];
@@ -29,6 +29,7 @@ let ticking = true;
 let stage;
 let radar;
 let starmapradar;
+let starwidget;
 let graphwidget;
 
 function init() {

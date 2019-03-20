@@ -3,14 +3,19 @@ const smoothie = require("smoothie");
 const SmoothieChart = smoothie.SmoothieChart;
 const TimeSeries = smoothie.TimeSeries;
 
-class GraphWidget extends Object {
+class GraphWidget {
+  getValueFunc: any;
+  lastData: number;
+  lastUpdate: number;
+  parentElement: any;
+  canvas: HTMLCanvasElement;
+  chart: any;
+  line1: any;
   constructor(
     element_selector,
     chartoptions,
     getValueFunc
   ) {
-    super()
-
     if (chartoptions === undefined) {
       chartoptions = {};
     }

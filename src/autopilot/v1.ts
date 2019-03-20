@@ -1,6 +1,7 @@
 import Sylvester from '../sylvester-withmods';
-const PIDController = require('../pidcontroller');
-const BaseAutopilot = require("./base");
+const Mymath = require("../mymath").default;
+const PIDController = require('../pidcontroller').default;
+const BaseAutopilot = require("./base").default;
 
 class AutopilotV1 extends BaseAutopilot {
     constructor(ship, options) {
@@ -49,7 +50,7 @@ class AutopilotV1 extends BaseAutopilot {
         this.ship.thrust(thrust);
 
         // Check if we can fire
-        const Ship = require("../ship"); // for some reason, if this is put at the top of the file, it won't work. Weird.
+        const Ship = require("../ship").default; // for some reason, if this is put at the top of the file, it won't work. Weird.
         if (target instanceof Ship) {
             this.ship.maybeFire();
         }

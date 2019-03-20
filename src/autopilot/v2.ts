@@ -1,11 +1,12 @@
 import Sylvester from '../sylvester-withmods';
-const PIDController = require('../pidcontroller');
-const BaseAutopilot = require("./base");
-const TargetTypes = require("../subsystem/ai_targettypes");
+const Mymath = require("../mymath").default;
+const PIDController = require('../pidcontroller').default;
+const BaseAutopilot = require("./base").default;
+const TargetTypes = require("../subsystem/ai_targettypes").default;
 
 const OFFSET_ALLOWED = 0.0872664626; // 5 degrees
 const OFFSET_ALLOWED_BACKWARDS = 0.436332313; // 25 degrees
-class AutopilotV2 extends BaseAutopilot {
+export class AutopilotV2 extends BaseAutopilot {
     constructor(ship, options) {
         super(ship, options)
         this.controllers.posXPID = new PIDController(-0.45, -0.0, -80, -10, 10, -10, 10);
@@ -106,7 +107,7 @@ class AutopilotV2 extends BaseAutopilot {
         this.state.y_thrust = y_thrust;
 
         // Check if we can fire
-        const Ship = require("../ship"); // for some reason, if this is put at the top of the file, it won't work. Weird.
+        const Ship = require("../ship").default; // for some reason, if this is put at the top of the file, it won't work. Weird.
         if (target instanceof Ship) {
             this.ship.maybeFire();
         }
@@ -117,5 +118,3 @@ class AutopilotV2 extends BaseAutopilot {
         }
     }
 }
-
-export default AutopilotV2

@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const ShipSubsystem = require("../shipSubsystem");
+const ShipSubsystem = require("../shipSubsystem").default;
 
 class HullSubsystem extends ShipSubsystem {
     constructor(ship, options) {

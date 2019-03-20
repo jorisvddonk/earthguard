@@ -1,6 +1,6 @@
 const _ = require("lodash");
-const queue = require("./loadQueue");
-const GameObject = require("./gameObject");
+const queue = require("./loadQueue").default;
+const GameObject = require("./gameObject").default;
 import Sylvester from './sylvester-withmods';
 
 const DEFAULT_OPTIONS = {

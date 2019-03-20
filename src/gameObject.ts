@@ -1,8 +1,8 @@
 import Sylvester from './sylvester-withmods';
-const Stage = require("./stage");
+const Stage = require("./stage").default;
 const _ = require("lodash");
 let nextObjectID = 0;
-const ObjectRegistry = require("./objectRegistry");
+const ObjectRegistry = require("./objectRegistry").default;
 
 const DEFAULT_OPTIONS = {
     movementVec: new Sylvester.Vector([0, 0]), // Vector decribing current movement

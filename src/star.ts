@@ -1,10 +1,10 @@
 import Sylvester from './sylvester-withmods';
 const _ = require("lodash");
 const Phonetics = require("./namegen.js").default;
-const Planet = require("./planet");
-const Jumpgate = require("./jumpgate");
+const Planet = require("./planet").default;
+const Jumpgate = require("./jumpgate").default;
 const StarMetadata = require("../content/meta/stars.json");
-const queue = require("./loadQueue");
+const queue = require("./loadQueue").default;
 var _last_id = 0;
 var genID = function () {
   //Used during constructor
@@ -19,12 +19,7 @@ var genStarClass = function () {
 };
 
 var _genPlanets = function () {
-  var nPlanets = parseInt(
-    Math.random() *
-    StarMetadata.starClassProperties[this.starclass].maxPlanets +
-    1,
-    10
-  );
+  var nPlanets = Math.random() * StarMetadata.starClassProperties[this.starclass].maxPlanets + 1
   nPlanets = Math.max(
     StarMetadata.starClassProperties[this.starclass].minPlanets,
     nPlanets
@@ -44,6 +39,15 @@ var _genPlanets = function () {
 var phonetics = new Phonetics();
 
 class Star extends createjs.Container {
+  jumpgates: any;
+  mapx: any;
+  mapy: any;
+  radius: any;
+  objid: any;
+  starclass: any;
+  faction: any;
+  planets: any;
+  _constructor_options: any;
   constructor(options) {
     super();
 
@@ -94,12 +98,12 @@ class Star extends createjs.Container {
   };
 
   _genJumpgates(otherstars) {
-    function distfunc(x) {
+    const distfunc = x => {
       return (Math.sqrt(x) + 10) * 300;
     }
     this.jumpgates = _.map(
       otherstars,
-      function (ostar) {
+      (ostar) => {
         var dist = distfunc(
           Math.sqrt(
             (ostar.mapx - this.mapx) * (ostar.mapx - this.mapx) +

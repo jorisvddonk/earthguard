@@ -1,14 +1,18 @@
-const gameState = require("./gameState");
+const gameState = require("./gameState").default;
 const d3 = require("d3");
 const d3tip = require("d3-tip")(d3);
 const d3Scale = require("d3-scale");
-const Stage = require("./stage");
-const Ship = require("./ship");
+const Stage = require("./stage").default;
+const Ship = require("./ship").default;
 
-class Radar extends Object {
+class Radar {
+  SVG: any;
+  bodiestip: any;
+  bodiesGroup: any;
+  shipsGroup: any;
+  miscGroup: any;
+  radarScale: any;
   constructor() {
-    super()
-
     //$("#radar").draggable(); // todo: re-enable draggable support... jquery-ui?
     this.SVG = d3.select("#radar svg");
     this.bodiestip = d3

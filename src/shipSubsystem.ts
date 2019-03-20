@@ -1,6 +1,7 @@
-class ShipSubsystem extends Object {
+class ShipSubsystem {
+  ship: any;
+  subsystemType: string;
   constructor(ship) {
-    super();
     this.ship = ship;
     this.subsystemType = "genericSubsystem";
   }

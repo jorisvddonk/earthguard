@@ -26,13 +26,13 @@ export default function Parallax(
     plx.addChild(bmap);
   }
   for (
-    y = 0;
+    let y = 0;
     y < myCanvas.height * (1 / stage.scaleY) + 1 * plx.gfx.height;
     y = y + plx.gfx.height
   ) {
     ix = 0;
     for (
-      x = 0;
+      let x = 0;
       x < myCanvas.width * (1 / stage.scaleX) + 1 * plx.gfx.width;
       x = x + plx.gfx.width
     ) {

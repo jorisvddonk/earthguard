@@ -1,6 +1,6 @@
 const d3 = require("d3");
 
-export class NotificationSystem extends Object {
+export class NotificationSystem {
     notificationBarElement: any;
     bubbleElement: any;
     data: any[];
@@ -9,8 +9,6 @@ export class NotificationSystem extends Object {
     notificationSVGElement: any;
 
     constructor(notificationBarSelector, bubbleSelector) {
-        super();
-
         this.notificationBarElement = document.querySelector(notificationBarSelector);
         this.bubbleElement = document.querySelector(bubbleSelector);
 

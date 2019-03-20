@@ -1,10 +1,9 @@
 const Vue = require("vue");
-const gameState = require("./gameState");
+const gameState = require("./gameState").default;
 
-class StarWidget extends Object {
+export class StarWidget {
+  vue: any;
   constructor(element_selector) {
-    super()
-
     this.vue = new Vue({
       el: element_selector,
       data: { name: "" }
@@ -22,5 +21,3 @@ class StarWidget extends Object {
     }
   }
 };
-
-export default StarWidget;
