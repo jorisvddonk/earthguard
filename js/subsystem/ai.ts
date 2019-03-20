@@ -2,7 +2,7 @@ const _ = require("lodash");
 const ShipSubsystem = require("../shipSubsystem");
 const ObjectRegistry = require("../objectRegistry");
 const GameObject = require("../gameObject");
-const Sylvester = require("../sylvester-withmods.js");
+const Sylvester = require("../sylvester-withmods");
 const TargetTypes = require("./ai_targettypes.js");
 
 class AISubsystem extends ShipSubsystem {

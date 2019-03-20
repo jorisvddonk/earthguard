@@ -1,2 +1,1 @@
-const queue = new createjs.LoadQueue();
-module.exports = queue;
+module.exports = new createjs.LoadQueue();

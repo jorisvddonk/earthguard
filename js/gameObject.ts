@@ -1,5 +1,5 @@
 const Stage = require("./stage");
-const Sylvester = require("./sylvester-withmods.js");
+const Sylvester = require("./sylvester-withmods");
 const _ = require("lodash");
 let nextObjectID = 0;
 const ObjectRegistry = require("./objectRegistry");

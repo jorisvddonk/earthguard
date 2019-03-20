@@ -1,5 +1,5 @@
 const PIDController = require('../pidcontroller');
-const Sylvester = require("../sylvester-withmods.js");
+const Sylvester = require("../sylvester-withmods");
 const BaseAutopilot = require("./base");
 
 class AutopilotV1 extends BaseAutopilot {

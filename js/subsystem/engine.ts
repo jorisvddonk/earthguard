@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const ShipSubsystem = require("../shipSubsystem");
-const Sylvester = require("../sylvester-withmods.js");
+const Sylvester = require("../sylvester-withmods");
 
 class EngineSubsystem extends ShipSubsystem {
     constructor(ship, options) {

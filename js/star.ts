@@ -4,7 +4,7 @@ const Planet = require("./planet");
 const Jumpgate = require("./jumpgate");
 const StarMetadata = require("../content/meta/stars.json");
 const queue = require("./loadQueue");
-const Sylvester = require("./sylvester-withmods.js");
+const Sylvester = require("./sylvester-withmods");
 var _last_id = 0;
 var genID = function () {
   //Used during constructor

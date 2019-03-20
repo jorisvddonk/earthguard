@@ -1,4 +1,4 @@
-const Sylvester = require("./sylvester-withmods.js");
+const Sylvester = require("./sylvester-withmods");
 
 Mymath = {};
 

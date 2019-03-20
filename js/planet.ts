@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const queue = require("./loadQueue");
 const GameObject = require("./gameObject");
-const Sylvester = require("./sylvester-withmods.js");
+const Sylvester = require("./sylvester-withmods");
 
 const DEFAULT_OPTIONS = {
   gfxID: "planet_test",

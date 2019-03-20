@@ -1,5 +1,5 @@
 const ShipSubsystem = require("../shipSubsystem");
-const Sylvester = require("../sylvester-withmods.js");
+const Sylvester = require("../sylvester-withmods");
 const GameObject = require("../gameObject");
 const TargetType = require("../subsystem/ai_targettypes");
 

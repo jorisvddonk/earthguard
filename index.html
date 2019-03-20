@@ -2,7 +2,7 @@
 
 <head>
   <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.ts"></script>
   <link rel="stylesheet" href="node_modules/noty/lib/noty.css" />
   <script>
     const resizeGame = function () {
@@ -78,13 +78,16 @@
     <div id="widgets" style="position:fixed; top:100px; left: 10px; width: 300px; height: 800px"></div>
   </div>
 
-  <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse" role="navigation" style="height: 42px; min-height: 42px;">
+  <div class="navbar navbar-default navbar-fixed-bottom navbar-inverse" role="navigation"
+    style="height: 42px; min-height: 42px;">
     <div id="navbar-inner-shadower">
       <div class="container" style="width:auto; padding-left:20px;">
         <span class="navbar-brand" style="line-height: 11px;">Notifications</span>
         <div style="padding-top:8px">
-          <div style="border-radius:9px 0px 0px 9px; height:24px; background:#222; border-top:1px solid #000; border-left:1px solid #000; border-bottom:1px solid #000; position:absolute; display:inline-block; left:170px; width:150px; padding-left:10px;">
-            <span style="font-weight:bolder; color:#ff9; text-shadow: 0px 0px 3px #990; padding-top:2px; display:inline-block">December
+          <div
+            style="border-radius:9px 0px 0px 9px; height:24px; background:#222; border-top:1px solid #000; border-left:1px solid #000; border-bottom:1px solid #000; position:absolute; display:inline-block; left:170px; width:150px; padding-left:10px;">
+            <span
+              style="font-weight:bolder; color:#ff9; text-shadow: 0px 0px 3px #990; padding-top:2px; display:inline-block">December
               25, 2652</span>
           </div>
           <div id="updateBar"></div>
