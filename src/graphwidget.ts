@@ -28,8 +28,21 @@ class GraphWidget {
     this.parentElement = element_selector
 
     this.canvas = document.createElement('canvas')
-    this.canvas.setAttribute('width', this.parentElement.offsetWidth)
-    this.canvas.setAttribute('height', this.parentElement.offsetHeight)
+    let style = window.getComputedStyle(this.parentElement, null)
+    this.canvas.setAttribute(
+      'width',
+      parseInt(style.width) -
+        parseInt(style.paddingLeft) -
+        parseInt(style.paddingRight) +
+        'px'
+    )
+    this.canvas.setAttribute(
+      'height',
+      parseInt(style.height) -
+        parseInt(style.paddingTop) -
+        parseInt(style.paddingBottom) +
+        'px'
+    )
     this.parentElement.append(this.canvas)
 
     const ctx = this.canvas.getContext('2d')

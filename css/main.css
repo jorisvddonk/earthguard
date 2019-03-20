@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .ui-draggable {
   cursor: move;
 }
@@ -83,8 +87,11 @@
 
 #widgets .game-ui-widget {
   position: relative;
-  width: 100%;
+  width: 200px;
   height: 100px;
+  position: fixed;
+  bottom: 60px;
+  right: 10px;
 }
 
 .d3-tip {
