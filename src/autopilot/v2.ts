@@ -8,6 +8,8 @@ import Ship from '../ship'
 const OFFSET_ALLOWED = 0.0872664626 // 5 degrees
 const OFFSET_ALLOWED_BACKWARDS = 0.436332313 // 25 degrees
 export class AutopilotV2 extends BaseAutopilot {
+  controllers: any
+  state: any
   constructor(ship, options) {
     super(ship, options)
     this.controllers.posXPID = new PIDController(

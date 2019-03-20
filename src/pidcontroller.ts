@@ -1,18 +1,32 @@
-class PIDController {
+export class PIDController {
+  kP: any
+  kI: any
+  kD: any
+  minIntegral: any
+  minCapIntegral: any
+  error: any
+  previousError: any
+  integralError: any
+  derivativeError: any
+  maxCapIntegral: any
+  maxIntegral: any
+  last: { mP: number; mI: number; mD: number }
+  retError: number
+
   constructor(
     kp,
     ki,
     kd,
-    minIntegral,
-    maxIntegral,
-    minCapIntegral,
-    maxCapIntegral
+    minIntegral?,
+    maxIntegral?,
+    minCapIntegral?,
+    maxCapIntegral?
   ) {
     this.kP = kp //-0.7;
     this.kI = ki //-0.01;
     this.kD = kd //-0.3;
     this.minIntegral = minIntegral
-    this.maxIntegral = maxIntegral
+    this.minIntegral = maxIntegral
     this.minCapIntegral = minCapIntegral
     this.maxCapIntegral = maxCapIntegral
 

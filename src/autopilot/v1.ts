@@ -5,6 +5,7 @@ import BaseAutopilot from './base'
 import Ship from '../ship'
 
 class AutopilotV1 extends BaseAutopilot {
+  controllers: any
   constructor(ship, options) {
     super(ship, options)
     this.controllers.rotPID = new PIDController(-0.9, -0.9, -10)
