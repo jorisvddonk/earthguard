@@ -2,6 +2,9 @@ import _ from 'lodash'
 import ShipSubsystem from '../shipSubsystem'
 
 class HullSubsystem extends ShipSubsystem {
+  public integrity: number
+  public maxIntegrity: number
+
   constructor(ship, options) {
     super(ship)
     options = Object.assign(

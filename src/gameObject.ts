@@ -13,6 +13,11 @@ const DEFAULT_OPTIONS = {
 const FORCE_CALCULATE = 'some_sentinel_value'
 
 class GameObject extends createjs.Container {
+  public movementVec: any
+  public _objid: number
+  public rotationVec: any
+  public positionVec: any
+  public static: any
   constructor(options) {
     options = _.extend({}, DEFAULT_OPTIONS, options)
     super()

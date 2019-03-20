@@ -31,6 +31,27 @@ const DEFAULT_OPTIONS = {
 }
 
 class Ship extends GameObject {
+  public stats: { maxspeed: any; bulletspeed: any; bulletlifetime: any }
+  public faction: any
+  public name: any
+  public gfx: any
+  public subsystems: {
+    weapons: any[]
+    engine: EngineSubsystem
+    fueltanks: FueltanksSubsystem
+    radars: any[]
+    scanners: any[]
+    modifications: any[]
+    grippers: any[]
+    droids: any[]
+    shields: any[]
+    hull: HullSubsystem
+    cargobays: any[]
+    sensor: SensorSubsystem
+    memory: MemorySubsystem
+    autopilot: AutopilotV2
+    ai: AISubsystem
+  }
   constructor(options) {
     if (typeof options.faction === 'string') {
       options.faction = factionRegistry.get(options.faction)
@@ -59,7 +80,7 @@ class Ship extends GameObject {
     this.subsystems = {
       weapons: [],
       engine: new EngineSubsystem(this, {}),
-      fueltanks: new FueltanksSubsystem(),
+      fueltanks: new FueltanksSubsystem(this, {}),
       radars: [],
       scanners: [],
       modifications: [],
@@ -75,7 +96,7 @@ class Ship extends GameObject {
     }
 
     // debugging stuff when you control-click a ship:
-    this.addEventListener('click', event => {
+    this.addEventListener('click', (event: any) => {
       if (event.nativeEvent.ctrlKey) {
         if (window.$S) {
           window.$S.alpha = 1
@@ -219,7 +240,7 @@ class Ship extends GameObject {
 
   public fire(interception) {
     if (interception === null || interception === undefined) {
-      const interception = this.getFire()
+      interception = this.getFire()
     }
     if (interception !== null) {
       const bullet = new Bullet({
