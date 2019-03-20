@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const tinycolor = require('tinycolor2')
+import _ from 'lodash'
+import tinycolor from 'tinycolor2'
 const colorIncrement = 0.1
 let nextColor = -colorIncrement
 const DEFAULT_OPTIONS = {}

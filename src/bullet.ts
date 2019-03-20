@@ -1,6 +1,6 @@
-const queue = require('./loadQueue').default
-const Stage = require('./stage').default
-const GameObject = require('./gameObject').default
+import queue from './loadQueue'
+import Stage from './stage'
+import GameObject from './gameObject'
 
 class Bullet extends GameObject {
   constructor(options) {

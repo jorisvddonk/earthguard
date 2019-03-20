@@ -1,5 +1,5 @@
-const Vue = require('vue')
-const gameState = require('./gameState').default
+import Vue from 'vue'
+import gameState from './gameState'
 
 export class StarWidget {
   vue: any

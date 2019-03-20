@@ -1,6 +1,6 @@
-const _ = require('lodash')
-const queue = require('./loadQueue').default
-const GameObject = require('./gameObject').default
+import _ from 'lodash'
+import queue from './loadQueue'
+import GameObject from './gameObject'
 import Sylvester from './sylvester-withmods'
 
 const DEFAULT_OPTIONS = {

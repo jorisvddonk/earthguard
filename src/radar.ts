@@ -1,9 +1,10 @@
-const gameState = require('./gameState').default
-const d3 = require('d3')
-const d3tip = require('d3-tip')(d3)
-const d3Scale = require('d3-scale')
-const Stage = require('./stage').default
-const Ship = require('./ship').default
+import gameState from './gameState'
+import d3 from 'd3'
+import d3tipFactory from 'd3-tip'
+const d3tip = d3tipFactory(d3)
+import * as d3Scale from 'd3-scale'
+import Stage from './stage'
+import Ship from './ship'
 
 class Radar {
   SVG: any

@@ -1,4 +1,4 @@
-const _ = require('lodash')
+import _ from 'lodash'
 /* Name generation script
      based on Phonetics (my own interpretation of them)
   */

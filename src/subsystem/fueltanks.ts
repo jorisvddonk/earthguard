@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const ShipSubsystem = require('../shipSubsystem').default
+import _ from 'lodash'
+import ShipSubsystem from '../shipSubsystem'
 
 class FueltanksSubsystem extends ShipSubsystem {
   constructor(ship, options) {

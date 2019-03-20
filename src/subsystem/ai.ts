@@ -1,9 +1,9 @@
 import Sylvester from '../sylvester-withmods'
-const _ = require('lodash')
-const ShipSubsystem = require('../shipSubsystem').default
-const ObjectRegistry = require('../objectRegistry').default
-const GameObject = require('../gameObject').default
-const TargetTypes = require('./ai_targettypes').default
+import _ from 'lodash'
+import ShipSubsystem from '../shipSubsystem'
+import ObjectRegistry from '../objectRegistry'
+import GameObject from '../gameObject'
+import TargetTypes from './ai_targettypes'
 
 class AISubsystem extends ShipSubsystem {
   constructor(ship, options) {

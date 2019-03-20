@@ -1,7 +1,7 @@
-const _ = require('lodash')
-const SIMPROPS = require('./simproperties').default
-const Star = require('./star').default
-const Phonetics = require('./namegen.js').default
+import _ from 'lodash'
+import SIMPROPS from './simproperties'
+import Star from './star'
+import Phonetics from './namegen.js'
 //STARMAP constructor function. This is returned in this module...
 class Starmap {
   phonetics: any

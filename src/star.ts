@@ -1,10 +1,10 @@
 import Sylvester from './sylvester-withmods'
-const _ = require('lodash')
-const Phonetics = require('./namegen.js').default
-const Planet = require('./planet').default
-const Jumpgate = require('./jumpgate').default
-const StarMetadata = require('../content/meta/stars.json')
-const queue = require('./loadQueue').default
+import _ from 'lodash'
+import Phonetics from './namegen.js'
+import Planet from './planet'
+import Jumpgate from './jumpgate'
+import StarMetadata from '../content/meta/stars.json'
+import queue from './loadQueue'
 var _last_id = 0
 var genID = function() {
   //Used during constructor

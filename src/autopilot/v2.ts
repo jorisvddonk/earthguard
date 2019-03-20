@@ -1,8 +1,9 @@
 import Sylvester from '../sylvester-withmods'
-const Mymath = require('../mymath').default
-const PIDController = require('../pidcontroller').default
-const BaseAutopilot = require('./base').default
-const TargetTypes = require('../subsystem/ai_targettypes').default
+import Mymath from '../mymath'
+import PIDController from '../pidcontroller'
+import BaseAutopilot from './base'
+import TargetTypes from '../subsystem/ai_targettypes'
+import Ship from '../ship'
 
 const OFFSET_ALLOWED = 0.0872664626 // 5 degrees
 const OFFSET_ALLOWED_BACKWARDS = 0.436332313 // 25 degrees
@@ -124,7 +125,6 @@ export class AutopilotV2 extends BaseAutopilot {
     this.state.y_thrust = y_thrust
 
     // Check if we can fire
-    const Ship = require('../ship').default // for some reason, if this is put at the top of the file, it won't work. Weird.
     if (target instanceof Ship) {
       this.ship.maybeFire()
     }

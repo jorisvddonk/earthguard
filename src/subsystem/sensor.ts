@@ -1,4 +1,4 @@
-const ShipSubsystem = require('../shipSubsystem').default
+import ShipSubsystem from '../shipSubsystem'
 
 class SensorSubsystem extends ShipSubsystem {
   constructor(ship, options) {

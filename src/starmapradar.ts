@@ -1,8 +1,9 @@
-const _ = require('lodash')
-const gameState = require('./gameState').default
-const d3 = require('d3')
-const d3tip = require('d3-tip')(d3)
-const d3Scale = require('d3-scale')
+import _ from 'lodash'
+import gameState from './gameState'
+import d3 from 'd3'
+import d3tipFactory from 'd3-tip'
+const d3tip = d3tipFactory(d3)
+import * as d3Scale from 'd3-scale'
 
 export class StarmapRadar {
   SVG: any

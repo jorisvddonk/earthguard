@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const queue = require('./loadQueue').default
+import _ from 'lodash'
+import queue from './loadQueue'
 class Jumpgate extends createjs.Container {
   /*
       options: {

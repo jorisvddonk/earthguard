@@ -1,4 +1,4 @@
-const EventEmitter = require('EventEmitter').default
+import EventEmitter from 'EventEmitter'
 const ee = new EventEmitter()
 const gameState = {
   player: new Proxy(

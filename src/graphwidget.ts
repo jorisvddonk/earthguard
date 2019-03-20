@@ -1,5 +1,5 @@
-const _ = require('lodash')
-const smoothie = require('smoothie')
+import _ from 'lodash'
+import smoothie from 'smoothie'
 const SmoothieChart = smoothie.SmoothieChart
 const TimeSeries = smoothie.TimeSeries
 
