@@ -3,7 +3,25 @@ import _ from 'lodash'
      based on Phonetics (my own interpretation of them)
   */
 
+type KeyAndValues = {
+  key: string
+  values: string[]
+}
+
 export default class Phonetics {
+  public _unique_generate_cache: any[]
+  private chargroups: {
+    ordinary_vowels: KeyAndValues
+    vowels: KeyAndValues
+    consonants: KeyAndValues
+    stops: KeyAndValues
+    affricates: KeyAndValues
+    fricatives: KeyAndValues
+    nasals: KeyAndValues
+    liquids: KeyAndValues
+    glides: KeyAndValues
+    remainingconsonants?: KeyAndValues
+  }
   constructor() {
     this.chargroups = {
       ordinary_vowels: { key: 'o', values: ['a', 'e', 'i', 'o', 'u'] },
@@ -49,55 +67,54 @@ export default class Phonetics {
     this.chargroups.remainingconsonants = {
       key: 'r',
       values: _.difference(
-        this.chargroups['consonants']['values'],
-        this.chargroups['affricates']['values'],
-        this.chargroups['fricatives']['values'],
-        this.chargroups['stops']['values'],
-        this.chargroups['nasals']['values'],
-        this.chargroups['liquids']['values'],
-        this.chargroups['glides']['values']
+        this.chargroups.consonants.values,
+        this.chargroups.affricates.values,
+        this.chargroups.fricatives.values,
+        this.chargroups.stops.values,
+        this.chargroups.nasals.values,
+        this.chargroups.liquids.values,
+        this.chargroups.glides.values
       ),
     }
     this._unique_generate_cache = []
   }
 
-  generate(pattern) {
-    var retString = ''
-    var next_is_literal = false
-    for (var pi in pattern) {
-      var po = pattern[pi]
-      var pl = po.toLowerCase()
-      ////
-      var genChar
+  public generate(pattern) {
+    let retString = ''
+    let next_is_literal = false
+    for (const po of pattern) {
+      const pl = po.toLowerCase()
+
+      let genChar
       if (next_is_literal) {
         genChar = po
         next_is_literal = false
-      } else if (pl == 'p') {
+      } else if (pl === 'p') {
         genChar = retString.slice(-1)
-      } else if (po == 'u') {
+      } else if (po === 'u') {
         genChar = '' + _.random(0, 9)
-      } else if (po == 'U') {
+      } else if (po === 'U') {
         genChar = '' + _.random(1, 9)
-      } else if (po == '\\') {
+      } else if (po === '\\') {
         next_is_literal = true
         continue
       } else {
-        for (var pkey in this.chargroups) {
-          if (pl == this.chargroups[pkey]['key']) {
-            genChar = this.chargroups[pkey]['values'][
-              _.random(0, this.chargroups[pkey]['values'].length - 1)
+        for (let pkey in this.chargroups) {
+          if (pl === this.chargroups[pkey].key) {
+            genChar = this.chargroups[pkey].values[
+              _.random(0, this.chargroups[pkey].values.length - 1)
             ]
           }
         }
       }
 
       if (genChar !== undefined) {
-        if (pl != po) {
-          //Uppercase
+        if (pl !== po) {
+          // Uppercase
           genChar = genChar[0].toUpperCase() + genChar.slice(1)
         } else {
-          //Lowercase
-          //do nothing
+          // Lowercase
+          // do nothing
         }
         retString = retString + genChar
       }
@@ -105,12 +122,14 @@ export default class Phonetics {
     return retString
   }
 
-  UGenerate(pattern) {
+  public UGenerate(pattern) {
     let generated
     let icount = 0
     while (generated === undefined) {
       if (icount >= 1024) {
-        throw "Either you're really unlucky, or this pattern can't generate any more stars!"
+        throw new Error(
+          "Either you're really unlucky, or this pattern can't generate any more stars!"
+        )
       }
       generated = this.generate(pattern)
       if (_.includes(this._unique_generate_cache, generated)) {
@@ -123,7 +142,7 @@ export default class Phonetics {
     return generated
   }
 
-  clearNameCache() {
+  public clearNameCache() {
     this._unique_generate_cache = []
   }
 }
