@@ -35,6 +35,7 @@ export class AutopilotV2 extends BaseAutopilot {
   public tick() {
     const task = this.getTask()
     const target = this.getTarget()
+
     const dispatchCompleteEvent = () => {
       const evt = new createjs.Event('autopilot_Complete', false, false)
       evt.data = { task }
@@ -50,24 +51,7 @@ export class AutopilotV2 extends BaseAutopilot {
 
     if (task.type === TaskType.HALT) {
       // brake!
-      // rotate towards movement vector's opposite
-      const thrust_vec = this.ship.movementVec.rotate(
-        Math.PI,
-        new Sylvester.Vector([0, 0])
-      )
-      this.ship.rotate(thrust_vec)
-      // thrust!
-      const thrust_angle = this.ship.rotationVec.angleTo(thrust_vec)
-      if (thrust_angle < OFFSET_ALLOWED && thrust_angle > -OFFSET_ALLOWED) {
-        const act_thrust = Mymath.clampThrust(thrust_vec.modulus() * 500)
-        this.state.lthrust = act_thrust
-        this.ship.thrust(act_thrust)
-      }
-
-      // Check if we need to call callback
-      if (this.ship.movementVec.modulus() < 0.05) {
-        dispatchCompleteEvent()
-      }
+      this.brake(dispatchCompleteEvent)
       return
     }
 
@@ -76,6 +60,29 @@ export class AutopilotV2 extends BaseAutopilot {
       return // target lost!
     }
 
+    if (
+      task.type === TaskType.ATTACK ||
+      task.type === TaskType.MOVE ||
+      task.type === TaskType.FOLLOW
+    ) {
+      this.moveTo(targetpos)
+      // Check if we can fire
+      if (task.type === TaskType.ATTACK) {
+        this.ship.maybeFire()
+      }
+
+      // Check if we need to call callback
+      if (
+        task.type === TaskType.MOVE &&
+        targetpos.subtract(this.ship.positionVec).modulus() < 50 &&
+        this.ship.movementVec.modulus() < 0.75
+      ) {
+        dispatchCompleteEvent()
+      }
+    }
+  }
+
+  private moveTo(targetpos: Sylvester.Vector) {
     // Update PID controllers; posXPID and posYPID
     const pos_vec_error = targetpos.subtract(this.ship.positionVec)
     const x_error = pos_vec_error.e(1)
@@ -127,18 +134,27 @@ export class AutopilotV2 extends BaseAutopilot {
     // store state/data for gfx stuff
     this.state.x_thrust = x_thrust
     this.state.y_thrust = y_thrust
+  }
 
-    // Check if we can fire
-    if (task.type === TaskType.ATTACK) {
-      this.ship.maybeFire()
+  private brake(onComplete) {
+    // rotate towards movement vector's opposite
+    const thrust_vec = this.ship.movementVec.rotate(
+      Math.PI,
+      new Sylvester.Vector([0, 0])
+    )
+    this.ship.rotate(thrust_vec)
+
+    // thrust!
+    const thrust_angle = this.ship.rotationVec.angleTo(thrust_vec)
+    if (thrust_angle < OFFSET_ALLOWED && thrust_angle > -OFFSET_ALLOWED) {
+      const act_thrust = Mymath.clampThrust(thrust_vec.modulus() * 500)
+      this.state.lthrust = act_thrust
+      this.ship.thrust(act_thrust)
     }
 
     // Check if we need to call callback
-    if (
-      pos_vec_error.modulus() < 50 &&
-      this.ship.movementVec.modulus() < 0.75
-    ) {
-      dispatchCompleteEvent()
+    if (this.ship.movementVec.modulus() < 0.05) {
+      onComplete()
     }
   }
 }
