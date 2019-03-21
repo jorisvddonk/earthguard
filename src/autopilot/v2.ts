@@ -129,7 +129,7 @@ export class AutopilotV2 extends BaseAutopilot {
     this.state.y_thrust = y_thrust
 
     // Check if we can fire
-    if (target.type === TargetType.SHIP) {
+    if (task.type === TaskType.ATTACK) {
       this.ship.maybeFire()
     }
 
