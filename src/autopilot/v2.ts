@@ -1,7 +1,7 @@
 import Mymath from '../mymath'
 import PIDController from '../pidcontroller'
 import Ship from '../ship'
-import { TargetType } from '../targets'
+import { TargetType, TaskType } from '../targets'
 import Sylvester from '../sylvester-withmods'
 import BaseAutopilot from './base'
 
@@ -33,23 +33,22 @@ export class AutopilotV2 extends BaseAutopilot {
   }
 
   public tick() {
+    const task = this.getTask()
     const target = this.getTarget()
-    const targetpos = target.getTargetPosition()
     const dispatchCompleteEvent = () => {
       const evt = new createjs.Event('autopilot_Complete', false, false)
-      evt.data = { target }
+      evt.data = { task }
       this.ship.dispatchEvent(evt)
     }
 
     if (
-      target.type === TargetType.IDLE ||
-      target.type === TargetType.LOST ||
-      targetpos === TargetType.LOST
+      task.type === TaskType.IDLE ||
+      (target && target.type === TargetType.LOST)
     ) {
       return
     }
 
-    if (target.type === TargetType.HALT) {
+    if (task.type === TaskType.HALT) {
       // brake!
       // rotate towards movement vector's opposite
       const thrust_vec = this.ship.movementVec.rotate(
@@ -70,6 +69,11 @@ export class AutopilotV2 extends BaseAutopilot {
         dispatchCompleteEvent()
       }
       return
+    }
+
+    const targetpos = target.getTargetPosition()
+    if (targetpos === TargetType.LOST) {
+      return // target lost!
     }
 
     // Update PID controllers; posXPID and posYPID

@@ -17,7 +17,7 @@ import Stage from './stage'
 import Starmap from './starmap'
 import StarmapRadar from './starmapradar'
 import { StarWidget } from './starwidget'
-import { TargetType, createTarget } from './targets'
+import { createTask, TaskType } from './targets'
 import Sylvester from './sylvester-withmods'
 
 const miscDebug = {}
@@ -382,20 +382,39 @@ function spawnRandomShip() {
     Pirates: 'ship5',
     Police: 'ship6',
   }[faction]
-  const getShipOfFactionOrHalt = factionName => {
-    return (
-      _.sample(
-        stage.children.filter(
-          x => x instanceof Ship && x.faction.name === factionName
-        )
-      ) || TargetType.HALT
+  const getShipOfFaction = factionName => {
+    return _.sample(
+      stage.children.filter(
+        x => x instanceof Ship && x.faction.name === factionName
+      )
     )
   }
-  const getNextTarget = {
-    Civilians: () =>
-      createTarget(_.sample(gameState.player.currentstar.planets)),
-    Pirates: () => createTarget(getShipOfFactionOrHalt('Civilians')),
-    Police: () => createTarget(getShipOfFactionOrHalt('Pirates')),
+  const getNextTask = {
+    Civilians: () => {
+      const tgt = _.sample(gameState.player.currentstar.planets)
+      if (tgt) {
+        return createTask(TaskType.MOVE, tgt)
+      }
+      return createTask(TaskType.HALT)
+    },
+    Pirates: () => {
+      {
+        const tgt = getShipOfFaction('Civilians')
+        if (tgt) {
+          return createTask(TaskType.ATTACK, tgt)
+        }
+        return createTask(TaskType.HALT)
+      }
+    },
+    Police: () => {
+      {
+        const tgt = getShipOfFaction('Pirates')
+        if (tgt) {
+          return createTask(TaskType.ATTACK, tgt)
+        }
+        return createTask(TaskType.HALT)
+      }
+    },
   }[faction]
 
   const ship = new Ship({
@@ -416,34 +435,35 @@ function spawnRandomShip() {
     ]),
   })
 
-  const setNextTarget = (event?: any) => {
-    let nextTarget
-    if (event && event.data && event.data.target.type === TargetType.HALT) {
-      // ugh, not pretty!
-      nextTarget = createTarget(TargetType.IDLE)
+  const setNextTask = (event?: any) => {
+    let nextTask
+    if (
+      event &&
+      event.data &&
+      event.data.task &&
+      event.data.task.type === TaskType.HALT
+    ) {
+      nextTask = createTask(TaskType.IDLE)
     } else {
-      nextTarget = getNextTarget()
+      nextTask = getNextTask()
     }
     setTimeout(() => {
-      ship.subsystems.ai.setTarget(nextTarget)
+      ship.subsystems.ai.setTask(nextTask)
     }) // ugh!; race condition. TODO: fix.
   }
-  ship.addEventListener('ai_targetLost', setNextTarget)
-  ship.addEventListener('autopilot_Complete', setNextTarget)
+  ship.addEventListener('ai_targetLost', setNextTask)
+  ship.addEventListener('autopilot_Complete', setNextTask)
   if (faction === 'Civilians') {
     ship.addEventListener('autopilot_Complete', () => {
       NotificationSystem.get().push(
         'shipLanded',
-        'A ship (' +
-          ship.name +
-          ') has landed on planet ' +
-          ship.subsystems.ai.getTarget().name
+        'A ship has landed on a planet!'
       )
-      ship.subsystems.ai.setTarget(getNextTarget())
+      ship.subsystems.ai.setTask(getNextTask())
     })
   }
   setTimeout(() => {
-    setNextTarget()
+    setNextTask()
   }) // wait one tick or else the other ships don't exist yet.
   stage.addChild(ship)
   return ship

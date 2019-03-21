@@ -3,47 +3,59 @@ import GameObject from '../gameObject'
 import ObjectRegistry from '../objectRegistry'
 import ShipSubsystem from '../shipSubsystem'
 import Sylvester from '../sylvester-withmods'
-import { TargetType, Target, createTarget } from '../targets'
+import {
+  TargetType,
+  Target,
+  createTarget,
+  createTask,
+  TaskType,
+  Task,
+} from '../targets'
 
 class AISubsystem extends ShipSubsystem {
-  public target: Target
+  public task: Task
   constructor(ship, options) {
     super(ship)
     this.subsystemType = 'ai'
-    this.target = createTarget(TargetType.IDLE)
+    this.task = createTask(TaskType.IDLE)
   }
 
   public tick() {
-    if (
-      ((this.target.type === TargetType.GAMEOBJECT ||
-        this.target.type === TargetType.SHIP) &&
-        !ObjectRegistry.has(this.target.tgt)) ||
-      this.target.type === TargetType.LOST
-    ) {
-      console.log(this.ship._objid, 'Target lost', this.target)
-      const evt = new createjs.Event('ai_targetLost', false, false)
-      evt.data = { target: this.target }
-      this.ship.dispatchEvent(evt)
-      this.setTarget(createTarget(TargetType.LOST))
+    if (this.task && this.task.target) {
+      if (
+        ((this.task.target.type === TargetType.GAMEOBJECT ||
+          this.task.target.type === TargetType.SHIP) &&
+          !ObjectRegistry.has(this.task.target.tgt)) ||
+        this.task.target.type === TargetType.LOST
+      ) {
+        console.log(this.ship._objid, 'Target lost', this.task.target)
+        const evt = new createjs.Event('ai_targetLost', false, false)
+        evt.data = { task: this.task, target: this.task.target }
+        this.ship.dispatchEvent(evt)
+      }
     }
   }
 
   public getTarget() {
-    return this.target
+    return this.task.target
   }
 
-  public setTarget(target: Target) {
-    if (!(target instanceof Target)) {
-      throw new Error(`Target is no target! ${target}`)
+  public getTask() {
+    return this.task
+  }
+
+  public setTask(task: Task) {
+    if (!(task instanceof Task)) {
+      throw new Error(`Task is no task! ${task}`)
     }
-    this.target = target
-    const evt = new createjs.Event('ai_targetChanged', false, false)
-    evt.data = { target }
+    this.task = task
+    const evt = new createjs.Event('ai_taskChanged', false, false)
+    evt.data = { task }
     this.ship.dispatchEvent(evt)
   }
 
-  public clearTarget() {
-    this.target = createTarget(TargetType.IDLE)
+  public clearTask() {
+    this.task = createTask(TaskType.IDLE)
   }
 }
 
