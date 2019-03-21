@@ -1,13 +1,18 @@
 .notification {
-    stroke-width: 2px;
-    stroke: #000;
-    fill: #666;
+  stroke-width: 2px;
+  stroke: #000;
+  fill: #666;
 }
 
 .notification:hover {
-    stroke: #fff;
+  stroke: #fff;
 }
 
 .notification.notification-shipdestroyed {
-    fill: orangered;
+  fill: orangered;
+}
+
+.notification.notification-error {
+  fill: red;
+  stroke: yellow;
 }

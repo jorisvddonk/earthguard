@@ -460,10 +460,6 @@ function spawnRandomShip() {
   ship.addEventListener('autopilot_Complete', setNextTask)
   if (faction === 'Civilians') {
     ship.addEventListener('autopilot_Complete', () => {
-      NotificationSystem.get().push(
-        'shipLanded',
-        'A ship has landed on a planet!'
-      )
       ship.subsystems.ai.setTask(getNextTask())
     })
   }
@@ -473,6 +469,16 @@ function spawnRandomShip() {
   stage.addChild(ship)
   return ship
 }
+
+let numErrorsDisplayed = 0
+window.addEventListener('error', e => {
+  numErrorsDisplayed += 1
+  if (numErrorsDisplayed < 10) {
+    NotificationSystem.get().push('error', `ERROR!\n${e.message}`)
+  } else if (numErrorsDisplayed === 10) {
+    NotificationSystem.get().push('error', `Not displaying any more errors!`)
+  }
+})
 
 document.addEventListener('DOMContentLoaded', () => {
   // Init createJS
