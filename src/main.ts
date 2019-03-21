@@ -376,11 +376,13 @@ function spawnRandomShip() {
     'Pirates',
     'Police',
     'Police',
+    'AnnoyingFan',
   ])
   const gfxID = {
     Civilians: 'ship2',
     Pirates: 'ship5',
     Police: 'ship6',
+    AnnoyingFan: 'ship7',
   }[faction]
   const getShipOfFaction = factionName => {
     return _.sample(
@@ -414,6 +416,9 @@ function spawnRandomShip() {
         }
         return createTask(TaskType.HALT)
       }
+    },
+    AnnoyingFan: () => {
+      return createTask(TaskType.FOLLOW, gameState.player.ship)
     },
   }[faction]
 

@@ -25,5 +25,6 @@ factionRegistry.register(new Faction({ name: 'Civilians', color: 'grey' }))
 factionRegistry.register(new Faction({ name: 'Pirates', color: 'red' }))
 factionRegistry.register(new Faction({ name: 'Police', color: 'blue' }))
 factionRegistry.register(new Faction({ name: 'Player', color: 'white' }))
+factionRegistry.register(new Faction({ name: 'AnnoyingFan', color: 'yellow' }))
 
 export default factionRegistry
