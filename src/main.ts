@@ -19,6 +19,8 @@ import StarmapRadar from './starmapradar'
 import { StarWidget } from './starwidget'
 import { createTask, TaskType } from './targets'
 import Sylvester from './sylvester-withmods'
+import { readFileSync } from 'fs'
+import { NotyQuestmark } from './NotyQuestmark'
 
 const miscDebug = {}
 const textlines = []
@@ -489,4 +491,8 @@ document.addEventListener('DOMContentLoaded', () => {
   miscDebug.gameState = gameState
   miscDebug.stage = stage
   miscDebug.objectRegistry = ObjectRegistry
+
+  const nqm = new NotyQuestmark(
+    readFileSync(__dirname + '/test_qm.md', 'utf-8')
+  )
 })

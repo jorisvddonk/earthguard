@@ -10,8 +10,10 @@
     "d3": "^3.5.17",
     "d3-scale": "^2.2.2",
     "d3-tip": "^0.6.8",
+    "dot": "^1.1.2",
     "easeljs": "^1.0.2",
     "lodash": "^4.17.11",
+    "markdown-it": "^8.4.2",
     "noty": "^3.2.0-beta",
     "smoothie": "^1.35.0",
     "sylvester-es6": "0.0.2",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@types/createjs": "0.0.29",
+    "marked": "^0.6.1",
     "parcel-bundler": "^1.12.0",
     "parcel-plugin-asset-copier": "^1.0.0",
     "prettier": "1.16.4",
