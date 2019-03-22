@@ -115,16 +115,15 @@ class Star extends createjs.Container {
         const v = new Sylvester.Vector([1, 0])
         const jg = new Jumpgate({
           linkedstar: ostar,
-          /*static_orbit: {
-            distance: dist
+          static_orbit: {
+            distance: dist,
             angle: v.angleTo(
               new Sylvester.Vector([
                 ostar.mapx - this.mapx,
-                ostar.mapy - this.mapy
+                ostar.mapy - this.mapy,
               ])
-            )
-            // todo re-enable
-        }*/
+            ),
+          },
         })
         return jg
       },
