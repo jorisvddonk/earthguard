@@ -5,12 +5,16 @@ const gameState = {
     {
       currentstar: null,
       ship: null,
+      selectedShip: null,
     },
     {
       set: (obj, prop, value) => {
         obj[prop] = value
         if (prop === 'currentstar') {
           ee.emit('starChanged')
+        }
+        if (prop === 'selectedShip') {
+          ee.emit('shipChanged')
         }
         return true
       },

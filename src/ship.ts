@@ -104,6 +104,8 @@ class Ship extends GameObject {
         window.$St = event.target
         window.$S.alpha = 0.5
         miscDebug.debugship = this
+      } else {
+        gameState.player.selectedShip = this
       }
     })
 

@@ -85,6 +85,16 @@
   border-radius: 3px;
 }
 
+#shipDetails {
+  position: fixed;
+  top: 90px;
+  left: 2px;
+  width: auto;
+  height: auto;
+  padding: 4px;
+  border-radius: 3px;
+}
+
 #widgets .game-ui-widget {
   position: relative;
   width: 200px;

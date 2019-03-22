@@ -17,6 +17,7 @@ import Stage from './stage'
 import Starmap from './starmap'
 import StarmapRadar from './starmapradar'
 import { StarWidget } from './starwidget'
+import { ShipWidget } from './shipwidget'
 import { createTask, TaskType } from './targets'
 import Sylvester from './sylvester-withmods'
 import { readFileSync } from 'fs'
@@ -31,6 +32,7 @@ let stage
 let radar
 let starmapradar
 let starwidget
+let shipwidget
 let graphwidget
 
 function init() {
@@ -357,6 +359,7 @@ function generateStarmap() {
 
 function setupWidgets() {
   starwidget = new StarWidget('#starDetails')
+  shipwidget = new ShipWidget('#shipDetails')
   radar = new Radar()
   starmapradar = new StarmapRadar()
 
