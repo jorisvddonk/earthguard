@@ -8,7 +8,7 @@ class SensorSubsystem extends ShipSubsystem {
     ship.addEventListener('hit', evt => {
       ship.subsystems.memory.push('hit', {
         damage: evt.data.damage,
-        perpetrator: evt.data.perpetrator,
+        perpetrator_objid: evt.data.perpetrator._objid,
       })
     })
   }

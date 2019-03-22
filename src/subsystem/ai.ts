@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import GameObject from '../gameObject'
+import GameObject, { ObjectID } from '../gameObject'
 import ObjectRegistry from '../objectRegistry'
 import ShipSubsystem from '../shipSubsystem'
 import Sylvester from '../sylvester-withmods'
@@ -11,16 +11,47 @@ import {
   TaskType,
   Task,
 } from '../targets'
+import { MemoryReader } from '../memoryReader'
+import objectRegistry from '../objectRegistry'
+import notificationSystem from '../notificationSystem'
 
 class AISubsystem extends ShipSubsystem {
   public task: Task
+  private otherShipsHittingMe: Map<ObjectID, number>
   constructor(ship, options) {
     super(ship)
     this.subsystemType = 'ai'
     this.task = createTask(TaskType.IDLE)
+
+    this.otherShipsHittingMe = new Map<ObjectID, number>()
+    this.memoryReader = new MemoryReader(ship, {
+      hit: ({ damage, perpetrator_objid }) => {
+        const oldD = this.otherShipsHittingMe.get(perpetrator_objid) || 0
+        const newD = oldD + damage
+        this.otherShipsHittingMe.set(perpetrator_objid, newD)
+        if (
+          oldD < 300 &&
+          newD >= 300 &&
+          objectRegistry.has(perpetrator_objid)
+        ) {
+          const perpetrator = objectRegistry.get(perpetrator_objid)
+          this.setTask(createTask(TaskType.ATTACK, perpetrator))
+          notificationSystem
+            .get()
+            .push(
+              'communications',
+              `${this.ship.name} --> ${
+                perpetrator.name
+              }: I'll get you for this!!`
+            )
+        }
+      },
+    })
   }
 
   public tick() {
+    super.tick()
+
     if (this.task && this.task.target) {
       if (
         ((this.task.target.type === TargetType.GAMEOBJECT ||
