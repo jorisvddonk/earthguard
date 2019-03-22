@@ -1,0 +1,7 @@
+language: node_js
+script: npm run build
+deploy:
+  provider: surge
+  project: ./static/
+  domain: earthguard.surge.sh
+  skip_cleanup: true
