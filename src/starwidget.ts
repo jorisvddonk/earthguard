@@ -3,9 +3,9 @@ import gameState from './gameState'
 
 export class StarWidget {
   public vue: any
-  constructor(element_selector) {
+  constructor(elementSelector) {
     this.vue = new Vue({
-      el: element_selector,
+      el: elementSelector,
       data: { name: '' },
     })
 
@@ -14,7 +14,7 @@ export class StarWidget {
     })
 
     if (
-      gameState.player.currentstar != undefined &&
+      gameState.player.currentstar !== undefined &&
       gameState.player.currentstar.name != null
     ) {
       this.vue.name = gameState.player.currentstar.name

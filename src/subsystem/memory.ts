@@ -2,6 +2,9 @@ import _ from 'lodash'
 import ShipSubsystem from '../shipSubsystem'
 
 class MemorySubsystem extends ShipSubsystem {
+  private deque: any[]
+  private deque_indexOfLast: number
+  private limit: any
   constructor(ship, options) {
     super(ship)
     options = Object.assign(
