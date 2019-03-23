@@ -14,6 +14,7 @@ import {
 import { MemoryReader } from '../memoryReader'
 import objectRegistry from '../objectRegistry'
 import notificationSystem from '../notificationSystem'
+import { MessageType } from './memory'
 
 class AISubsystem extends ShipSubsystem {
   public task: Task
@@ -25,7 +26,7 @@ class AISubsystem extends ShipSubsystem {
 
     this.otherShipsHittingMe = new Map<ObjectID, number>()
     this.memoryReader = new MemoryReader(ship, {
-      hit: ({ damage, perpetrator_objid }) => {
+      [MessageType.TAKEN_DAMAGE]: ({ damage, perpetrator_objid }) => {
         const oldD = this.otherShipsHittingMe.get(perpetrator_objid) || 0
         const newD = oldD + damage
         this.otherShipsHittingMe.set(perpetrator_objid, newD)

@@ -1,7 +1,11 @@
 import _ from 'lodash'
 import ShipSubsystem from '../shipSubsystem'
 
-class MemorySubsystem extends ShipSubsystem {
+export enum MessageType {
+  TAKEN_DAMAGE = 'TAKEN_DAMAGE',
+}
+
+export class MemorySubsystem extends ShipSubsystem {
   private deque: any[]
   private deque_indexOfLast: number
   private limit: any
@@ -20,7 +24,7 @@ class MemorySubsystem extends ShipSubsystem {
     this.limit = options.limit
   }
 
-  public push(type, data) {
+  public push(type: MessageType, data) {
     if (type === undefined || data === undefined) {
       throw new Error('Missing type or data')
     }
