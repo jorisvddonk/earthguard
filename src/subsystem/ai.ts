@@ -13,7 +13,7 @@ import {
 } from '../targets'
 import { MemoryReader } from '../memoryReader'
 import objectRegistry from '../objectRegistry'
-import notificationSystem from '../notificationSystem'
+import notificationSystem, { NotificationType } from '../notificationSystem'
 import { MessageType } from './memory'
 
 class AISubsystem extends ShipSubsystem {
@@ -37,14 +37,12 @@ class AISubsystem extends ShipSubsystem {
         ) {
           const perpetrator = objectRegistry.get(perpetrator_objid)
           this.setTask(createTask(TaskType.ATTACK, perpetrator))
-          notificationSystem
-            .get()
-            .push(
-              'communications',
-              `${this.ship.name} --> ${
-                perpetrator.name
-              }: I'll get you for this!!`
-            )
+          notificationSystem.get().push({
+            type: NotificationType.COMMUNICATIONS,
+            message: `${this.ship.name} --> ${
+              perpetrator.name
+            }: I'll get you for this!!`,
+          })
         }
       },
     })

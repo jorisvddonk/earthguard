@@ -6,7 +6,7 @@ import GameObject from './gameObject'
 import gameState from './gameState'
 import queue from './loadQueue'
 import Mymath from './mymath'
-import NotificationSystem from './notificationSystem'
+import NotificationSystem, { NotificationType } from './notificationSystem'
 import PIDController from './pidcontroller'
 import Stage from './stage'
 import AISubsystem from './subsystem/ai'
@@ -110,10 +110,10 @@ class Ship extends GameObject {
     })
 
     this.addEventListener('destroyed', () => {
-      NotificationSystem.get().push(
-        'shipDestroyed',
-        'Ship ' + this._objid + ' has been destroyed!'
-      )
+      NotificationSystem.get().push({
+        type: NotificationType.SHIP_DESTROYED,
+        message: 'Ship ' + this._objid + ' has been destroyed!',
+      })
     })
   }
 

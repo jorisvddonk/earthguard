@@ -8,7 +8,7 @@ import GraphWidget from './graphwidget'
 import Keyboard from './keyboard'
 import queue from './loadQueue'
 import Mymath from './mymath'
-import NotificationSystem from './notificationSystem'
+import NotificationSystem, { NotificationType } from './notificationSystem'
 import ObjectRegistry from './objectRegistry'
 import Parallax from './parallax'
 import Radar from './radar'
@@ -479,9 +479,15 @@ let numErrorsDisplayed = 0
 window.addEventListener('error', e => {
   numErrorsDisplayed += 1
   if (numErrorsDisplayed < 10) {
-    NotificationSystem.get().push('error', `ERROR!\n${e.message}`)
+    NotificationSystem.get().push({
+      type: NotificationType.ERROR,
+      message: `ERROR!\n${e.message}`,
+    })
   } else if (numErrorsDisplayed === 10) {
-    NotificationSystem.get().push('error', `Not displaying any more errors!`)
+    NotificationSystem.get().push({
+      type: NotificationType.ERROR,
+      message: `Not displaying any more errors!`,
+    })
   }
 })
 

@@ -1,14 +1,26 @@
 import d3 from 'd3'
 
+export enum NotificationType {
+  ERROR = 'ERROR',
+  SHIP_DESTROYED = 'SHIP_DESTROYED',
+  COMMUNICATIONS = 'COMMUNICATIONS',
+}
+
+export interface INotification {
+  type: NotificationType
+  message: string
+  index?: number
+}
+
 export class NotificationSystem {
-  private notificationBarElement: any
-  private bubbleElement: any
-  private data: any[]
+  private notificationBarElement: HTMLElement
+  private bubbleElement: HTMLElement
+  private data: INotification[]
   private ind: number
   private chart: any
-  private notificationSVGElement: any
+  private notificationSVGElement: HTMLElement
 
-  constructor(notificationBarSelector, bubbleSelector) {
+  constructor(notificationBarSelector: string, bubbleSelector: string) {
     this.notificationBarElement = document.querySelector(
       notificationBarSelector
     )
@@ -29,9 +41,9 @@ export class NotificationSystem {
     this.update()
   }
 
-  public push(type: string, message: string) {
-    const index = ++this.ind
-    this.data.push({ type, message, index })
+  public push(notification: INotification) {
+    notification.index = ++this.ind
+    this.data.push(notification)
     this.update()
   }
 
@@ -86,13 +98,13 @@ export class NotificationSystem {
   }
 }
 
-let notificationSystem
+let notificationSystem: NotificationSystem
 
 export default {
   get: (): NotificationSystem => {
     return notificationSystem
   },
-  init: (bar, bubble) => {
+  init: (bar: string, bubble: string) => {
     notificationSystem = new NotificationSystem(bar, bubble)
   },
 }

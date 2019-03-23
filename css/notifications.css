@@ -8,11 +8,15 @@
   stroke: #fff;
 }
 
-.notification.notification-shipdestroyed {
+.notification.notification-ship_destroyed {
   fill: orangered;
 }
 
 .notification.notification-error {
   fill: red;
   stroke: yellow;
+}
+
+.notification.notification-communications {
+  fill: lightskyblue;
 }
