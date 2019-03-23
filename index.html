@@ -88,8 +88,10 @@
 
       <!-- Ship details -->
       <div id="shipDetails" class="game-ui-widget game-ui-widget-dark">
-        <p>{{ ship.name }}</p>
-        <p>{{ ship._objid }}</p>
+        <div v-if="ship">
+          <p>{{ ship.name }}</p>
+          <p>{{ ship._objid }}</p>
+        </div>
       </div>
 
       <!-- Planet details -->
