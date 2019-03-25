@@ -11,13 +11,13 @@ class GraphWidget {
   public canvas: HTMLCanvasElement
   public chart: any
   public line1: any
-  constructor(element_selector, chartoptions, getValueFunc) {
+  constructor(elementSelector, chartoptions, getValueFunc) {
     if (chartoptions === undefined) {
       chartoptions = {}
     }
 
     if (getValueFunc === undefined) {
-      getValueFunc = function(invalue) {
+      getValueFunc = invalue => {
         return invalue
       }
     }
@@ -25,29 +25,29 @@ class GraphWidget {
 
     this.lastData = 0
     this.lastUpdate = 0
-    this.parentElement = element_selector
+    this.parentElement = elementSelector
 
     this.canvas = document.createElement('canvas')
     let style = window.getComputedStyle(this.parentElement, null)
     this.canvas.setAttribute(
       'width',
-      parseInt(style.width) -
-        parseInt(style.paddingLeft) -
-        parseInt(style.paddingRight) +
+      parseInt(style.width, 10) -
+        parseInt(style.paddingLeft, 10) -
+        parseInt(style.paddingRight, 10) +
         'px'
     )
     this.canvas.setAttribute(
       'height',
-      parseInt(style.height) -
-        parseInt(style.paddingTop) -
-        parseInt(style.paddingBottom) +
+      parseInt(style.height, 10) -
+        parseInt(style.paddingTop, 10) -
+        parseInt(style.paddingBottom, 10) +
         'px'
     )
     this.parentElement.append(this.canvas)
 
     const ctx = this.canvas.getContext('2d')
 
-    let smoothie_options = {
+    let smoothieOptions = {
       interpolation: 'linear',
       millisPerPixel: 50,
       grid: {
@@ -61,8 +61,8 @@ class GraphWidget {
       maxValue: 5,
       minValue: 0,
     }
-    smoothie_options = _.extend(smoothie_options, chartoptions)
-    this.chart = new SmoothieChart(smoothie_options)
+    smoothieOptions = _.extend(smoothieOptions, chartoptions)
+    this.chart = new SmoothieChart(smoothieOptions)
     this.chart.streamTo(this.canvas)
     this.line1 = new TimeSeries()
     this.chart.addTimeSeries(this.line1, {

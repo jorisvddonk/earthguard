@@ -1,6 +1,9 @@
 import _ from 'lodash'
 import queue from './loadQueue'
 class Jumpgate extends createjs.Container {
+  private gfx: { bitmap: createjs.Bitmap }
+  private static_orbit: { distance?: number; angle?: number }
+  private linkedstar: any
   /*
       options: {
         static_orbit: {
@@ -10,9 +13,13 @@ class Jumpgate extends createjs.Container {
         linkedstar: <star>
       }
   */
-  constructor(options) {
+  constructor(options: {
+    static_orbit?: { distance?: number; angle?: number }
+    linkedstar?: any
+    gfxID: string
+  }) {
     super()
-    const default_options = {
+    const DEFAULT_OPTIONS = {
       gfxID: 'jumppoint',
       static_orbit: {
         distance: 500,
@@ -20,7 +27,7 @@ class Jumpgate extends createjs.Container {
       },
       linkedstar: null,
     }
-    options = _.extend({}, default_options, options)
+    options = _.extend({}, DEFAULT_OPTIONS, options)
 
     this.gfx = {
       bitmap: new createjs.Bitmap(queue.getResult(options.gfxID)),
@@ -31,7 +38,6 @@ class Jumpgate extends createjs.Container {
 
     this.static_orbit = options.static_orbit
     this.linkedstar = options.linkedstar
-    this.gfxID = options.gfxID
     this.calcPosition()
   }
 
