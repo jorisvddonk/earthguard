@@ -12,8 +12,8 @@
     "easeljs": "^1.0.2",
     "eventemitter3": "^4.0.7",
     "lodash": "^4.17.21",
-    "markdown-it": "^13.0.1",
     "noty": "^3.2.0-beta",
+    "questmark": "^0.0.37",
     "smoothie": "^1.36.0",
     "sylvester-es6": "0.0.2",
     "tinycolor2": "^1.4.2",
@@ -26,6 +26,7 @@
     "marked": "^0.8.2",
     "parcel": "^2.6.0",
     "prettier": "1.19.1",
+    "process": "^0.11.10",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.9.10"

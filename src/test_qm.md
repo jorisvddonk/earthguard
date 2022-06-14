@@ -5,6 +5,9 @@
       "initial-state": "Welcome",
       "initial-context": {
         "myvar": 1
+      },
+      "options": {
+        "no_link_behaviour": "exit"
       }
     }
 
@@ -12,9 +15,9 @@
 
 Welcome to the toolbelt!
 From here, you can do a bunch of things!
-Myvar is {{=context.myvar}}.
+Myvar is `"myvar" getContext emit`.
 
-* [Increment myvar!](#Welcome) `this.context.myvar += 1;`
+* [Increment myvar!](#Welcome) `1 "myvar" getContext + "myvar" setContext`
 * [Dismiss annoying fans](#NotImplementedYet)
 * Quit toolbelt.
 
