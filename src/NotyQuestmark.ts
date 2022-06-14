@@ -1,4 +1,3 @@
-import { Promise } from 'q'
 import { Questmark } from './Questmark'
 import Noty from 'noty'
 
@@ -9,7 +8,7 @@ export class NotyQuestmark {
     this.source = source
     this.questmark = new Questmark(this.source, {
       prompt: (text, questions) => {
-        return Promise(ok => {
+        return new Promise(ok => {
           const buttons = questions.map(q => {
             return Noty.button(q, 'btn btn-default', n => {
               n.close()

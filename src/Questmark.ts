@@ -1,7 +1,6 @@
 import * as _ from 'lodash'
 import MarkdownIt from 'markdown-it'
 import * as dot from 'dot'
-import { Promise } from 'q'
 dot.templateSettings.varname = 'context'
 dot.templateSettings.strip = false
 
@@ -9,7 +8,7 @@ const defaultInquirer = {
   prompt: (text, questions) => {
     console.log(text)
     console.log(questions.map(x => '* ' + x).join('\n'))
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
         const pick = _.sample(questions)
         console.log('Picked: ', pick)

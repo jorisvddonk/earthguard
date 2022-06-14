@@ -10,5 +10,5 @@ See LICENSE.md for more info
 
 ## Running
 
-- `npm install`
+- `npm ci`
 - `npm start`
