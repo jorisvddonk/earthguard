@@ -1,7 +1,6 @@
 import d3 from 'd3'
 import d3tipFactory from 'd3-tip'
 import gameState from './gameState'
-const d3tip = d3tipFactory(d3)
 import * as d3Scale from 'd3-scale'
 import Ship from './ship'
 import Stage from './stage'
@@ -16,8 +15,7 @@ class Radar {
   constructor() {
     // $("#radar").draggable(); // todo: re-enable draggable support... jquery-ui?
     this.SVG = d3.select('#radar svg')
-    this.bodiestip = d3
-      .tip()
+    this.bodiestip = d3tipFactory(d3)
       .attr('class', 'd3-tip d3-tip-bodies')
       .html(function(d) {
         return d.tooltipString()
@@ -51,6 +49,7 @@ class Radar {
       .selectAll('circle.planet')
       .data(gameState.player.currentstar.planets, d => d.id)
 
+    let self = this;
     planets
       .enter()
       .append('circle')
@@ -60,8 +59,8 @@ class Radar {
       .attr('cx', (d, i) => this.radarScale(d.x))
       .attr('cy', (d, i) => this.radarScale(d.y))
       .attr('r', (d, i) => 3)
-      .on('mouseover', (hoveredobj, i) => this.bodiestip.show(hoveredobj))
-      .on('mouseout', (hoveredobj, i) => this.bodiestip.hide(hoveredobj))
+      .on('mouseover', function(hoveredobj, i) { self.bodiestip.show(hoveredobj, this)} )
+      .on('mouseout', function(hoveredobj, i) { self.bodiestip.hide(hoveredobj)} )
 
     planets.exit().remove()
 

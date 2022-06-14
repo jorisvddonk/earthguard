@@ -1,5 +1,4 @@
-import EventEmitter from 'EventEmitter'
-import { EventEmitter } from 'events'
+import EventEmitter from 'eventemitter3';
 
 class GameState {
   public on: any

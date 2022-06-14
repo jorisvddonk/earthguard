@@ -2,7 +2,6 @@ import d3 from 'd3'
 import d3tipFactory from 'd3-tip'
 import _ from 'lodash'
 import gameState from './gameState'
-const d3tip = d3tipFactory(d3)
 import * as d3Scale from 'd3-scale'
 
 export class StarmapRadar {
@@ -17,8 +16,7 @@ export class StarmapRadar {
     // Setup stuff
     // $("#starmapradar").draggable(); // todo: make draggable. jquery-ui?
     this.SVG = d3.select('#starmapradar svg')
-    this.startip = d3
-      .tip()
+    this.startip = d3tipFactory()
       .attr('class', 'd3-tip d3-tip-star')
       .html(d => d.tooltipString())
     this.miscGroup = this.SVG.append('g').attr('class', 'STARMAPRADAR-MISC')
@@ -54,6 +52,7 @@ export class StarmapRadar {
       .selectAll('circle.star')
       .data(gameState.universe.starmap.stars, d => d.objid)
 
+    let self = this;
     stars
       .enter()
       .append('circle')
@@ -62,8 +61,8 @@ export class StarmapRadar {
       .attr('cx', (d, i) => this.radarScale(d.mapx))
       .attr('cy', (d, i) => this.radarScale(d.mapy))
       .attr('r', (d, i) => this.sizeScale(d.radius))
-      .on('mouseover', (hoveredstar, i) => {
-        this.startip.show(hoveredstar)
+      .on('mouseover', function(hoveredstar, i) {
+        self.startip.show(hoveredstar, this)
         // highlight path between currentstar and hovered star
         _.each(
           gameState.universe.starmap.getShortestpath(
