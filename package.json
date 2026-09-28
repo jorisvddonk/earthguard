@@ -33,7 +33,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html",
-    "build": "parcel build index.html --dist-dir dist --public-url ./ --no-scope-hoist",
+    "build": "parcel build index.html --dist-dir dist --public-url ./ --no-scope-hoist && cp -R content/. dist/",
     "prettier": "prettier src/** --write",
     "tslint": "tslint --project ."
   },
